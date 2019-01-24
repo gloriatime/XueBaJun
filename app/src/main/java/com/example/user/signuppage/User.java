@@ -14,7 +14,6 @@ class User {
     private int point;
     private String head;
     private boolean art,medicine,management,humanity,technology,agriculture,play;
-    //User(){}
     public String getName(){
         return name;
     }
