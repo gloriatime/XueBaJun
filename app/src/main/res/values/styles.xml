@@ -18,4 +18,22 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <!--自定义对话框需要透明原来的对话框-->
+    <style name="NormalDialogStyle">
+        <!--对话框背景透明 -->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <!--边框取消 -->
+        <item name="android:windowFrame">@null</item>
+        <!--取消标题 -->
+        <item name="android:windowNoTitle">true</item>
+        <!-- 是否浮现在Activity之上 -->
+        <item name="android:windowIsFloating">true</item>
+        <!--背景透明 -->
+        <item name="android:windowIsTranslucent">false</item>
+        <!-- 没有覆盖 -->
+        <item name="android:windowContentOverlay">@null</item>
+        <!--背景变暗-->
+        <item name="android:backgroundDimEnabled">true</item> </style>
+
+
 </resources>

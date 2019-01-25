@@ -4,6 +4,231 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ChangeInfoActivity">
+    tools:context=".manage.ChangeInfoActivity"
+    android:background="@color/whiteSmoke">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/activity_vertical_margin">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:orientation="horizontal"
+            android:id="@+id/change_head"
+            android:layout_marginTop="@dimen/small_margin"
+            android:background="@color/white">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="头像"
+                android:textSize="@dimen/title"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_weight="7"/>
+
+            <ImageButton
+                android:id="@+id/head_image_button"
+                android:layout_width="@dimen/head_image_size"
+                android:layout_height="@dimen/head_image_size"
+                android:layout_marginStart="@dimen/activity_vertical_margin"
+                android:background="@drawable/ic_head_image"
+                android:src="@drawable/bg_circle"
+                android:layout_gravity="center_vertical"/>
+
+            <ImageView
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:src="@drawable/ic_jump"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/list_bar_height"
+            android:orientation="horizontal"
+            android:id="@+id/change_name"
+            android:layout_marginTop="@dimen/small_margin"
+            android:background="@color/white">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="昵称"
+                android:textSize="@dimen/title"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_weight="7"/>
+            <TextView
+                android:id="@+id/name_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/common"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_weight="7"
+                android:gravity="end"
+                android:textColor="@color/gray"/>
+            <ImageView
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:src="@drawable/ic_jump"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/list_bar_height"
+            android:orientation="horizontal"
+            android:id="@+id/change_grade"
+            android:layout_marginTop="@dimen/small_margin"
+            android:background="@color/white">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="年级"
+                android:textSize="@dimen/title"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_weight="7"/>
+            <TextView
+                android:id="@+id/grade_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/common"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_weight="7"
+                android:gravity="end"
+                android:textColor="@color/gray"/>
+            <ImageView
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:src="@drawable/ic_jump"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/list_bar_height"
+            android:orientation="horizontal"
+            android:id="@+id/change_college"
+            android:layout_marginTop="@dimen/small_margin"
+            android:background="@color/white">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="学院"
+                android:textSize="@dimen/title"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_weight="7"/>
+            <TextView
+                android:id="@+id/college_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/common"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_weight="7"
+                android:gravity="end"
+                android:textColor="@color/gray"/>
+            <ImageView
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:src="@drawable/ic_jump"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/list_bar_height"
+            android:orientation="horizontal"
+            android:id="@+id/change_interest"
+            android:layout_marginTop="@dimen/small_margin"
+            android:background="@color/white">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="兴趣"
+                android:textSize="@dimen/title"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_weight="7"/>
+            <TextView
+                android:id="@+id/interest_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/common"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_weight="7"
+                android:gravity="end"
+                android:textColor="@color/gray"/>
+            <ImageView
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:src="@drawable/ic_jump"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/list_bar_height"
+            android:orientation="horizontal"
+            android:id="@+id/change_pwd"
+            android:layout_marginTop="@dimen/small_margin"
+            android:background="@color/white">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="修改密码"
+                android:textSize="@dimen/title"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_weight="14"/>
+            <ImageView
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:src="@drawable/ic_jump"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/list_bar_height"
+            android:orientation="horizontal"
+            android:id="@+id/change_status"
+            android:layout_marginTop="@dimen/large"
+            android:background="@color/white">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="退出登录"
+                android:textSize="@dimen/title"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/activity_horizontal_margin" />
+        </LinearLayout>
+
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

@@ -3,6 +3,8 @@
     package="com.example.gloria.myapplication">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
         android:name="com.example.base.myapplication.myApplication"
@@ -20,7 +22,7 @@
         </activity>
         <activity android:name=".TempActivity">
         </activity>
-        <activity android:name=".ChangeInfoActivity">
+        <activity android:name=".manage.ChangeInfoActivity">
         </activity>
         <activity android:name=".sign.SignInPage1Activity">
         </activity>
