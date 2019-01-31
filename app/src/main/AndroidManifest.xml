@@ -3,8 +3,8 @@
     package="com.example.gloria.myapplication">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name="com.example.base.myapplication.myApplication"
@@ -25,6 +25,14 @@
         <activity android:name=".manage.ChangeInfoActivity">
         </activity>
         <activity android:name=".sign.SignInPage1Activity">
+        </activity>
+        <activity android:name=".manage.UploadFileActivity">
+        </activity>
+        <activity android:name=".manage.MyConcernActivity">
+        </activity>
+        <activity android:name=".manage.MyCollectActivity">
+        </activity>
+        <activity android:name=".manage.AboutMeActivity">
         </activity>
     </application>
 

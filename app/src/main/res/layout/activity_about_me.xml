@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".manage.AboutMeActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/blue"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/user_management_button"
+                android:layout_width="35dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:background="@drawable/ic_back" />
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="关于我的"
+                android:textSize="22sp"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/brown"
+                />
+
+        </LinearLayout>
+
+        <!-- 标签按钮 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/large"
+            android:layout_marginStart="@dimen/large"
+            android:layout_marginEnd="@dimen/large">
+            <Button
+                android:id="@+id/documents_button"
+                android:layout_width="110dp"
+                android:layout_height="30dp"
+                android:background="@drawable/bg_stroke"
+                android:textColor="@color/red"
+                android:text="我的上传"
+                android:textSize="@dimen/title"
+                android:layout_weight="1"
+                />
+            <Button
+                android:id="@+id/books_button"
+                android:layout_width="110dp"
+                android:layout_height="30dp"
+                android:background="@drawable/bg_stroke"
+                android:textColor="@color/red"
+                android:text="我的评价"
+                android:textSize="@dimen/title"
+                android:layout_weight="1"
+                android:layout_marginStart="20dp"
+                />
+            <Button
+                android:id="@+id/courses_button"
+                android:layout_width="110dp"
+                android:layout_height="30dp"
+                android:background="@drawable/bg_stroke"
+                android:textColor="@color/red"
+                android:text="消息"
+                android:textSize="@dimen/title"
+                android:layout_weight="1"
+                android:layout_marginStart="20dp"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/red">
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_marginBottom="@dimen/activity_vertical_margin">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/info_bar_height"
+                    android:orientation="horizontal"
+                    android:background="@color/white"
+                    android:padding="@dimen/common">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="《学吧君详细说明文档》"
+                        android:textSize="@dimen/common"
+                        android:layout_marginStart="@dimen/activity_horizontal_margin"
+                        android:layout_gravity="center_vertical"/>
+                    <!-- 为按钮设置右对齐所需要的布局（按钮单独设置右对齐无效） -->
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="end|center_vertical">
+                        <Button
+                            android:layout_width="80dp"
+                            android:layout_height="30dp"
+                            android:background="@drawable/bg_fillet_red"
+                            android:text="删除文件"
+                            android:textColor="@color/white"
+                            />
+                    </RelativeLayout>
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/bg_line_red"/>
+                </LinearLayout>
+
+
+            </ScrollView>
+        </LinearLayout>
+
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>
