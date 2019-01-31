@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="@dimen/info_bar_height"
+android:orientation="horizontal"
+android:background="@color/white"
+android:padding="@dimen/common">
+<ImageView
+    android:id="@+id/head_image"
+    android:layout_width="50dp"
+    android:layout_height="50dp"
+    android:layout_marginStart="@dimen/activity_vertical_margin"
+    android:background="@drawable/ic_head_image"
+    android:src="@drawable/bg_circle"
+    android:layout_gravity="center_vertical"/>
+<TextView
+    android:id="@+id/name"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="小鬼不是我儿子了"
+    android:textSize="@dimen/common"
+    android:layout_marginStart="@dimen/activity_horizontal_margin"
+    android:layout_gravity="center_vertical"/>
+<!-- 为按钮设置右对齐所需要的布局（按钮单独设置右对齐无效） -->
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="end|center_vertical">
+    <Button
+        android:id="@+id/button"
+        android:layout_width="80dp"
+        android:layout_height="30dp"
+        android:background="@drawable/bg_fillet_red"
+        android:text="取消关注"
+        android:textColor="@color/white"
+        android:focusable="false"
+        />
+</RelativeLayout>
+<ImageView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_line_red"/>
+</LinearLayout>

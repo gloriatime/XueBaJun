@@ -108,7 +108,7 @@
                         android:gravity="end|center_vertical">
                         <Button
                             android:layout_width="80dp"
-                            android:layout_height="30dp"
+                            android:layout_height="40dp"
                             android:background="@drawable/bg_fillet_red"
                             android:text="删除文件"
                             android:textColor="@color/white"
