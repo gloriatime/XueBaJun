@@ -1,2 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet config="main"><source path="C:\Users\gloria\AndroidStudioProjects\XueBaJun\app\src\main\assets"><file name="font/xinwei.TTF" path="C:\Users\gloria\AndroidStudioProjects\XueBaJun\app\src\main\assets\font\xinwei.TTF"/></source><source path="C:\Users\gloria\AndroidStudioProjects\XueBaJun\app\build\generated\assets\shaders\debug"/></dataSet><dataSet config="debug"><source path="C:\Users\gloria\AndroidStudioProjects\XueBaJun\app\src\debug\assets"/></dataSet></merger>
