@@ -1,0 +1,11 @@
+#Internal package file, do not edit.
+#Wed Jan 30 00:43:34 CST 2019
+1.base=C\:\\Users\\gloria\\AndroidStudioProjects\\XueBaJun\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\0
+0.baseType=DIRECTORY
+1.baseType=DIRECTORY
+count=2
+1.set=DEX
+0.path=font/xinwei.TTF
+0.set=ASSET
+0.base=C\:\\Users\\gloria\\AndroidStudioProjects\\XueBaJun\\app\\build\\intermediates\\assets\\debug
+1.path=classes.dex
