@@ -17,8 +17,5 @@ public class myApplication extends Application {
             catch (NoSuchFieldException | IllegalAccessException e) {
             e.printStackTrace(); }
     }
-
-    public void e(){
-        
-    }
+    
     }
