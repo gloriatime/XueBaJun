@@ -2,7 +2,7 @@ package com.example.model.myapplication;
 
 
 public class Book {
-	private int Id;
+	private int id;
 	private String name;
 	private String author;
 	private String press;
@@ -14,13 +14,12 @@ public class Book {
 	private String cover;
 
 	public int getId() {
-		return Id;
+		return id;
 	}
 
 	public void setId(int id) {
-		Id = id;
+		this.id = id;
 	}
-
 	/**
 	 * @return the name
 	 */

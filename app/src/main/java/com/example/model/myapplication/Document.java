@@ -3,7 +3,7 @@ package com.example.model.myapplication;
 import java.sql.Date;
 
 public class Document {
-	private int Id;
+	private int id;
 	private String name;
 	private String author;
 	private String up_user;
@@ -13,11 +13,9 @@ public class Document {
 	private int comment;
 	private int download;
 	public int getId() {
-		return Id;
+		return id;
 	}
-	public void setId(int id) {
-		Id = id;
-	}
+	public void setId(int id) { this.id = id; }
 	public String getName() {
 		return name;
 	}

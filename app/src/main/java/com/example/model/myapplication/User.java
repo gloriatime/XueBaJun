@@ -13,9 +13,13 @@ public class User implements Serializable {
 	private String head;
 	private boolean art,medicine,management,humanity,technology,agriculture,play;
 
-	// 每一个用户都拥有的列表
-	private List<Concern> myconcernlist;// 我关注的人
-	List<Concern>concern_me_list;// 关注我的人
+	private List<Concern> myconcernlist;
+	List<Concern>concern_me_list;
+	
+
+	private List<CollectDocument> collected_documents;
+	private List<CollectBook> collected_books;
+	private List<CollectCourse> collected_courses;
 
 	public User(){}
 	public User(User user){
@@ -35,8 +39,11 @@ public class User implements Serializable {
 		this.head = user.getHead();
 		this.myconcernlist = user.getMyconcernlist();
 		this.concern_me_list=user.getConcern_me_list();
+		this.collected_books = user.getCollected_books();
+		this.collected_courses=user.getCollected_courses();
+		this.collected_documents = user.getCollected_documents();
 	}
-
+	
 	public String getName() {
 		return name;
 	}
@@ -121,7 +128,7 @@ public class User implements Serializable {
 	public void setPlay(boolean play) {
 		this.play = play;
 	}
-
+	
 	public List<Concern> getConcern_me_list() {
 		return concern_me_list;
 	}
@@ -134,5 +141,23 @@ public class User implements Serializable {
 	public void setMyconcernlist(List<Concern> myconcernlist) {
 		this.myconcernlist = myconcernlist;
 	}
-
+	public List<CollectDocument> getCollected_documents() {
+		return collected_documents;
+	}
+	public void setCollected_documents(List<CollectDocument> collected_documents) {
+		this.collected_documents = collected_documents;
+	}
+	public List<CollectBook> getCollected_books() {
+		return collected_books;
+	}
+	public void setCollected_books(List<CollectBook> collected_books) {
+		this.collected_books = collected_books;
+	}
+	public List<CollectCourse> getCollected_courses() {
+		return collected_courses;
+	}
+	public void setCollected_courses(List<CollectCourse> collected_courses) {
+		this.collected_courses = collected_courses;
+	}
+	
 }

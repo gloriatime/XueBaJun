@@ -1,7 +1,7 @@
 package com.example.model.myapplication;
 
 public class Course {
-	private int Id;
+	private int id;
 	private String name;
 	private String term;
 	private String intro;
@@ -9,10 +9,10 @@ public class Course {
 	private int number;
 	private int comment;
 	public int getId() {
-		return Id;
+		return id;
 	}
 	public void setId(int id) {
-		Id = id;
+		this.id = id;
 	}
 	public String getName() {
 		return name;

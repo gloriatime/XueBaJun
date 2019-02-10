@@ -20,15 +20,24 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.base.myapplication.ListItemViewHolder;
 import com.example.gloria.myapplication.R;
 import com.example.model.myapplication.Book;
+import com.example.model.myapplication.CollectBook;
+import com.example.model.myapplication.CollectCourse;
+import com.example.model.myapplication.CollectDocument;
+import com.example.model.myapplication.Concern;
 import com.example.model.myapplication.Course;
 import com.example.model.myapplication.Document;
 import com.example.model.myapplication.User;
+import com.google.gson.Gson;
+
+import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class MyCollectActivity extends AppCompatActivity {
@@ -58,6 +67,7 @@ public class MyCollectActivity extends AppCompatActivity {
         books_button  = (Button) findViewById(R.id.books_button);
         courses_button= (Button) findViewById(R.id.courses_button);
         list= (ListView) findViewById(R.id.list);
+        mQueue  = Volley.newRequestQueue(MyCollectActivity.this);
     }
 
     private void getUser(){
@@ -70,7 +80,7 @@ public class MyCollectActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 changeButtonUI(documents_button,books_button,courses_button);
-                updateDoucuments();
+                updateDocuments();
                 setList(DOCUMENT);
             }
         });
@@ -110,8 +120,8 @@ public class MyCollectActivity extends AppCompatActivity {
 
     private void setList(int listContent) {
         mAdapter = new CollectionAdapter(this,listContent);//得到一个自定义的ListAdapter对象
-        list.setAdapter(mAdapter);
-        //listView.setAdapter(mAdapter);//为ListView绑定Adapter
+        // list.setAdapter(mAdapter);
+
         /*为ListView添加点击事件*/
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -123,22 +133,137 @@ public class MyCollectActivity extends AppCompatActivity {
         });
     }
 
-    private void updateDoucuments() {
+    private void updateDocuments() {
+
+        // 清理原来的值
         documents.clear();
-        Document d = new Document();
-        d.setName("<><><><>");
-        d.setId(0);
-        documents.add(d);
-        Log.e("##", "初始化完成");//在LogCat中输出信息
-        list.setAdapter(mAdapter);
+
+        org.json.JSONObject jsonObject = new org.json.JSONObject();
+        try {
+            jsonObject.put("phone", user.getPhone());
+            jsonObject.put("name", user.getName());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        // 与服务器交互得到我收藏的资料列表
+        String url = "http://47.100.226.176:8080/XueBaJun/GetMyCollectedDocuments";
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, jsonObject, new Response.Listener<org.json.JSONObject>() {
+
+            public void onResponse(org.json.JSONObject jsonObject) {
+                User tempuser = new Gson().fromJson(jsonObject.toString(), User.class);
+                Log.e("##", jsonObject.toString());
+                if (tempuser != null) {
+                    Log.e("##", "我收藏的资料已返回");
+                    List<CollectDocument> MyCollectedDocuments = tempuser.getCollected_documents();
+
+                    for (CollectDocument c : MyCollectedDocuments) {
+                        Document d = c.getDocument();
+                        documents.add(d);
+                        Log.e("##", "Document's name" + d.getName()+ "Id: "+d.getId()+"Author: "+c.getDocument().getAuthor());
+                    }
+                    // 先执行内部类，后执行外部类
+                    // setAdapter需要放在数据刷新成功之后。
+                    list.setAdapter(mAdapter);//为ListView绑定Adapter
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        });
+        mQueue.add(jsonObjectRequest);
     }
 
     private void updateCourses() {
-        list.setAdapter(mAdapter);
+
+        // 清理原来的值
+        courses.clear();
+
+        org.json.JSONObject jsonObject = new org.json.JSONObject();
+        try {
+            jsonObject.put("phone", user.getPhone());
+            //jsonObject.put("name", user.getName());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        // 与服务器交互得到我收藏的资料列表
+        String url = "http://47.100.226.176:8080/XueBaJun/GetMyCollectedCourses";
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, jsonObject, new Response.Listener<org.json.JSONObject>() {
+
+            public void onResponse(org.json.JSONObject jsonObject) {
+                User tempuser = new Gson().fromJson(jsonObject.toString(), User.class);
+
+                if (tempuser != null) {
+                    Log.e("##", "我收藏的课程已返回");
+                    List<CollectCourse> MyCollectedCourses = tempuser.getCollected_courses();
+
+                    for (CollectCourse c : MyCollectedCourses) {
+                        Course d = c.getCourse();
+                        courses.add(d);
+                        Log.e("##", "Course's name" + d.getName());
+                    }
+                    // 先执行内部类，后执行外部类
+                    // setAdapter需要放在数据刷新成功之后。
+                    list.setAdapter(mAdapter);//为ListView绑定Adapter
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        });
+        mQueue.add(jsonObjectRequest);
+
     }
 
     private void updateBooks() {
-        list.setAdapter(mAdapter);
+
+        // 清理原来的值
+        books.clear();
+
+        org.json.JSONObject jsonObject = new org.json.JSONObject();
+        try {
+            jsonObject.put("phone", user.getPhone());
+            //jsonObject.put("name", user.getName());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        // 与服务器交互得到我收藏的资料列表
+        String url = "http://47.100.226.176:8080/XueBaJun/GetMyCollectedBooks";
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, jsonObject, new Response.Listener<org.json.JSONObject>() {
+
+            public void onResponse(org.json.JSONObject jsonObject) {
+                User tempuser = new Gson().fromJson(jsonObject.toString(), User.class);
+
+                if (tempuser != null) {
+                    Log.e("##", "我收藏的课程已返回");
+                    List<CollectBook> MyCollectedBooks = tempuser.getCollected_books();
+
+                    for (CollectBook c : MyCollectedBooks) {
+                        Book d = c.getBook();
+                        books.add(d);
+                        Log.e("##", "Book's name" + d.getName());
+                    }
+                    // 先执行内部类，后执行外部类
+                    // setAdapter需要放在数据刷新成功之后。
+                    list.setAdapter(mAdapter);//为ListView绑定Adapter
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        });
+        mQueue.add(jsonObjectRequest);
     }
 
     // 准备展示的数据
@@ -154,7 +279,7 @@ public class MyCollectActivity extends AppCompatActivity {
             Log.e("##", "此时doc列表为" +documents.size());//在LogCat中输出信息
             for (int i = 0; i < documents.size(); i++) {
                 HashMap<String, Object> map = new HashMap<>();
-                map.put("Id",documents.get(i).getId());
+                map.put("id",documents.get(i).getId());
                 map.put("name", documents.get(i).getName());
                 listItem.add(map);
 
@@ -189,29 +314,51 @@ public class MyCollectActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String url = "";
+                        org.json.JSONObject jsonObject = null;
+
                         // 根据listContent变换内容
                         if(listContent == DOCUMENT){
-                            url = "http://47.100.226.176:8080/XueBaJun/DeleteConcern";
+                            url = "http://47.100.226.176:8080/XueBaJun/DeleteCollectedDocument";
+                            HashMap<String,String> u = new HashMap<>();
+                            HashMap<String,String> d = new HashMap<>();
+                            u.put("phone",user.getPhone());
+                            d.put("id", String.valueOf(documents.get(position).getId()));
+                            Log.e("##","发送id "+String.valueOf(documents.get(position).getId())+documents.get(position).getName());
+                            Map<String, Object> map = new HashMap<>();
+                            map.put("user",u);
+                            map.put("document",d);
+
+                            jsonObject = new org.json.JSONObject(map);
+                            Log.e("##","发送 "+jsonObject.toString());
+
                         }else if(listContent == BOOK){
-                            url = "http://47.100.226.176:8080/XueBaJun/DeleteConcern";
+                            url = "http://47.100.226.176:8080/XueBaJun/DeleteCollectedBook";
+                            HashMap<String,String> u = new HashMap<>();
+                            HashMap<String,String> d = new HashMap<>();
+                            u.put("phone",user.getPhone());
+                            d.put("id", String.valueOf(books.get(position).getId()));
+                            Map<String, Object> map = new HashMap<>();
+                            map.put("user",u);
+                            map.put("book",d);
+                            jsonObject = new org.json.JSONObject(map);
                         }else if(listContent == COURSE){
-                            url = "http://47.100.226.176:8080/XueBaJun/DeleteConcern";
+                            url = "http://47.100.226.176:8080/XueBaJun/DeleteCollectedCourse";
+                            HashMap<String,String> u = new HashMap<>();
+                            HashMap<String,String> d = new HashMap<>();
+                            u.put("phone",user.getPhone());
+                            d.put("id", String.valueOf(courses.get(position).getId()));
+                            Map<String, Object> map = new HashMap<>();
+                            map.put("user",u);
+                            map.put("course",d);
+                            jsonObject = new org.json.JSONObject(map);
                         }
 
                         // ---------------------------与数据库交互取消收藏-------------------------
-                        HashMap<String,String> u = new HashMap<>();
-                        HashMap<String,String> c = new HashMap<>();
-                        u.put("phone",user.getPhone());
-                        c.put("Id",String.valueOf(getData(listContent).get(position).get("Id")));
-                        Map<String, Object> map = new HashMap<>();
-                        map.put("user",u);
-                        map.put("collect",c);
-                        org.json.JSONObject jsonObject = new org.json.JSONObject(map);
 
                         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, jsonObject, new Response.Listener<org.json.JSONObject>() {
 
                             public void onResponse(org.json.JSONObject jsonObject) {
-
+                                Log.e("##","删除执行完毕");
                             }
                         }, new Response.ErrorListener() {
                             @Override
@@ -224,7 +371,7 @@ public class MyCollectActivity extends AppCompatActivity {
                         mQueue.add(jsonObjectRequest);
                         // 更新显示的列表
                         if(listContent == DOCUMENT){
-                           updateDoucuments();
+                           updateDocuments();
                         }else if(listContent == BOOK){
                             updateBooks();
                         }else if(listContent == COURSE){
