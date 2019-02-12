@@ -8,4 +8,6 @@ public final class ListItemViewHolder {
     public TextView name;
     public ImageView head;
     public Button button;
+
+    public TextView content;
 }

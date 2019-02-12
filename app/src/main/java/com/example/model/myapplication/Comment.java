@@ -1,20 +1,21 @@
 package com.example.model.myapplication;
 
-import java.sql.Date;
+import java.io.Serializable;
+import java.util.Date;
 
-public class Comment {
+public class Comment{
 	private int id;
 	private User critic;
 	private Comment reply;
 	private Date date;
+	private String content;
 	private String type;
 	private int belong;
-	// ��ʱ��֪��comment�Ƕ�ʲô������
-	private String Content;
+
 	private Document document;
 	private Book book;
 	private Course course;
-	// ����һ��teacher��
+
 	public int getId() {
 		return id;
 	}
@@ -40,10 +41,10 @@ public class Comment {
 		this.date = date;
 	}
 	public String getContent() {
-		return Content;
+		return content;
 	}
 	public void setContent(String content) {
-		Content = content;
+		this.content = content;
 	}
 	public Document getDocument() {
 		return document;

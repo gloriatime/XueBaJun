@@ -416,12 +416,16 @@
         "source": "C:\\Users\\gloria\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-23.3.0.aar\\f1d87f20c522acac79e6d952acf32844\\res\\drawable-mdpi-v4\\abc_btn_switch_to_on_mtrl_00012.9.png"
     },
     {
-        "merged": "C:\\Users\\gloria\\AndroidStudioProjects\\XueBaJun\\app\\build\\intermediates\\res\\merged\\debug\\layout_concern_me_list_item.xml.flat",
-        "source": "C:\\Users\\gloria\\AndroidStudioProjects\\XueBaJun\\app\\src\\main\\res\\layout\\concern_me_list_item.xml"
+        "merged": "C:\\Users\\gloria\\AndroidStudioProjects\\XueBaJun\\app\\build\\intermediates\\res\\merged\\debug\\layout_dialog_change_pwd.xml.flat",
+        "source": "C:\\Users\\gloria\\AndroidStudioProjects\\XueBaJun\\app\\src\\main\\res\\layout\\dialog_change_pwd.xml"
     },
     {
         "merged": "C:\\Users\\gloria\\AndroidStudioProjects\\XueBaJun\\app\\build\\intermediates\\res\\merged\\debug\\drawable-ldrtl-xhdpi-v17_abc_ic_menu_cut_mtrl_alpha.png.flat",
         "source": "C:\\Users\\gloria\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-23.3.0.aar\\f1d87f20c522acac79e6d952acf32844\\res\\drawable-ldrtl-xhdpi-v17\\abc_ic_menu_cut_mtrl_alpha.png"
+    },
+    {
+        "merged": "C:\\Users\\gloria\\AndroidStudioProjects\\XueBaJun\\app\\build\\intermediates\\res\\merged\\debug\\layout_list_item_my_news.xml.flat",
+        "source": "C:\\Users\\gloria\\AndroidStudioProjects\\XueBaJun\\app\\src\\main\\res\\layout\\list_item_my_news.xml"
     },
     {
         "merged": "C:\\Users\\gloria\\AndroidStudioProjects\\XueBaJun\\app\\build\\intermediates\\res\\merged\\debug\\drawable-ldrtl-xhdpi-v17_abc_ic_ab_back_mtrl_am_alpha.png.flat",
@@ -492,6 +496,10 @@
         "source": "C:\\Users\\gloria\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-23.3.0.aar\\f1d87f20c522acac79e6d952acf32844\\res\\drawable\\abc_ratingbar_full_material.xml"
     },
     {
+        "merged": "C:\\Users\\gloria\\AndroidStudioProjects\\XueBaJun\\app\\build\\intermediates\\res\\merged\\debug\\layout_list_item_my_collection.xml.flat",
+        "source": "C:\\Users\\gloria\\AndroidStudioProjects\\XueBaJun\\app\\src\\main\\res\\layout\\list_item_my_collection.xml"
+    },
+    {
         "merged": "C:\\Users\\gloria\\AndroidStudioProjects\\XueBaJun\\app\\build\\intermediates\\res\\merged\\debug\\layout_activity_change_info.xml.flat",
         "source": "C:\\Users\\gloria\\AndroidStudioProjects\\XueBaJun\\app\\src\\main\\res\\layout\\activity_change_info.xml"
     },
@@ -536,8 +544,8 @@
         "source": "C:\\Users\\gloria\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-23.3.0.aar\\f1d87f20c522acac79e6d952acf32844\\res\\drawable-xxhdpi-v4\\abc_scrubber_control_to_pressed_mtrl_000.png"
     },
     {
-        "merged": "C:\\Users\\gloria\\AndroidStudioProjects\\XueBaJun\\app\\build\\intermediates\\res\\merged\\debug\\layout_user_management_list_item.xml.flat",
-        "source": "C:\\Users\\gloria\\AndroidStudioProjects\\XueBaJun\\app\\src\\main\\res\\layout\\user_management_list_item.xml"
+        "merged": "C:\\Users\\gloria\\AndroidStudioProjects\\XueBaJun\\app\\build\\intermediates\\res\\merged\\debug\\layout_list_item_concern_me.xml.flat",
+        "source": "C:\\Users\\gloria\\AndroidStudioProjects\\XueBaJun\\app\\src\\main\\res\\layout\\list_item_concern_me.xml"
     },
     {
         "merged": "C:\\Users\\gloria\\AndroidStudioProjects\\XueBaJun\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4_abc_list_selector_disabled_holo_dark.9.png.flat",
@@ -630,10 +638,6 @@
     {
         "merged": "C:\\Users\\gloria\\AndroidStudioProjects\\XueBaJun\\app\\build\\intermediates\\res\\merged\\debug\\layout_abc_alert_dialog_button_bar_material.xml.flat",
         "source": "C:\\Users\\gloria\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-23.3.0.aar\\f1d87f20c522acac79e6d952acf32844\\res\\layout\\abc_alert_dialog_button_bar_material.xml"
-    },
-    {
-        "merged": "C:\\Users\\gloria\\AndroidStudioProjects\\XueBaJun\\app\\build\\intermediates\\res\\merged\\debug\\layout_my_collect_list_item.xml.flat",
-        "source": "C:\\Users\\gloria\\AndroidStudioProjects\\XueBaJun\\app\\src\\main\\res\\layout\\my_collect_list_item.xml"
     },
     {
         "merged": "C:\\Users\\gloria\\AndroidStudioProjects\\XueBaJun\\app\\build\\intermediates\\res\\merged\\debug\\layout_abc_screen_simple_overlay_action_mode.xml.flat",
@@ -734,6 +738,10 @@
     {
         "merged": "C:\\Users\\gloria\\AndroidStudioProjects\\XueBaJun\\app\\build\\intermediates\\res\\merged\\debug\\layout_abc_list_menu_item_icon.xml.flat",
         "source": "C:\\Users\\gloria\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-23.3.0.aar\\f1d87f20c522acac79e6d952acf32844\\res\\layout\\abc_list_menu_item_icon.xml"
+    },
+    {
+        "merged": "C:\\Users\\gloria\\AndroidStudioProjects\\XueBaJun\\app\\build\\intermediates\\res\\merged\\debug\\layout_list_item_my_comment.xml.flat",
+        "source": "C:\\Users\\gloria\\AndroidStudioProjects\\XueBaJun\\app\\src\\main\\res\\layout\\list_item_my_comment.xml"
     },
     {
         "merged": "C:\\Users\\gloria\\AndroidStudioProjects\\XueBaJun\\app\\build\\intermediates\\res\\merged\\debug\\drawable_icon_square.png.flat",
@@ -972,6 +980,10 @@
         "source": "C:\\Users\\gloria\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-23.3.0.aar\\f1d87f20c522acac79e6d952acf32844\\res\\drawable-xxhdpi-v4\\abc_btn_radio_to_on_mtrl_000.png"
     },
     {
+        "merged": "C:\\Users\\gloria\\AndroidStudioProjects\\XueBaJun\\app\\build\\intermediates\\res\\merged\\debug\\layout_list_item_my_documents.xml.flat",
+        "source": "C:\\Users\\gloria\\AndroidStudioProjects\\XueBaJun\\app\\src\\main\\res\\layout\\list_item_my_documents.xml"
+    },
+    {
         "merged": "C:\\Users\\gloria\\AndroidStudioProjects\\XueBaJun\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_abc_ic_voice_search_api_mtrl_alpha.png.flat",
         "source": "C:\\Users\\gloria\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-23.3.0.aar\\f1d87f20c522acac79e6d952acf32844\\res\\drawable-hdpi-v4\\abc_ic_voice_search_api_mtrl_alpha.png"
     },
@@ -1024,6 +1036,10 @@
         "source": "C:\\Users\\gloria\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-23.3.0.aar\\f1d87f20c522acac79e6d952acf32844\\res\\layout\\abc_search_dropdown_item_icons_2line.xml"
     },
     {
+        "merged": "C:\\Users\\gloria\\AndroidStudioProjects\\XueBaJun\\app\\build\\intermediates\\res\\merged\\debug\\layout_list_item_my_concern.xml.flat",
+        "source": "C:\\Users\\gloria\\AndroidStudioProjects\\XueBaJun\\app\\src\\main\\res\\layout\\list_item_my_concern.xml"
+    },
+    {
         "merged": "C:\\Users\\gloria\\AndroidStudioProjects\\XueBaJun\\app\\build\\intermediates\\res\\merged\\debug\\layout_abc_action_bar_title_item.xml.flat",
         "source": "C:\\Users\\gloria\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-23.3.0.aar\\f1d87f20c522acac79e6d952acf32844\\res\\layout\\abc_action_bar_title_item.xml"
     },
@@ -1062,6 +1078,10 @@
     {
         "merged": "C:\\Users\\gloria\\AndroidStudioProjects\\XueBaJun\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4_abc_ic_go_search_api_mtrl_alpha.png.flat",
         "source": "C:\\Users\\gloria\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-23.3.0.aar\\f1d87f20c522acac79e6d952acf32844\\res\\drawable-xhdpi-v4\\abc_ic_go_search_api_mtrl_alpha.png"
+    },
+    {
+        "merged": "C:\\Users\\gloria\\AndroidStudioProjects\\XueBaJun\\app\\build\\intermediates\\res\\merged\\debug\\layout_list_item_user_management.xml.flat",
+        "source": "C:\\Users\\gloria\\AndroidStudioProjects\\XueBaJun\\app\\src\\main\\res\\layout\\list_item_user_management.xml"
     },
     {
         "merged": "C:\\Users\\gloria\\AndroidStudioProjects\\XueBaJun\\app\\build\\intermediates\\res\\merged\\debug\\drawable-ldrtl-hdpi-v17_abc_spinner_mtrl_am_alpha.9.png.flat",
@@ -1110,10 +1130,6 @@
     {
         "merged": "C:\\Users\\gloria\\AndroidStudioProjects\\XueBaJun\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4_abc_spinner_mtrl_am_alpha.9.png.flat",
         "source": "C:\\Users\\gloria\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-23.3.0.aar\\f1d87f20c522acac79e6d952acf32844\\res\\drawable-xxhdpi-v4\\abc_spinner_mtrl_am_alpha.9.png"
-    },
-    {
-        "merged": "C:\\Users\\gloria\\AndroidStudioProjects\\XueBaJun\\app\\build\\intermediates\\res\\merged\\debug\\layout_change_pwd_dialog.xml.flat",
-        "source": "C:\\Users\\gloria\\AndroidStudioProjects\\XueBaJun\\app\\src\\main\\res\\layout\\change_pwd_dialog.xml"
     },
     {
         "merged": "C:\\Users\\gloria\\AndroidStudioProjects\\XueBaJun\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_abc_ic_search_api_mtrl_alpha.png.flat",
@@ -1394,10 +1410,6 @@
     {
         "merged": "C:\\Users\\gloria\\AndroidStudioProjects\\XueBaJun\\app\\build\\intermediates\\res\\merged\\debug\\drawable_abc_spinner_textfield_background_material.xml.flat",
         "source": "C:\\Users\\gloria\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-23.3.0.aar\\f1d87f20c522acac79e6d952acf32844\\res\\drawable\\abc_spinner_textfield_background_material.xml"
-    },
-    {
-        "merged": "C:\\Users\\gloria\\AndroidStudioProjects\\XueBaJun\\app\\build\\intermediates\\res\\merged\\debug\\layout_my_concern_list_item.xml.flat",
-        "source": "C:\\Users\\gloria\\AndroidStudioProjects\\XueBaJun\\app\\src\\main\\res\\layout\\my_concern_list_item.xml"
     },
     {
         "merged": "C:\\Users\\gloria\\AndroidStudioProjects\\XueBaJun\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4_abc_ic_clear_mtrl_alpha.png.flat",
