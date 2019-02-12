@@ -2590,10 +2590,10 @@ public final class R {
     public static final int activity_sign_in_page1=0x7f09001e;
     public static final int activity_temp=0x7f09001f;
     public static final int activity_upload_file=0x7f090020;
-    public static final int change_pwd_dialog=0x7f090021;
-    public static final int concern_me_list_item=0x7f090022;
-    public static final int my_collect_list_item=0x7f090023;
-    public static final int my_concern_list_item=0x7f090024;
+    public static final int dialog_change_pwd =0x7f090021;
+    public static final int list_item_concern_me =0x7f090022;
+    public static final int list_item_my_collection =0x7f090023;
+    public static final int list_item_my_concern =0x7f090024;
     public static final int notification_media_action=0x7f090025;
     public static final int notification_media_cancel_action=0x7f090026;
     public static final int notification_template_big_media=0x7f090027;
@@ -2607,7 +2607,7 @@ public final class R {
     public static final int select_dialog_singlechoice_material=0x7f09002f;
     public static final int simple_spinner_item=0x7f090030;
     public static final int support_simple_spinner_dropdown_item=0x7f090031;
-    public static final int user_management_list_item=0x7f090032;
+    public static final int list_item_user_management =0x7f090032;
   }
   public static final class mipmap {
     public static final int ic_launcher=0x7f0a0000;

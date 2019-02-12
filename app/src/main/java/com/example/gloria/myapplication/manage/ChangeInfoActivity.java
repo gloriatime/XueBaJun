@@ -323,7 +323,7 @@ public class ChangeInfoActivity extends AppCompatActivity {
 
     private void showChangePwdDialog() {
 
-        View view = View.inflate(this, R.layout.change_pwd_dialog, null);
+        View view = View.inflate(this, R.layout.dialog_change_pwd, null);
         final EditText pwd_edit = (EditText) view.findViewById(R.id.pwd_string);
         final EditText pwd_confirm_edit = (EditText) view.findViewById(R.id.pwd_confirm_string);
         Button cancel = (Button) view.findViewById(R.id.cancel_button);

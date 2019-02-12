@@ -21,6 +21,11 @@ public class User implements Serializable {
 	private List<CollectBook> collected_books;
 	private List<CollectCourse> collected_courses;
 
+	// "关于我的"功能
+	private List<Document> myDocument;
+	private List<Comment> myComment;
+	private List<News> myNews;
+
 	public User(){}
 	public User(User user){
 		this.name = user.getName();
@@ -159,5 +164,28 @@ public class User implements Serializable {
 	public void setCollected_courses(List<CollectCourse> collected_courses) {
 		this.collected_courses = collected_courses;
 	}
-	
+
+	public List<Document> getMyDocument() {
+		return myDocument;
+	}
+
+	public void setMyDocument(List<Document> myDocument) {
+		this.myDocument = myDocument;
+	}
+
+	public List<Comment> getMyComment() {
+		return myComment;
+	}
+
+	public void setMyComment(List<Comment> myComment) {
+		this.myComment = myComment;
+	}
+
+	public List<News> getMyNews() {
+		return myNews;
+	}
+
+	public void setMyNews(List<News> myNews) {
+		this.myNews = myNews;
+	}
 }

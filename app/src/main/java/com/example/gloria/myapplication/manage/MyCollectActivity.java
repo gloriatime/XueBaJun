@@ -27,7 +27,6 @@ import com.example.model.myapplication.Book;
 import com.example.model.myapplication.CollectBook;
 import com.example.model.myapplication.CollectCourse;
 import com.example.model.myapplication.CollectDocument;
-import com.example.model.myapplication.Concern;
 import com.example.model.myapplication.Course;
 import com.example.model.myapplication.Document;
 import com.example.model.myapplication.User;
@@ -424,7 +423,7 @@ public class MyCollectActivity extends AppCompatActivity {
 
             Log.e("##", "getView " + position + " " + convertView);
             if (convertView == null) {
-                convertView = mInflater.inflate(R.layout.my_collect_list_item,null);
+                convertView = mInflater.inflate(R.layout.list_item_my_collection,null);
                 holder = new ListItemViewHolder();
 
                 holder.name = (TextView) convertView.findViewById(R.id.name);

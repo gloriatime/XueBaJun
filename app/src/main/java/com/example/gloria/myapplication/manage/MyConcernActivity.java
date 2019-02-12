@@ -18,7 +18,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -32,7 +31,6 @@ import com.google.gson.Gson;
 
 import org.json.JSONException;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -317,7 +315,7 @@ public class MyConcernActivity extends AppCompatActivity {
 
                 Log.e("##", "getView " + position + " " + convertView);
                 if (convertView == null) {
-                    convertView = mInflater.inflate(R.layout.my_concern_list_item,null);
+                    convertView = mInflater.inflate(R.layout.list_item_my_concern,null);
                     holder = new ListItemViewHolder();
 
                     holder.name = (TextView) convertView.findViewById(R.id.name);
@@ -350,7 +348,7 @@ public class MyConcernActivity extends AppCompatActivity {
 
                 Log.e("##", "getView " + position + " " + convertView);
                 if (convertView == null) {
-                    convertView = mInflater.inflate(R.layout.concern_me_list_item,null);
+                    convertView = mInflater.inflate(R.layout.list_item_concern_me,null);
                     holder = new ListItemViewHolder();
 
                     holder.name = (TextView) convertView.findViewById(R.id.name);

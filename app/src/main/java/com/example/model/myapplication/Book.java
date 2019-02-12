@@ -20,7 +20,7 @@ public class Book {
 	public void setId(int id) {
 		this.id = id;
 	}
-	/**	
+	/**
 	 * @return the name
 	 */
 	public String getName() {
