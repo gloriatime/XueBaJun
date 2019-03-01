@@ -17,6 +17,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+import http.OkHttpUtil;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -89,7 +90,6 @@ public class NetImage {
             public void onResponse(Call call, Response response) throws IOException {
                 if (response != null) {
                     String result = response.body().string();
-                    Log.i("##", "result===" + result);
                 }
 
                 // 返回后设置UI显示
@@ -102,7 +102,6 @@ public class NetImage {
 
         MultipartBody.Builder builder = new MultipartBody.Builder();
         builder.setType(MultipartBody.FORM);
-        Log.i("huang","files[0].getName()=="+files[0].getName());
         builder.addFormDataPart("filename",files[0].getName());
         builder.addFormDataPart("position","0");
         builder.addFormDataPart("file",files[0].getName(), RequestBody.create(MediaType.parse("application/octet-stream"),files[0]));

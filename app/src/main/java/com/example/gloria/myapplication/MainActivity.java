@@ -332,5 +332,6 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         setHeadImage();
         setLeftDrawableInfo();
+
     }
 }

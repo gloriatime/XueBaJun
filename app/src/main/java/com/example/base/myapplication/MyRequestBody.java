@@ -6,6 +6,8 @@ import android.os.Message;
 
 import java.io.IOException;
 
+import http.ProgressListener;
+import http.ProgressRequestBody;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import okio.Buffer;
@@ -14,11 +16,6 @@ import okio.ForwardingSink;
 import okio.Okio;
 import okio.Sink;
 
-
-/**
- * Created by  on 2017/6/27.
- * author:CSDN苍狼
- */
 public class MyRequestBody extends RequestBody {
     public static final int UPDATE = 0x01;
     private RequestBody requestBody;
