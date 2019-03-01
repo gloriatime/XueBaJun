@@ -46,7 +46,6 @@ public class ChangeInfoActivity extends AppCompatActivity {
     User user;
     int ALBUM_REQUEST_CODE = 1;
     int CROP_REQUEST_CODE = 3;
-    File file;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,7 +80,7 @@ public class ChangeInfoActivity extends AppCompatActivity {
     }
     private void setUserInfo(){
         NetImage image = new NetImage();
-        String url = "http://47.100.226.176:8080/image/img_cover2.jpg";
+        String url = "http://47.100.226.176:8080/XueBaJun/head_image/"+user.getPhone()+".jpg";
         image.setHeadImage(mQueue,head_image_button,url);
 
         name_text.setText(user.getName());
@@ -187,9 +186,6 @@ public class ChangeInfoActivity extends AppCompatActivity {
         switch (requestCode){
             case 1:    //调用相册后返回
                 if (resultCode == RESULT_OK) {
-                    file = new File(Environment.getExternalStorageDirectory(),
-                            "123");
-                    Log.e("##",file.toString());
                     Uri uri = intent.getData();
                     cropPhoto(uri);
                 }
@@ -199,12 +195,9 @@ public class ChangeInfoActivity extends AppCompatActivity {
                 if (bundle != null) {
                     //在这里获得了剪裁后的Bitmap对象，可以用于上传
                     Bitmap image = bundle.getParcelable("data");
-                    // 将image上传到服务器中
+                    // 将image上传到服务器中，并变更UI
                     NetImage head = new NetImage();
-                    head.uploadImage(mQueue,image,user.getPhone(),file);
-                    // 根据用户手机号从服务器取图片设置用户头像
-                    String url = "http://47.100.226.176:8080/XueBaJun/image/"+user.getPhone()+".jpg";
-                    head.setHeadImage(mQueue,head_image_button,url);
+                    head.uploadImage(image,user.getPhone(),head_image_button,mQueue);
                 }
                 break;
         }

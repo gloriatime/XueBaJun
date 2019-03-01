@@ -311,7 +311,7 @@ public class MainActivity extends AppCompatActivity {
     private void setHeadImage(){
         // 请求用户对应头像，如果没有头像就使用默认头像
         ImageRequest imageRequest = new ImageRequest(
-                "http://47.100.226.176:8080/image/img_cover1.jpg",
+                "http://47.100.226.176:8080/XueBaJun/head_image/"+user.getPhone()+".jpg",
                 new Response.Listener<Bitmap>() {
                     @Override
                     public void onResponse(Bitmap response) {
@@ -327,5 +327,10 @@ public class MainActivity extends AppCompatActivity {
         mQueue.add(imageRequest);
     }
 
-
+    // 再返回时刷新页面边栏的信息
+    public void onResume() {
+        super.onResume();
+        setHeadImage();
+        setLeftDrawableInfo();
+    }
 }

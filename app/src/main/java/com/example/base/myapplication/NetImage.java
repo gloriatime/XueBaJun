@@ -1,10 +1,8 @@
 package com.example.base.myapplication;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
-import android.util.Base64;
+import android.os.Environment;
 import android.util.Log;
 import android.widget.ImageButton;
 
@@ -13,9 +11,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.example.gloria.myapplication.R;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -30,81 +30,91 @@ public class NetImage {
 
     // 从服务器取出图片设置UI
     public void setHeadImage(RequestQueue mQueue,final ImageButton imageButton, String url){
-       /* ImageRequest imageRequest = new ImageRequest(
+       ImageRequest imageRequest = new ImageRequest(
                 url,
-                new Response.Listener<Bitmap>() {
+                new com.android.volley.Response.Listener<Bitmap>() {
                     @Override
                     public void onResponse(Bitmap response) {
                         BitmapDrawable temp = new BitmapDrawable(response);
                         imageButton.setBackground(temp);
                     }
-                }, 300, 300, Bitmap.Config.RGB_565, new Response.ErrorListener() {
+                }, 300, 300, Bitmap.Config.RGB_565, new com.android.volley.Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 imageButton.setBackgroundResource(R.drawable.ic_head_image);
             }
         });
-        mQueue.add(imageRequest);*/
+        mQueue.add(imageRequest);
     }
 
     // 将图片上传到服务器
-    public void uploadImage(RequestQueue mQueue,Bitmap image,String phone,File file){
+    public void uploadImage(Bitmap image, final String phone, final ImageButton imageButton, final RequestQueue mQueue){
 
-        MediaType MEDIA_TYPE_PNG = MediaType.parse("image/png");
-        String url = "http://47.100.226.176:8080/XueBaJun/UploadImage";
+        String basePath = Environment.getExternalStorageDirectory().getAbsolutePath();
 
-        if (file != null && file.exists()) {
-            MultipartBody.Builder builder = new MultipartBody.Builder()
-                    .setType(MultipartBody.FORM) .addFormDataPart("files", "img" + "_" + System.currentTimeMillis() + ".jpg",
-                            RequestBody.create(MEDIA_TYPE_PNG, file));
-            Request request = new Request.Builder()
-                    .header("Authorization", "123")
-                    .url(url)
-                    .post(builder.build())
-                    .build();
-            OkHttpClient okHttpClient = new OkHttpClient();
-            okHttpClient.newCall(request).enqueue(new Callback() {
-                @Override
-                public void onFailure(Call call, IOException e) { }
-                @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    String result = response.body().string();
-                    Log.e("---", "onResponse: 成功上传图片之后服务器的返回数据：" + result); //result就是图片服务器返回的图片地址。
-                }
-            });
+        // 将image存入手机内存中
 
-        }
-
-
-
-
-
-        // volley上传图片图片破损
-        /*JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("name",phone+".jpg");
-            jsonObject.put("image" ,image);
-        } catch (JSONException e) {
+            File file = new File(basePath+"/XueBaJun/"+phone+".jpg");
+            // 如果之前有头像就删掉
+            if(file.exists()){
+                file.delete();
+            }
+            if(!file.exists()){
+                file.getParentFile().mkdir();
+                file.createNewFile();
+                FileOutputStream fos = new FileOutputStream(file);
+                image.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+                fos.flush();
+                fos.close();
+
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url,jsonObject,new Response.Listener<JSONObject>() {
+        // 将图片上传到服务器
+        File file = new File(basePath+"/XueBaJun/"+phone+".jpg");
+        String postUrl = "http://47.100.226.176:8080/XueBaJun/ImageServlet";
 
-            public void onResponse(JSONObject jsonObject) {
-                User tempuser = new Gson().fromJson(jsonObject.toString(), User.class);
-                // 签到成功，更新user的积分值并修改UI显示
-                if(tempuser != null) {
-                    Log.d("##uploadSuccess##", "name"+tempuser.getName()+ "\n");
-                }
-            }
-        }, new Response.ErrorListener() {
+        postFile(postUrl, new Callback() {
             @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e("##head", error.getMessage(), error);
-                byte[] htmlBodyBytes = error.networkResponse.data;
-                Log.e("##head", new String(htmlBodyBytes), error);
+            public void onFailure(Call call, IOException e) {
+
             }
-        });
-        mQueue.add(jsonObjectRequest);*/
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response != null) {
+                    String result = response.body().string();
+                    Log.i("##", "result===" + result);
+                }
+
+                // 返回后设置UI显示
+                setHeadImage(mQueue,imageButton,"http://47.100.226.176:8080/XueBaJun/head_image/"+phone+".jpg");
+            }
+        }, file);
+    }
+
+    public void postFile(String url, Callback callback, File...files){
+
+        MultipartBody.Builder builder = new MultipartBody.Builder();
+        builder.setType(MultipartBody.FORM);
+        Log.i("huang","files[0].getName()=="+files[0].getName());
+        builder.addFormDataPart("filename",files[0].getName());
+        builder.addFormDataPart("position","0");
+        builder.addFormDataPart("file",files[0].getName(), RequestBody.create(MediaType.parse("application/octet-stream"),files[0]));
+
+        final MultipartBody multipartBody = builder.build();
+
+        Request request  = new Request.Builder().url(url).post(new MyRequestBody(multipartBody)).build();
+
+        OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10000, TimeUnit.MILLISECONDS)
+                .readTimeout(10000,TimeUnit.MILLISECONDS)
+                .writeTimeout(10000,TimeUnit.MILLISECONDS).build();
+
+        okHttpClient.newCall(request).enqueue(callback);
     }
 }

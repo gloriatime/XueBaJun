@@ -4,7 +4,7 @@
             "outputFile": "C:\\Users\\gloria\\AndroidStudioProjects\\XueBaJun\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v17\\values-v17.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\gloria\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-23.3.0.aar\\f1d87f20c522acac79e6d952acf32844\\res\\values-v17\\values-v17.xml",
+                    "source": "C:\\Users\\gloria\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-23.3.0.aar\\aba05e57c890a86cfe684444721ba8f8\\res\\values-v17\\values-v17.xml",
                     "from": {
                         "startLines": "2,5,9,12,15,18,22,26,29,32,35,39,42,46",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4",
