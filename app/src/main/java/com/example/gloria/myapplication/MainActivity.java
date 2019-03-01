@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout uploade_doc_linear,about_me_linear,my_collect_linear,change_info_linear,my_concern_linear,left_drawable;
     Button check_in_button;
     TextView name_text,point_text,college_text,grade_text,interest_text;
+    TextView app_name;
     // ListView user_management_list;
 
     User user;
@@ -71,6 +72,9 @@ public class MainActivity extends AppCompatActivity {
         getUser();
 
         setLeftDrawable();
+
+        // 使用文件选择器之后标题会被选择器的名称覆盖
+        app_name.setText("学吧君");
 
     }
 
@@ -93,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
         grade_text = (TextView) findViewById(R.id.grade_text);
         college_text = (TextView) findViewById(R.id.college_text);
         interest_text = (TextView) findViewById(R.id.interest_text);
+        app_name = (TextView) findViewById(R.id.app_name);
         // user_management_list = (ListView) findViewById(R.id.user_management_list);
 
         mQueue = Volley.newRequestQueue(MainActivity.this);
