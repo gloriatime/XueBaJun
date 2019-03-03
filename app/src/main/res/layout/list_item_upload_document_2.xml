@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/document_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_margin="@dimen/activity_vertical_margin">
+    <ImageView
+        android:layout_width="@dimen/head_image_size"
+        android:layout_height="@dimen/head_image_size"
+        android:background="@drawable/ic_document"
+        android:layout_gravity="center_vertical"
+        />
+
+    <LinearLayout
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="@dimen/activity_vertical_margin">
+        <TextView
+            android:id="@+id/document_name_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/small_margin"
+            android:text="资料名：暂无"/>
+        <TextView
+            android:id="@+id/document_author_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/small_margin"
+            android:text="作者：暂无"/>
+        <TextView
+            android:id="@+id/document_path_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/small_margin"
+            android:text="文件路径：暂无"/>
+
+    </LinearLayout>
+
+    <!-- 为按钮设置右对齐所需要的布局（按钮单独设置右对齐无效） -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="end|center_vertical">
+        <Button
+            android:id="@+id/change_document_info_button"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:background="@drawable/bg_fillet_red"
+            android:text="修"
+            android:textColor="@color/white"
+            android:layout_gravity="center_vertical|end"
+            android:layout_margin="@dimen/small_margin"/>
+    </RelativeLayout>
+
+</LinearLayout>

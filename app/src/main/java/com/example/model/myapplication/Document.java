@@ -5,8 +5,8 @@ import java.util.Date;
 
 public class Document {
 	private int id;
-	private String name;
-	private String author;
+	private String name = "没名字";
+	private String author = "佚名";
 	private String up_user;
 	private Date up_time;
 	private float score;

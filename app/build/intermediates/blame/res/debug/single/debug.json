@@ -792,6 +792,10 @@
         "source": "C:\\Users\\gloria\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-25.0.0.aar\\5974b1491597858177bf83f2ae3aa5dc\\res\\drawable-mdpi-v4\\abc_text_select_handle_left_mtrl_dark.png"
     },
     {
+        "merged": "C:\\Users\\gloria\\AndroidStudioProjects\\XueBaJun\\app\\build\\intermediates\\res\\merged\\debug\\drawable_ic_document.png.flat",
+        "source": "C:\\Users\\gloria\\AndroidStudioProjects\\XueBaJun\\app\\src\\main\\res\\drawable\\ic_document.png"
+    },
+    {
         "merged": "C:\\Users\\gloria\\AndroidStudioProjects\\XueBaJun\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4_abc_scrubber_control_to_pressed_mtrl_005.png.flat",
         "source": "C:\\Users\\gloria\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-25.0.0.aar\\5974b1491597858177bf83f2ae3aa5dc\\res\\drawable-mdpi-v4\\abc_scrubber_control_to_pressed_mtrl_005.png"
     },
@@ -1486,6 +1490,10 @@
     {
         "merged": "C:\\Users\\gloria\\AndroidStudioProjects\\XueBaJun\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_abc_ic_star_black_36dp.png.flat",
         "source": "C:\\Users\\gloria\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-25.0.0.aar\\5974b1491597858177bf83f2ae3aa5dc\\res\\drawable-hdpi-v4\\abc_ic_star_black_36dp.png"
+    },
+    {
+        "merged": "C:\\Users\\gloria\\AndroidStudioProjects\\XueBaJun\\app\\build\\intermediates\\res\\merged\\debug\\layout_list_item_upload_document_2.xml.flat",
+        "source": "C:\\Users\\gloria\\AndroidStudioProjects\\XueBaJun\\app\\src\\main\\res\\layout\\list_item_upload_document_2.xml"
     },
     {
         "merged": "C:\\Users\\gloria\\AndroidStudioProjects\\XueBaJun\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4_abc_ic_menu_paste_mtrl_am_alpha.png.flat",

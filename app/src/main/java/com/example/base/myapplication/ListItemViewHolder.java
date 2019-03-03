@@ -10,4 +10,7 @@ public final class ListItemViewHolder {
     public Button button;
 
     public TextView content;
+
+    // for upload_document_list
+    public TextView author,path;
 }
