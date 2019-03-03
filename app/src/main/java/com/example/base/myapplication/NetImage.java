@@ -17,7 +17,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-import http.OkHttpUtil;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -90,6 +89,7 @@ public class NetImage {
             public void onResponse(Call call, Response response) throws IOException {
                 if (response != null) {
                     String result = response.body().string();
+                    Log.e("##","文件上传返回："+result);
                 }
 
                 // 返回后设置UI显示

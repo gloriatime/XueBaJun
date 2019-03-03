@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
@@ -37,6 +38,7 @@
                 />
 
         </LinearLayout>
+
 
         <TextView
             android:id="@+id/document_button_1"
@@ -76,7 +78,7 @@
             android:layout_marginStart="@dimen/activity_horizontal_margin"/>
 
         <Button
-            android:id="@+id/upload_button"
+            android:id="@+id/up_button"
             android:layout_width="wrap_content"
             android:layout_height="32dp"
             android:text="上  传"
@@ -86,6 +88,7 @@
             android:textSize="@dimen/title"
             android:background="@drawable/bg_fillet"
             android:textStyle="bold"/>
+
 
     </LinearLayout>
 

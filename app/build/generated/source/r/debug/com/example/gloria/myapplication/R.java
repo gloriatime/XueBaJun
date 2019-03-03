@@ -2795,7 +2795,7 @@ public final class R {
     public static final int tv_name=0x7f0700c0;
     public static final int tv_path=0x7f0700c1;
     public static final int up=0x7f0700c2;
-    public static final int upload_button=0x7f0700c3;
+    public static final int up_button=0x7f0700c3;
     public static final int upload_doc_linear=0x7f0700c4;
     public static final int uploaded_button=0x7f0700c5;
     public static final int useLogo=0x7f0700c6;

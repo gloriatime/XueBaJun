@@ -113,11 +113,13 @@
     <orderEntry type="library" name="Gradle: com.android.support:support-core-ui-25.0.0" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support:support-media-compat-25.0.0" level="project" />
     <orderEntry type="library" name="Gradle: com.leon:lfilepickerlibrary-1.7.0" level="project" />
+    <orderEntry type="library" name="Gradle: __local_aars__:C.\Users\gloria\AndroidStudioProjects\XueBaJun\app\libs\Okhttp3Helper.jar:unspecified@jar" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: junit:junit:4.12@jar" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support:support-v4-25.0.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: org.hamcrest:hamcrest-core:1.3@jar" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support:recyclerview-v7-25.0.0" level="project" />
     <orderEntry type="library" name="Gradle: com.squareup.okhttp3:okhttp:3.12.1@jar" level="project" />
+    <orderEntry type="library" name="Gradle: __local_aars__:C.\Users\gloria\AndroidStudioProjects\XueBaJun\app\libs\commons-io-2.4.jar:unspecified@jar" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support:appcompat-v7-25.0.0" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support:animated-vector-drawable-25.0.0" level="project" />
     <orderEntry type="library" name="Gradle: __local_aars__:C.\Users\gloria\AndroidStudioProjects\XueBaJun\app\libs\gson-2.8.2.jar:unspecified@jar" level="project" />
@@ -125,7 +127,7 @@
     <orderEntry type="library" name="Gradle: __local_aars__:C.\Users\gloria\AndroidStudioProjects\XueBaJun\app\libs\fastjson-1.1.36.jar:unspecified@jar" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support.constraint:constraint-layout-1.1.3" level="project" />
     <orderEntry type="library" name="Gradle: com.squareup.okio:okio:1.15.0@jar" level="project" />
+    <orderEntry type="library" name="Gradle: __local_aars__:C.\Users\gloria\AndroidStudioProjects\XueBaJun\app\libs\commons-lang3-3.8.1.jar:unspecified@jar" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support.constraint:constraint-layout-solver:1.1.3@jar" level="project" />
-    <orderEntry type="library" name="Gradle: __local_aars__:C.\Users\gloria\AndroidStudioProjects\XueBaJun\app\libs\Okhttp3Healper.jar:unspecified@jar" level="project" />
   </component>
 </module>

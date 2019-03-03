@@ -815,7 +815,7 @@ int id tv_empty 0x7f0700bf
 int id tv_name 0x7f0700c0
 int id tv_path 0x7f0700c1
 int id up 0x7f0700c2
-int id upload_button 0x7f0700c3
+int id up_button 0x7f0700c3
 int id upload_doc_linear 0x7f0700c4
 int id uploaded_button 0x7f0700c5
 int id useLogo 0x7f0700c6

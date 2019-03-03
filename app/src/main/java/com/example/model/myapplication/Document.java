@@ -13,6 +13,7 @@ public class Document {
 	private int number;
 	private int comment;
 	private int download;
+	private String url;
 	public int getId() {
 		return id;
 	}
@@ -65,6 +66,13 @@ public class Document {
 	public void setDownload(int download) {
 		this.download = download;
 	}
-	
 
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
 }

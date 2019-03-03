@@ -1,13 +1,9 @@
 package com.example.base.myapplication;
 
-import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
 
 import java.io.IOException;
 
-import http.ProgressListener;
-import http.ProgressRequestBody;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import okio.Buffer;

@@ -27,6 +27,9 @@ dependencies {
     implementation 'com.android.support:appcompat-v7:23.3.0'
     implementation 'com.squareup.okhttp3:okhttp:3.12.1'
     implementation 'com.squareup.okio:okio:1.15.0'
-    implementation files('libs/Okhttp3Healper.jar')
+    implementation files('libs/Okhttp3Helper.jar')
     implementation 'com.leon:lfilepickerlibrary:1.7.0'
+    implementation files('libs/commons-lang3-3.8.1.jar')
+    implementation files('libs/commons-io-2.4.jar')
+    implementation files('libs/Okhttp3Helper.jar')
 }
