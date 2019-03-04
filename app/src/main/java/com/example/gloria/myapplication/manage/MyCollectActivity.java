@@ -16,11 +16,13 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.asm.Type;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.base.myapplication.DateGson;
 import com.example.base.myapplication.ListItemViewHolder;
 import com.example.gloria.myapplication.R;
 import com.example.model.myapplication.Book;
@@ -31,10 +33,16 @@ import com.example.model.myapplication.Course;
 import com.example.model.myapplication.Document;
 import com.example.model.myapplication.User;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
 
 import org.json.JSONException;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -151,7 +159,10 @@ public class MyCollectActivity extends AppCompatActivity {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, jsonObject, new Response.Listener<org.json.JSONObject>() {
 
             public void onResponse(org.json.JSONObject jsonObject) {
-                User tempuser = new Gson().fromJson(jsonObject.toString(), User.class);
+
+                Gson gson = new DateGson().getGson();
+
+                User tempuser = gson.fromJson(jsonObject.toString(), User.class);
                 Log.e("##", jsonObject.toString());
                 if (tempuser != null) {
                     Log.e("##", "我收藏的资料已返回");

@@ -25,6 +25,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.base.myapplication.DateGson;
 import com.example.base.myapplication.ListItemViewHolder;
 import com.example.gloria.myapplication.R;
 import com.example.model.myapplication.Book;
@@ -245,7 +246,10 @@ public class AboutMeActivity extends AppCompatActivity {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, jsonObject, new Response.Listener<org.json.JSONObject>() {
 
             public void onResponse(org.json.JSONObject jsonObject) {
-                User tempuser = new Gson().fromJson(jsonObject.toString(), User.class);
+
+                Gson gson = new DateGson().getGson();
+
+                User tempuser = gson.fromJson(jsonObject.toString(), User.class);
                 Log.e("##", jsonObject.toString());
                 if (tempuser != null) {
                     Log.e("##", "我上传的资料已返回");
