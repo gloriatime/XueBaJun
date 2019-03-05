@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -41,6 +42,7 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
+import com.leon.lfilepickerlibrary.utils.Constant;
 
 import org.json.JSONException;
 
@@ -57,7 +59,7 @@ public class AboutMeActivity extends AppCompatActivity {
     private ArrayList<Document> uploaded = new ArrayList<>();
     private ArrayList<Comment> comments= new ArrayList<>();;
     private ArrayList<News> news= new ArrayList<>();;
-    private int UPLOADED=1,COMMENT=2,NEWS=3;
+    private static final int UPLOADED=1,COMMENT=2,NEWS=3;
     RequestQueue mQueue;
     DocumentAdapter mAdapter;// 本页面list的适配器
     User user;
@@ -131,7 +133,7 @@ public class AboutMeActivity extends AppCompatActivity {
 
     private void updateNews() {
         // 清理原来的值
-        uploaded.clear();
+        news.clear();
 
         org.json.JSONObject jsonObject = new org.json.JSONObject();
         try {
@@ -210,7 +212,7 @@ public class AboutMeActivity extends AppCompatActivity {
 
                     for (Comment c : MyComment) {
                         comments.add(c);
-                        Log.e("##", "Comment's content: " + c.getContent()+ "  Id: "+c.getId()+"   time: "+c.getDocument().getUp_time());
+                        //Log.e("##", "Comment's content: " + c.getContent()+ "  Id: "+c.getId()+"   time: "+c.getDocument().getUp_time());
                     }
                     // 先执行内部类，后执行外部类
                     // setAdapter需要放在数据刷新成功之后。
@@ -342,6 +344,184 @@ public class AboutMeActivity extends AppCompatActivity {
         return listItem;
     }
 
+
+    private void showDeleteNewsAlterDialog(int position) {
+        // 消息直接删除
+        org.json.JSONObject jsonObject = new org.json.JSONObject();
+        try {
+            jsonObject.put("id",news.get(position).getId());
+            // jsonObject.put("url",uploaded.get(position).getUrl());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        // 与服务器交互得到我收藏的资料列表
+        String url = "http://47.100.226.176:8080/XueBaJun/DeleteNews";
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, jsonObject, new com.android.volley.Response.Listener<org.json.JSONObject>() {
+
+            public void onResponse(org.json.JSONObject jsonObject) {
+            }
+        }, new com.android.volley.Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        });
+        mQueue.add(jsonObjectRequest);
+        // 返回重新加载数据
+        updateNews();
+        setList(NEWS);
+    }
+
+    private void showChangeCommentDialog(final int position) {
+
+        // 弹出包含修改删除两种选项的对话框
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setTitle("对这条评论")//设置对话框的标题
+                .setPositiveButton("直接删除", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        org.json.JSONObject jsonObject = new org.json.JSONObject();
+                        try {
+                            jsonObject.put("id",comments.get(position).getId());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        // 与服务器交互得到我收藏的资料列表
+                        String url = "http://47.100.226.176:8080/XueBaJun/DeleteComment";
+
+                        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, jsonObject, new com.android.volley.Response.Listener<org.json.JSONObject>() {
+
+                            public void onResponse(org.json.JSONObject jsonObject) {
+                                //Log.e("##", "document删除已返回");
+                            }
+                        }, new com.android.volley.Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError volleyError) {
+
+                            }
+                        });
+                        mQueue.add(jsonObjectRequest);
+                        // 返回重新加载数据
+                        updateUploaded();
+                        setList(COMMENT);
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .setNeutralButton("修改评论内容", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // 弹出输入对话框
+                        showInputDialog(position);
+                    }
+                })
+                .create();
+        dialog.show();
+
+    }
+
+    private void showInputDialog(final int position) {
+        final EditText editText = new EditText(this);
+        editText.setText(comments.get(position).getContent());
+        AlertDialog.Builder inputDialog =
+                new AlertDialog.Builder(this);
+        inputDialog.setTitle("请输入修改后的评论内容")
+                .setView(editText);
+        inputDialog.setPositiveButton("确定",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        org.json.JSONObject jsonObject = new org.json.JSONObject();
+                        try {
+                            jsonObject.put("id",comments.get(position).getId());
+                            jsonObject.put("content",editText.getText().toString());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        // 与服务器交互得到我收藏的资料列表
+                        String url = "http://47.100.226.176:8080/XueBaJun/ChangeComment";
+
+                        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, jsonObject, new com.android.volley.Response.Listener<org.json.JSONObject>() {
+
+                            public void onResponse(org.json.JSONObject jsonObject) {
+                            }
+                        }, new com.android.volley.Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError volleyError) {
+
+                            }
+                        });
+                        mQueue.add(jsonObjectRequest);
+                        // 返回重新加载数据
+                        updateUploaded();
+                        setList(COMMENT);
+                    }
+                });
+        inputDialog.setNegativeButton("取消",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+        inputDialog.show();
+    }
+
+    private void showDeleteDocumentAlterDialog(final int position) {
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setTitle("确认要删除"+getData(UPLOADED).get(position).get("name").toString()+"么？")//设置对话框的标题
+                .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        org.json.JSONObject jsonObject = new org.json.JSONObject();
+                        try {
+                            jsonObject.put("id",uploaded.get(position).getId());
+                           // jsonObject.put("url",uploaded.get(position).getUrl());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        // 与服务器交互得到我收藏的资料列表
+                        String url = "http://47.100.226.176:8080/XueBaJun/DeleteDocument";
+
+                        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, jsonObject, new com.android.volley.Response.Listener<org.json.JSONObject>() {
+
+                            public void onResponse(org.json.JSONObject jsonObject) {
+                                //Log.e("##", "document删除已返回");
+                            }
+                        }, new com.android.volley.Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError volleyError) {
+
+                            }
+                        });
+                        mQueue.add(jsonObjectRequest);
+                        // 返回重新加载数据
+                        updateUploaded();
+                        //setList(UPLOADED);
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .create();
+        dialog.show();
+    }
+
     // 点击List中的按钮会弹出的对话框
     private void showAlertDialog(final int position, final int listContent){
         AlertDialog dialog = new AlertDialog.Builder(this)
@@ -464,16 +644,25 @@ public class AboutMeActivity extends AppCompatActivity {
 
                 if(listContent == UPLOADED){
                     convertView = mInflater.inflate(R.layout.list_item_my_documents,null);
+                    // 对应资料名称
                     holder.name = (TextView) convertView.findViewById(R.id.name);
+                    // 对应删除资料的按钮
                     holder.button = (Button) convertView.findViewById(R.id.button);
                 }else if(listContent == NEWS){
                     convertView = mInflater.inflate(R.layout.list_item_my_news,null);
+                    // 对应消息内容
                     holder.name = (TextView) convertView.findViewById(R.id.name);
+                    // 对应删除消息按钮
+                    holder.button = (Button) convertView.findViewById(R.id.button);
                 }else if(listContent == COMMENT){
                     convertView = mInflater.inflate(R.layout.list_item_my_comment,null);
+                    // 对应被评论资料等的名称
                     holder.name = (TextView) convertView.findViewById(R.id.name);
+                    // 对应被评论资料等的显示图标
                     holder.head = (ImageView) convertView.findViewById(R.id.head);
+                    // 对应评论内容
                     holder.content = (TextView) convertView.findViewById(R.id.content);
+                    // 对应修改评论的按钮
                     holder.button = (Button) convertView.findViewById(R.id.button);
 
                     // holder 绑定数据
@@ -495,8 +684,21 @@ public class AboutMeActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         Log.e("##", "你点击了按钮" + position);
-                        // 弹出确认取消关注的对话框
-                        showAlertDialog(position,listContent);
+                        // 根据listContent的不同分别使用不同的dialog
+                        switch (listContent){
+                            case UPLOADED:{
+                                showDeleteDocumentAlterDialog(position);
+                                break;
+                            }
+                            case COMMENT:{
+                                showChangeCommentDialog(position);
+                                break;
+                            }
+                            case NEWS:{
+                                showDeleteNewsAlterDialog(position);
+                                break;
+                            }
+                        }
                     }
                 });
             }
