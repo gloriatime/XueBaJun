@@ -82,46 +82,17 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/red">
-            <ScrollView
+
+
+            <ListView
+                android:id="@+id/list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:layout_marginBottom="@dimen/activity_vertical_margin">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/info_bar_height"
-                    android:orientation="horizontal"
-                    android:background="@color/white"
-                    android:padding="@dimen/common">
+                android:layout_marginTop="@dimen/activity_horizontal_margin">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="123"
-                        android:textSize="@dimen/common"
-                        android:layout_marginStart="@dimen/activity_horizontal_margin"
-                        android:layout_gravity="center_vertical"/>
-                    <!-- 为按钮设置右对齐所需要的布局（按钮单独设置右对齐无效） -->
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="end|center_vertical">
-                        <Button
-                            android:layout_width="80dp"
-                            android:layout_height="30dp"
-                            android:background="@drawable/bg_fillet_red"
-                            android:text="取消收藏"
-                            android:textColor="@color/white"
-                            />
-                    </RelativeLayout>
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/bg_line_red"/>
-                </LinearLayout>
+            </ListView>
 
 
-            </ScrollView>
         </LinearLayout>
 
     </LinearLayout>

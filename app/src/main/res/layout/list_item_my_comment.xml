@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:padding="@dimen/common">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/content"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/list_bar_height"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginEnd="@dimen/small_margin"
+            android:textSize="@dimen/common"
+            android:text="dhfdaofijdnofijdofjaso"
+            android:textColor="@color/brown"/>
+        <!-- 为按钮设置右对齐所需要的布局（按钮单独设置右对齐无效） -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="end|center_vertical">
+            <Button
+                android:id="@+id/button"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:background="@drawable/bg_fillet_red"
+                android:text="修"
+                android:textColor="@color/white" />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:background="@color/whiteSmoke">
+        <ImageButton
+            android:id="@+id/head"
+            android:layout_width="@dimen/head_image_size"
+            android:layout_height="@dimen/head_image_size"
+            android:background="@drawable/icon_book"/>
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="《丰乳肥臀》"
+            android:textSize="@dimen/title"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="@dimen/small_margin"/>
+    </LinearLayout>
+</LinearLayout>

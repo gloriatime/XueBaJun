@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/info_bar_height"
+    android:orientation="horizontal"
+    android:background="@color/white"
+    android:padding="@dimen/common">
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="《学吧君详细说明文档》"
+        android:textSize="@dimen/common"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_gravity="center_vertical"/>
+    <!-- 为按钮设置右对齐所需要的布局（按钮单独设置右对齐无效） -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="end|center_vertical">
+        <Button
+            android:id="@+id/button"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:background="@drawable/bg_fillet_red"
+            android:text="删除文件"
+            android:textColor="@color/white"
+            />
+    </RelativeLayout>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_line_red"/>
+</LinearLayout>
