@@ -31,6 +31,7 @@ import com.example.gloria.myapplication.manage.ChangeInfoActivity;
 import com.example.gloria.myapplication.manage.MyCollectActivity;
 import com.example.gloria.myapplication.manage.MyConcernActivity;
 import com.example.gloria.myapplication.manage.UploadFileActivity;
+import com.example.gloria.myapplication.search.SearchResultActivity;
 import com.example.model.myapplication.User;
 import com.google.gson.Gson;
 
@@ -43,7 +44,6 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    String path;// 字体存放路径
     TextView title;// 学吧君的标题文字
     TextView search;
     Spinner spinner;
@@ -55,6 +55,10 @@ public class MainActivity extends AppCompatActivity {
     Button check_in_button;
     TextView name_text,point_text,college_text,grade_text,interest_text;
     TextView app_name;
+
+    // 搜索功能
+    TextView search_box;
+    ImageButton search_button;
     // ListView user_management_list;
 
     User user;
@@ -73,9 +77,19 @@ public class MainActivity extends AppCompatActivity {
 
         setLeftDrawable();
 
+        setSearchFun();
+
         // 使用文件选择器之后标题会被选择器的名称覆盖
         app_name.setText("学吧君");
 
+        //textFun();
+
+    }
+
+    private void textFun() {
+        Intent intent = new Intent(MainActivity.this,TempActivity.class);
+
+        startActivity(intent);
     }
 
     private void init(){
@@ -98,9 +112,12 @@ public class MainActivity extends AppCompatActivity {
         college_text = (TextView) findViewById(R.id.college_text);
         interest_text = (TextView) findViewById(R.id.interest_text);
         app_name = (TextView) findViewById(R.id.app_name);
+        search_box = (TextView) findViewById(R.id.search_box);
+        search_button = (ImageButton) findViewById(R.id.do_search_button);
         // user_management_list = (ListView) findViewById(R.id.user_management_list);
 
         mQueue = Volley.newRequestQueue(MainActivity.this);
+
     }
 
     private void setMainPage(){
@@ -140,6 +157,20 @@ public class MainActivity extends AppCompatActivity {
         user.setName("我最帅");
         user.setPoint(200);
         user.setPhone("13061765432");
+    }
+
+    // 设置主页的搜索功能
+    private void setSearchFun() {
+        String type = search.getText().toString();
+
+        // 跳转到结果界面进行搜索
+        Intent intent = new Intent(MainActivity.this,SearchResultActivity.class);
+        // 传递参数
+        intent.putExtra("user", (Serializable) user);
+        intent.putExtra("type",type);
+        intent.putExtra("search_content",search_box.getText());
+        startActivity(intent);
+
     }
 
     // ---------------设置用户信息边栏------------------
