@@ -161,15 +161,21 @@ public class MainActivity extends AppCompatActivity {
 
     // 设置主页的搜索功能
     private void setSearchFun() {
-        String type = search.getText().toString();
+        final String type = search.getText().toString();
 
-        // 跳转到结果界面进行搜索
-        Intent intent = new Intent(MainActivity.this,SearchResultActivity.class);
-        // 传递参数
-        intent.putExtra("user", (Serializable) user);
-        intent.putExtra("type",type);
-        intent.putExtra("search_content",search_box.getText());
-        startActivity(intent);
+        search_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 跳转到结果界面进行搜索
+                Intent intent = new Intent(MainActivity.this,SearchResultActivity.class);
+                // 传递参数
+                intent.putExtra("user", (Serializable) user);
+                intent.putExtra("type",type);
+                intent.putExtra("search_content",search_box.getText().toString());
+                Log.e("##", "传递"+type+"  "+search_box.getText().toString());
+                startActivity(intent);
+            }
+        });
 
     }
 

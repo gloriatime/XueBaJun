@@ -1,6 +1,8 @@
 package com.example.model.myapplication;
 
 
+import java.util.List;
+
 public class Book {
 	private int id;
 	private String name;
@@ -12,6 +14,9 @@ public class Book {
 	private int comment;
 	private int download;
 	private String cover;
+
+	// 搜索功能
+	private List<Book> bookList;
 
 	public int getId() {
 		return id;
@@ -96,5 +101,13 @@ public class Book {
 
 	public void setCover(String cover) {
 		this.cover = cover;
+	}
+
+	public List<Book> getBookList() {
+		return bookList;
+	}
+
+	public void setBookList(List<Book> bookList) {
+		this.bookList = bookList;
 	}
 }

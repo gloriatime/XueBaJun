@@ -2,6 +2,7 @@ package com.example.model.myapplication;
 
 
 import java.util.Date;
+import java.util.List;
 
 public class Document {
 	private int id;
@@ -14,6 +15,10 @@ public class Document {
 	private int comment;
 	private int download;
 	private String url;
+
+	// 搜索功能
+	private List<Document> documentList;
+
 	public int getId() {
 		return id;
 	}
@@ -74,5 +79,13 @@ public class Document {
 
 	public void setUrl(String url) {
 		this.url = url;
+	}
+
+	public List<Document> getDocumentList() {
+		return documentList;
+	}
+
+	public void setDocumentList(List<Document> documentList) {
+		this.documentList = documentList;
 	}
 }
