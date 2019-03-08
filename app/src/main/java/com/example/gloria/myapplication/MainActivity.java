@@ -161,11 +161,12 @@ public class MainActivity extends AppCompatActivity {
 
     // 设置主页的搜索功能
     private void setSearchFun() {
-        final String type = search.getText().toString();
 
         search_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // 得到当前搜索类别
+                String type = search.getText().toString();
                 // 跳转到结果界面进行搜索
                 Intent intent = new Intent(MainActivity.this,SearchResultActivity.class);
                 // 传递参数

@@ -61,6 +61,7 @@ public class SearchResultActivity extends AppCompatActivity {
         url = "";
         type = "";
         search_content = "";
+        str = new ArrayList<>();
         mQueue = Volley.newRequestQueue(SearchResultActivity.this);
     }
 
