@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -15,7 +17,11 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class SignUp5Activity extends AppCompatActivity {
 
@@ -26,6 +32,7 @@ public class SignUp5Activity extends AppCompatActivity {
     TextView t5;
     TextView t6;
     TextView t7;
+    Button button;
     private TextListener1 textListener1;
     private TextListener2 textListener2;
     private TextListener3 textListener3;
@@ -84,23 +91,58 @@ public class SignUp5Activity extends AppCompatActivity {
         user.setGrade(grade);
         user.setMajor(major);
 
-        // 与服务器交互
-        RequestQueue mQueue = Volley.newRequestQueue(SignUp5Activity.this);
-        String url = "http://47.100.226.176:8080/XueBaJun/CheckIn";
-        JSONObject jsonObject = new JSONObject();
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, jsonObject, new Response.Listener<JSONObject>() {
-            public void onResponse(JSONObject jsonObject) {
-                User user = new Gson().fromJson(jsonObject.toString(), User.class);
-                if (user != null) {
-                    Log.d("##getSuccess##", "name" + user.getPhone() + "\n");
-                }
-            }
-        }, new Response.ErrorListener() {
+        button = (Button)findViewById(R.id.button);
+        button.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onErrorResponse(VolleyError volleyError) {
+            public void onClick(View v){
+                // 与服务器交互
+                RequestQueue mQueue = Volley.newRequestQueue(SignUp5Activity.this);
+                String url = "http://47.100.226.176:8080/XueBaJun/SignIn";
+                //发送数据
+                org.json.JSONObject jsonObject = new org.json.JSONObject();
+
+                try {
+                    jsonObject.put("phone", user.getPhone());
+                    jsonObject.put("name", user.getName());
+                    jsonObject.put("pwd", user.getPwd());
+                    jsonObject.put("grade", user.getGrade());
+                    jsonObject.put("college", user.getCollege());
+                    jsonObject.put("major", user.getMajor());
+                    jsonObject.put("art",user.isArt());
+                    jsonObject.put("medicine", user.isMedicine());
+                    jsonObject.put("management", user.isManagement());
+                    jsonObject.put("humanity", user.isHumanity());
+                    jsonObject.put("technology", user.isTechnology());
+                    jsonObject.put("agriculture", user.isAgriculture());
+                    jsonObject.put("play", user.isPlay());
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Log.e("##","发送 "+jsonObject.toString());
+
+                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, jsonObject, new Response.Listener<JSONObject>() {
+                    public void onResponse(JSONObject jsonObject) {
+                        Gson gson = new DateGson().getGson();
+                        User ur = gson.fromJson(jsonObject.toString(), User.class);
+                        Log.e("##","用户密码"+user.getPwd());
+                        if(ur != null){
+                            Intent intent = new Intent(SignUp5Activity.this, SignInActivity.class);
+                            startActivity(intent);
+                        }
+                        else {
+                            Toast.makeText(SignUp5Activity.this,"注册失败", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+                    }
+                });
+                mQueue.add(jsonObjectRequest);
+
             }
         });
-        mQueue.add(jsonObjectRequest);
     }
 
     class TextListener1 implements View.OnClickListener
