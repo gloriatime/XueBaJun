@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="false"
+        jar="E:\XueBaJun\as\SignUpPage\app\libs\fastjson-1.1.36.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="28.0.3"
+        sha1="63a6becf28f9a3facdc54a350c93fb1b85893ac5">
+        <dex dex="E:\XueBaJun\as\SignUpPage\app\build\intermediates\pre-dexed\debug\fastjson-1.1.36_a52600d1f1814d6899bd097d6d2c07f027ff2810.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\XueBaJun\as\SignUpPage\app\libs\gson-2.8.2.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="28.0.3"
+        sha1="3edcfe49d2c6053a70a2a47e4e1c2f94998a49cf">
+        <dex dex="E:\XueBaJun\as\SignUpPage\app\build\intermediates\pre-dexed\debug\gson-2.8.2_b4c40b1c11eb4069b7da33551e89336518bd1187.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\XueBaJun\as\SignUpPage\app\libs\volley.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="28.0.3"
+        sha1="4a94601db9bdfb7dc60efabb3dea91a0675f591d">
+        <dex dex="E:\XueBaJun\as\SignUpPage\app\build\intermediates\pre-dexed\debug\volley_53d77b7ebe49c7a3d3e7ae9859f49ca1c62fcf4d.jar" />
+    </item>
+
+</items>
