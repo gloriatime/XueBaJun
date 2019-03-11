@@ -42,6 +42,8 @@
         </activity>
         <activity android:name="com.example.gloria.myapplication.manage.AboutMeActivity" >
         </activity>
+        <activity android:name="com.example.gloria.myapplication.search.SearchResultActivity" >
+        </activity>
         <activity
             android:name="com.leon.lfilepickerlibrary.ui.LFilePickerActivity"
             android:theme="@style/LibraryAppTheme" >

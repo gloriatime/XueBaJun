@@ -1,5 +1,7 @@
 package com.example.model.myapplication;
 
+import java.util.List;
+
 public class Course {
 	private int id;
 	private String name;
@@ -8,6 +10,10 @@ public class Course {
 	private float score;
 	private int number;
 	private int comment;
+
+	// 搜索功能
+	private List<Course> courseList;
+
 	public int getId() {
 		return id;
 	}
@@ -51,4 +57,11 @@ public class Course {
 		this.comment = comment;
 	}
 
+	public List<Course> getCourseList() {
+		return courseList;
+	}
+
+	public void setCourseList(List<Course> courseList) {
+		this.courseList = courseList;
+	}
 }

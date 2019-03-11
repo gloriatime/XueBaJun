@@ -26,13 +26,21 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.base.myapplication.DateGson;
+import com.example.base.myapplication.GlideImageLoader;
 import com.example.gloria.myapplication.manage.AboutMeActivity;
 import com.example.gloria.myapplication.manage.ChangeInfoActivity;
 import com.example.gloria.myapplication.manage.MyCollectActivity;
 import com.example.gloria.myapplication.manage.MyConcernActivity;
 import com.example.gloria.myapplication.manage.UploadFileActivity;
+import com.example.gloria.myapplication.search.SearchResultActivity;
+import com.example.model.myapplication.Book;
+import com.example.model.myapplication.Course;
+import com.example.model.myapplication.Document;
 import com.example.model.myapplication.User;
 import com.google.gson.Gson;
+import com.youth.banner.Banner;
+import com.youth.banner.listener.OnBannerListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -43,19 +51,26 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    String path;// 字体存放路径
     TextView title;// 学吧君的标题文字
     TextView search;
     Spinner spinner;
     List<String> data_list;
     ArrayAdapter<String> arr_adapter;
-    ImageButton user_management_button,head_image_button,event_image_button;
+    ImageButton user_management_button,head_image_button;
     DrawerLayout main_drawable;
     LinearLayout uploade_doc_linear,about_me_linear,my_collect_linear,change_info_linear,my_concern_linear,left_drawable;
     Button check_in_button;
     TextView name_text,point_text,college_text,grade_text,interest_text;
     TextView app_name;
+
+    // 搜索功能
+    TextView search_box;
+    ImageButton search_button;
     // ListView user_management_list;
+
+    // 设置本周热门TOP
+    TextView course_top,book_top,document_top;
+    Banner banner;
 
     User user;
     RequestQueue mQueue;
@@ -76,6 +91,15 @@ public class MainActivity extends AppCompatActivity {
         // 使用文件选择器之后标题会被选择器的名称覆盖
         app_name.setText("学吧君");
 
+        //testFun();
+
+    }
+
+
+    private void testFun() {
+        Intent intent = new Intent(MainActivity.this,TempActivity.class);
+
+        startActivity(intent);
     }
 
     private void init(){
@@ -89,7 +113,6 @@ public class MainActivity extends AppCompatActivity {
         change_info_linear = (LinearLayout) findViewById(R.id.change_info_linear);
         my_concern_linear = (LinearLayout) findViewById(R.id.my_concern_linear);
         head_image_button = (ImageButton) findViewById(R.id.head_image_button);
-        event_image_button = (ImageButton) findViewById(R.id.event_image_button);
         left_drawable = (LinearLayout) findViewById(R.id.left_drawable);
         check_in_button = (Button) findViewById(R.id.check_in_button);
         name_text = (TextView) findViewById(R.id.name_text);
@@ -98,9 +121,16 @@ public class MainActivity extends AppCompatActivity {
         college_text = (TextView) findViewById(R.id.college_text);
         interest_text = (TextView) findViewById(R.id.interest_text);
         app_name = (TextView) findViewById(R.id.app_name);
+        search_box = (TextView) findViewById(R.id.search_box);
+        search_button = (ImageButton) findViewById(R.id.do_search_button);
+        //course_top = (TextView) findViewById(R.id.course_top);
+        //book_top = (TextView) findViewById(R.id.book_top);
+        //document_top = (TextView) findViewById(R.id.document_top);
+        banner = (Banner) findViewById(R.id.banner);
         // user_management_list = (ListView) findViewById(R.id.user_management_list);
 
         mQueue = Volley.newRequestQueue(MainActivity.this);
+
     }
 
     private void setMainPage(){
@@ -133,6 +163,11 @@ public class MainActivity extends AppCompatActivity {
                 search.setText("Nothing");
             }
         });
+
+        // ------------------设置主页的搜索功能--------------
+        setSearchFun();
+        //-------------------设置热门-----------
+        setHot();
     }
 
     private void getUser(){
@@ -140,6 +175,129 @@ public class MainActivity extends AppCompatActivity {
         user.setName("我最帅");
         user.setPoint(200);
         user.setPhone("13061765432");
+    }
+
+    // ------------------设置主页的搜索功能--------------
+    private void setSearchFun() {
+
+        search_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 得到当前搜索类别
+                String type = search.getText().toString();
+                // 跳转到结果界面进行搜索
+                Intent intent = new Intent(MainActivity.this,SearchResultActivity.class);
+                // 传递参数
+                intent.putExtra("user", (Serializable) user);
+                intent.putExtra("type",type);
+                intent.putExtra("search_content",search_box.getText().toString());
+                Log.e("##", "传递"+type+"  "+search_box.getText().toString());
+                startActivity(intent);
+            }
+        });
+
+    }
+
+    //-------------------设置热门-----------
+    private void setHot() {
+        // 设置主页热门top
+        // 与服务器交互
+        String url1 = "http://47.100.226.176:8080/XueBaJun/GetTopOneDocument";
+
+        JSONObject jsonObject = new JSONObject();
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url1,jsonObject,new Response.Listener<JSONObject>() {
+
+            public void onResponse(JSONObject jsonObject) {
+                Gson gson = new DateGson().getGson();
+                Document temp = gson.fromJson(jsonObject.toString(), Document.class);
+                // 更新UI
+                if(temp != null) {
+                    Log.d("##getSuccess##", "name"+temp.getName()+ "\n");
+                    //document_top.setText(temp.getName());
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        });
+        mQueue.add(jsonObjectRequest);
+
+        String url2 = "http://47.100.226.176:8080/XueBaJun/GetTopOneCourse";
+
+        JsonObjectRequest jsonObjectRequest2 = new JsonObjectRequest(url2,jsonObject,new Response.Listener<JSONObject>() {
+
+            public void onResponse(JSONObject jsonObject) {
+                Gson gson = new DateGson().getGson();
+                Course temp = gson.fromJson(jsonObject.toString(), Course.class);
+                // 更新UI
+                if(temp != null) {
+                    Log.d("##getSuccess##", "name"+temp.getName()+ "\n");
+                    //course_top.setText(temp.getName());
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        });
+        mQueue.add(jsonObjectRequest2);
+
+        String url3 = "http://47.100.226.176:8080/XueBaJun/GetTopOneBook";
+
+        JsonObjectRequest jsonObjectRequest3 = new JsonObjectRequest(url3,jsonObject,new Response.Listener<JSONObject>() {
+
+            public void onResponse(JSONObject jsonObject) {
+                Gson gson = new DateGson().getGson();
+                Book temp = gson.fromJson(jsonObject.toString(), Book.class);
+                // 更新UI
+                if(temp != null) {
+                    Log.d("##getSuccess##", "name"+temp.getName()+ "\n");
+                    //book_top.setText(temp.getName());
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        });
+        mQueue.add(jsonObjectRequest3);
+
+
+        // 设置图片
+        //设置图片加载器
+        banner.setImageLoader(new GlideImageLoader());
+        //设置图片集合
+        List<String> images = new ArrayList<>();
+        images.add("http://47.100.226.176:8080/top_image/top_book.jpg");
+        images.add("http://47.100.226.176:8080/top_image/top_course.jpg");
+        images.add("http://47.100.226.176:8080/top_image/top_document.jpg");
+        banner.setImages(images);
+        // 轮播间隔8秒
+        banner.setDelayTime(8000);
+        // 设置点击监听
+        banner.setOnBannerListener(new OnBannerListener() {
+            @Override
+            public void OnBannerClick(int position) {
+                if(position == 0){
+                    // 展示TOP1的书籍
+                    Log.e("##","你点击了图片0");
+                }else if(position == 1){
+                    // 展示TOP1的课程
+                    Log.e("##","你点击了图片1");
+                }else {
+                    // 展示TOP1的资料
+                    Log.e("##","你点击了图片2");
+                }
+            }
+        });
+        //banner设置方法全部调用完毕时最后调用
+        banner.start();
+
     }
 
     // ---------------设置用户信息边栏------------------
