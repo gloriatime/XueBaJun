@@ -1,6 +1,7 @@
 package com.example.gloria.myapplication;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -11,12 +12,16 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -28,6 +33,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.base.myapplication.DateGson;
 import com.example.base.myapplication.GlideImageLoader;
+import com.example.base.myapplication.ListItemViewHolder;
 import com.example.gloria.myapplication.manage.AboutMeActivity;
 import com.example.gloria.myapplication.manage.ChangeInfoActivity;
 import com.example.gloria.myapplication.manage.MyCollectActivity;
@@ -38,6 +44,7 @@ import com.example.model.myapplication.Book;
 import com.example.model.myapplication.Course;
 import com.example.model.myapplication.Document;
 import com.example.model.myapplication.User;
+import com.example.model.myapplication.UserTag;
 import com.google.gson.Gson;
 import com.youth.banner.Banner;
 import com.youth.banner.listener.OnBannerListener;
@@ -47,6 +54,7 @@ import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -72,6 +80,14 @@ public class MainActivity extends AppCompatActivity {
     TextView course_top,book_top,document_top;
     Banner banner;
 
+    // 推荐列表
+    List<Document> documents;
+    List<Course> courses;
+    List<Book> books;
+    ListView document_list_view,course_list_view,book_list_view;
+    RecommendAdapter mAdapter_document,mAdapter_course,mAdapter_book;// 本页面list的适配器
+    private int DOCUMENT=1,BOOK=2,COURSE=3;
+
     User user;
     RequestQueue mQueue;
 
@@ -82,9 +98,9 @@ public class MainActivity extends AppCompatActivity {
 
         init();
 
-        setMainPage();
-
         getUser();
+
+        setMainPage();
 
         setLeftDrawable();
 
@@ -127,6 +143,9 @@ public class MainActivity extends AppCompatActivity {
         //book_top = (TextView) findViewById(R.id.book_top);
         //document_top = (TextView) findViewById(R.id.document_top);
         banner = (Banner) findViewById(R.id.banner);
+        document_list_view = (ListView) findViewById(R.id.document_list_view);
+        course_list_view = (ListView) findViewById(R.id.course_list_view);
+        book_list_view = (ListView) findViewById(R.id.book_list_view);
         // user_management_list = (ListView) findViewById(R.id.user_management_list);
 
         mQueue = Volley.newRequestQueue(MainActivity.this);
@@ -168,13 +187,19 @@ public class MainActivity extends AppCompatActivity {
         setSearchFun();
         //-------------------设置热门-----------
         setHot();
+        // ------------------设置推荐列表------------------
+        setRecommendList();
     }
+
 
     private void getUser(){
         // ---------------得到user-----------------
         user.setName("我最帅");
         user.setPoint(200);
         user.setPhone("13061765432");
+        user.setTechnology(true);
+        user.setCollege("计算机科学与技术");
+        user.setGrade("大三");
     }
 
     // ------------------设置主页的搜索功能--------------
@@ -290,6 +315,7 @@ public class MainActivity extends AppCompatActivity {
                     // 展示TOP1的课程
                     Log.e("##","你点击了图片1");
                 }else {
+
                     // 展示TOP1的资料
                     Log.e("##","你点击了图片2");
                 }
@@ -298,6 +324,85 @@ public class MainActivity extends AppCompatActivity {
         //banner设置方法全部调用完毕时最后调用
         banner.start();
 
+    }
+
+    // ---------------设置推荐列表------------------
+    private void setRecommendList() {
+        // 先和后台交互得到推荐内容
+        String url = "http://47.100.226.176:8080/XueBaJun/GetRecommendListOfMainPage";
+
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("phone",user.getPhone());
+            jsonObject.put("medicine" ,String.valueOf(user.isMedicine()));
+            //Log.e("##","String.valueOf(user.isTech())"+String.valueOf(user.isTechnology()));
+            jsonObject.put("technology" ,String.valueOf(user.isTechnology()));
+            jsonObject.put("art" ,String.valueOf(user.isArt()));
+            jsonObject.put("agriculture" ,String.valueOf(user.isAgriculture()));
+            jsonObject.put("management" ,String.valueOf(user.isManagement()));
+            jsonObject.put("humanity" ,String.valueOf(user.isHumanity()));
+            jsonObject.put("play" ,String.valueOf(user.isPlay()));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url,jsonObject,new Response.Listener<JSONObject>() {
+
+            public void onResponse(JSONObject jsonObject) {
+                UserTag temp = new Gson().fromJson(jsonObject.toString(), UserTag.class);
+                // 签到成功，更新user的积分值并修改UI显示
+                if(temp != null) {
+                    Log.e("##getSuccess##", "推荐列表返回"+jsonObject.toString());
+                    // 设置列表
+                    documents = temp.getRecommendDocumentList();
+                    courses = temp.getRecommendCourseList(); Log.e("##getSuccess##", "推荐列表返回"+courses.isEmpty());
+                    books = temp.getRecommendBookList();
+                    // 更新UI
+                    showRecommendList();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        });
+        mQueue.add(jsonObjectRequest);
+    }
+
+    private void showRecommendList() {
+        mAdapter_document = new RecommendAdapter(this,DOCUMENT);
+        document_list_view.setAdapter(mAdapter_document);
+        document_list_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                Log.e("##", "你点击了ListView条目" + arg2);//在LogCat中输出信息
+                // ---------------------------跳转到对应的信息展示界面，目前先空着--------------------------------------
+            }
+        });
+
+        mAdapter_course = new RecommendAdapter(this,COURSE);
+        course_list_view.setAdapter(mAdapter_course);
+        course_list_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                Log.e("##", "你点击了ListView条目" + arg2);//在LogCat中输出信息
+                // ---------------------------跳转到对应的信息展示界面，目前先空着--------------------------------------
+            }
+        });
+
+        mAdapter_book = new RecommendAdapter(this,BOOK);
+        book_list_view.setAdapter(mAdapter_book);
+        book_list_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                Log.e("##", "你点击了ListView条目" + arg2);//在LogCat中输出信息
+                // ---------------------------跳转到对应的信息展示界面，目前先空着--------------------------------------
+            }
+        });
     }
 
     // ---------------设置用户信息边栏------------------
@@ -495,6 +600,102 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         setHeadImage();
         setLeftDrawableInfo();
+
+    }
+
+    private ArrayList<HashMap<String, Object>> getData(int listContent){
+
+        ArrayList<HashMap<String, Object>> listItem = new ArrayList<>();
+
+        Log.e("##", "----------------开始为listItem添加内容----------");//在LogCat中输出信息
+
+        if(listContent == DOCUMENT){
+            Log.e("##", "此时doc列表为" +documents.size());//在LogCat中输出信息
+            for (int i = 0; i < documents.size(); i++) {
+                HashMap<String, Object> map = new HashMap<>();
+                map.put("text_1", documents.get(i).getName());
+                map.put("text_2", documents.get(i).getUp_user());
+                map.put("text_3", documents.get(i).getUp_time());
+                listItem.add(map);
+
+            }
+        }else if(listContent == BOOK){
+            Log.e("##", "此时book列表为" +books.size());//在LogCat中输出信息
+            for (int i = 0; i < books.size(); i++) {
+                HashMap<String, Object> map = new HashMap<>();
+                map.put("text_1", books.get(i).getName());
+                map.put("text_3", books.get(i).getAuthor());
+                map.put("text_2", "");
+
+                listItem.add(map);
+
+            }
+        }else if(listContent == COURSE){
+            Log.e("##", "此时course列表为"+courses.size() );//在LogCat中输出信息
+            for (int i = 0; i < courses.size(); i++) {
+                HashMap<String, Object> map = new HashMap<>();
+                map.put("text_1", courses.get(i).getName());
+                map.put("text_2", "");
+                map.put("text_3", "");
+                listItem.add(map);
+
+            }
+        }
+        return listItem;
+    }
+
+    // list的适配器
+    private class RecommendAdapter extends BaseAdapter {
+
+        private LayoutInflater mInflater;
+        private int listContent;
+
+
+        RecommendAdapter(Context context, int listContent) {
+            this.mInflater = LayoutInflater.from(context);
+            this.listContent = listContent;
+        }
+
+        @Override
+        public int getCount() {
+            return getData(listContent).size();//返回数组的长度
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public View getView(final int position, View convertView, ViewGroup parent) {
+
+            ListItemViewHolder holder;
+
+            Log.e("##", "getView " + position + " " + convertView);
+            if (convertView == null) {
+                convertView = mInflater.inflate(R.layout.list_item_recommend_document_for_main_page,null);
+                holder = new ListItemViewHolder();
+
+                holder.name = (TextView) convertView.findViewById(R.id.text_1);
+                holder.content = (TextView) convertView.findViewById(R.id.text_2);
+                holder.author = (TextView) convertView.findViewById(R.id.text_3);
+                convertView.setTag(holder);//绑定ViewHolder对象
+            }
+            else{
+                holder = (ListItemViewHolder)convertView.getTag();//取出ViewHolder对象
+            }
+
+            holder.name.setText(getData(listContent).get(position).get("text_1").toString());
+            holder.content.setText(getData(listContent).get(position).get("text_2").toString());
+            holder.author.setText(getData(listContent).get(position).get("text_3").toString());
+
+            return convertView;
+        }
 
     }
 }
