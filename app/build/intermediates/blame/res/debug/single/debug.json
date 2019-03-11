@@ -636,10 +636,6 @@
         "source": "C:\\Users\\gloria\\AndroidStudioProjects\\XueBaJun\\app\\src\\main\\res\\drawable\\ic_head_image.png"
     },
     {
-        "merged": "C:\\Users\\gloria\\AndroidStudioProjects\\XueBaJun\\app\\build\\intermediates\\res\\merged\\debug\\layout_activity_search_result.xml.flat",
-        "source": "C:\\Users\\gloria\\AndroidStudioProjects\\XueBaJun\\app\\src\\main\\res\\layout\\activity_search_result.xml"
-    },
-    {
         "merged": "C:\\Users\\gloria\\AndroidStudioProjects\\XueBaJun\\app\\build\\intermediates\\res\\merged\\debug\\drawable_item_bg_selector.xml.flat",
         "source": "C:\\Users\\gloria\\.gradle\\caches\\transforms-1\\files-1.1\\lfilepickerlibrary-1.7.0.aar\\f56755e75ba14eb309ed0546dee29934\\res\\drawable\\item_bg_selector.xml"
     },
