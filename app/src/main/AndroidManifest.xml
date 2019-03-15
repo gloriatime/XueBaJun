@@ -10,7 +10,7 @@
     <application
         android:name="com.example.base.myapplication.myApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_cover"
         android:label="@string/new_app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"

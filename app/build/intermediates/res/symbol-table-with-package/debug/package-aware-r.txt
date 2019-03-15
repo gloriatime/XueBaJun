@@ -961,7 +961,8 @@ int mipmap file_style_yellow 0x7f0c0006
 int mipmap folder_style_blue 0x7f0c0007
 int mipmap folder_style_green 0x7f0c0008
 int mipmap folder_style_yellow 0x7f0c0009
-int mipmap ic_launcher 0x7f0c000a
+int mipmap ic_cover 0x7f0c000a
+int mipmap ic_launcher 0x7f0c000b
 int string Cancel 0x7f0d0000
 int string ChooseTip 0x7f0d0001
 int string Detail 0x7f0d0002

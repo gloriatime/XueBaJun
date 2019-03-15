@@ -3051,7 +3051,8 @@ public final class R {
     public static final int folder_style_blue=0x7f0c0007;
     public static final int folder_style_green=0x7f0c0008;
     public static final int folder_style_yellow=0x7f0c0009;
-    public static final int ic_launcher=0x7f0c000a;
+    public static final int ic_cover=0x7f0c000a;
+    public static final int ic_launcher=0x7f0c000b;
   }
   public static final class string {
     public static final int Cancel=0x7f0d0000;
