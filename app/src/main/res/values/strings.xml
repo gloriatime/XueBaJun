@@ -6,4 +6,44 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="new_app_name">学吧君</string>
     <string name="action_settings">Settings</string>
+
+    <!--  课程教师相关字符串 -->
+    <string name="course">课程</string>
+    <string name="teacher">教师</string>
+    <string name="coursename">课程名称：</string>
+    <string name="wcollege">开课学院：</string>
+    <string name="prefermajor">优选专业：</string>
+    <string name="prefersemester">优选学期：</string>
+    <string name="Ttime">开课时间：</string>
+    <string name="teatching">任课老师：</string>
+    <string name="examiningmode">考核方式：</string>
+    <string name="textbook">优选教材：</string>
+    <string name="setscore">评分：</string>
+    <string name="introduce">简介：</string>
+    <string name="mainteach">主讲课程</string>
+    <string name="intrpeople">人物概述</string>
+    <string name="research">研究方向</string>
+    <string name="teacher_one">教师1</string>
+    <string name="teacher_two">教师2</string>
+    <string name="teacher_three">教师3</string>
+    <string name="bookcover">书籍封面</string>
+    <string name="bookname">书籍名称</string>
+    <string name="giveyouscore">请给出你的评分</string>
+    <string name="ok">确定</string>
+    <string name="setnum">请输入数字1到10</string>
+    <string name="ten">10</string>
+    <string name="teacherimg">教师照片</string>
+    <string name="studentone">学生种类一</string>
+    <string name="studenttwo">学生种类二</string>
+    <string name="studentthree">学生种类三</string>
+    <string name="studentfour">学生种类四</string>
+    <string name="setSC">评分</string>
+    <string name="TopCourse">热门课程Top20</string>
+    <string name="morecourse">更多课程</string>
+    <string name="maylike">你可能喜欢</string>
+    <string name="entercourse">请输入课程名或教师名</string>
+    <string name="enterbook">请输入书籍</string>
+    <string name="hot">热度</string>
+    <string name="hotcourse">热门课程Top20</string>
+    <string name="re_courseone">推荐课程1</string>
 </resources>
