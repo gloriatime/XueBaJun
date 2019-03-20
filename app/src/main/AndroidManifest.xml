@@ -38,6 +38,8 @@
         </activity>
         <activity android:name=".search.SearchResultActivity">
         </activity>
+        <activity android:name=".paper.DataMainActivity">
+        </activity>
     </application>
 
 </manifest>

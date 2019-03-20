@@ -39,6 +39,7 @@ import com.example.gloria.myapplication.manage.ChangeInfoActivity;
 import com.example.gloria.myapplication.manage.MyCollectActivity;
 import com.example.gloria.myapplication.manage.MyConcernActivity;
 import com.example.gloria.myapplication.manage.UploadFileActivity;
+import com.example.gloria.myapplication.paper.DataMainActivity;
 import com.example.gloria.myapplication.search.SearchResultActivity;
 import com.example.model.myapplication.Book;
 import com.example.model.myapplication.Course;
@@ -74,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
     // 搜索功能
     TextView search_box;
     ImageButton search_button;
+    ImageButton paper_button;
     // ListView user_management_list;
 
     // 设置本周热门TOP
@@ -147,6 +149,7 @@ public class MainActivity extends AppCompatActivity {
         course_list_view = (ListView) findViewById(R.id.course_list_view);
         book_list_view = (ListView) findViewById(R.id.book_list_view);
         // user_management_list = (ListView) findViewById(R.id.user_management_list);
+        paper_button = (ImageButton)findViewById(R.id.paper);
 
         mQueue = Volley.newRequestQueue(MainActivity.this);
 
@@ -189,6 +192,8 @@ public class MainActivity extends AppCompatActivity {
         setHot();
         // ------------------设置推荐列表------------------
         setRecommendList();
+        //--------------设置资料---------
+        setPaper();
     }
 
 
@@ -211,16 +216,29 @@ public class MainActivity extends AppCompatActivity {
                 // 得到当前搜索类别
                 String type = search.getText().toString();
                 // 跳转到结果界面进行搜索
-                Intent intent = new Intent(MainActivity.this,SearchResultActivity.class);
+                Intent intent = new Intent(MainActivity.this, SearchResultActivity.class);
                 // 传递参数
                 intent.putExtra("user", (Serializable) user);
-                intent.putExtra("type",type);
-                intent.putExtra("search_content",search_box.getText().toString());
-                Log.e("##", "传递"+type+"  "+search_box.getText().toString());
+                intent.putExtra("type", type);
+                intent.putExtra("search_content", search_box.getText().toString());
+                Log.e("##", "传递" + type + "  " + search_box.getText().toString());
                 startActivity(intent);
             }
         });
-
+    }
+    //---------设置资料----------
+    private void setPaper(){
+        paper_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.e("##","datadtadt");
+                Intent intent = new Intent(MainActivity.this, DataMainActivity.class);
+                //intent.putExtra("user",(Serializable) user);
+                Log.e("##","开始跳转");
+                startActivity(intent);
+                Log.e("##","跳转成功");
+            }
+        });
     }
 
     //-------------------设置热门-----------
