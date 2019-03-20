@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:label">
-        <activity android:name=".MainActivity">
+        <activity android:name=".SignIn.SignInActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -40,6 +40,12 @@
         </activity>
         <activity android:name=".paper.DataMainActivity">
         </activity>
+        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".SignIn.SignUp1Activity"></activity>
+        <activity android:name=".SignIn.SignUp2Activity"></activity>
+        <activity android:name=".SignIn.SignUp3Activity"></activity>
+        <activity android:name=".SignIn.SignUp4Activity"></activity>
+        <activity android:name=".SignIn.SignUp5Activity"></activity>
     </application>
 
 </manifest>
