@@ -1,5 +1,7 @@
 package com.example.model.myapplication;
 
+import android.provider.ContactsContract;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -22,6 +24,11 @@ public class Comment {
 	// 从属的回复列表
 	private List<Reply> replyList;
 
+	public Comment(User critic, String Content, Date date){
+		this.critic = critic;
+		this.Content = Content;
+		this.date = date;
+	}
 	public int getId() {
 		return id;
 	}

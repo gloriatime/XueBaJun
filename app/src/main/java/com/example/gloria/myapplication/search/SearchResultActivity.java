@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -20,6 +22,7 @@ import com.example.base.myapplication.DateGson;
 import com.example.base.myapplication.MyJsonArrayRequest;
 import com.example.gloria.myapplication.R;
 import com.example.gloria.myapplication.TempActivity;
+import com.example.gloria.myapplication.searchPaper.PaperDetailMainActivity;
 import com.example.model.myapplication.Book;
 import com.example.model.myapplication.Course;
 import com.example.model.myapplication.Document;
@@ -177,6 +180,17 @@ public class SearchResultActivity extends AppCompatActivity {
         }else {
             list.setAdapter(new ArrayAdapter<>(this,
                     android.R.layout.simple_list_item_1, str));
+            if(type == "资料") {
+                list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        Intent intent = new Intent(SearchResultActivity.this, PaperDetailMainActivity.class);
+                        intent.putExtra("user", user);
+                        intent.putExtra("document_id", document_list.get(i).getId() + "");
+                        startActivity(intent);
+                    }
+                });
+            }
         }
     }
 

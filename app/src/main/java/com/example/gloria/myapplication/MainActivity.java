@@ -231,12 +231,9 @@ public class MainActivity extends AppCompatActivity {
         paper_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.e("##","datadtadt");
                 Intent intent = new Intent(MainActivity.this, DataMainActivity.class);
-                //intent.putExtra("user",(Serializable) user);
-                Log.e("##","开始跳转");
+                intent.putExtra("user",(Serializable) user);
                 startActivity(intent);
-                Log.e("##","跳转成功");
             }
         });
     }
