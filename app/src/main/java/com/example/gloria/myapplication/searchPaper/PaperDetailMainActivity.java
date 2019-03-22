@@ -39,6 +39,7 @@ import com.example.base.myapplication.DateGson;
 import com.example.gloria.myapplication.R;
 import com.example.gloria.myapplication.adapter.CommentAdapter;
 import com.example.gloria.myapplication.adapter.ReplyAdapter;
+import com.example.model.myapplication.Book;
 import com.example.model.myapplication.Comment;
 import com.example.model.myapplication.Document;
 import com.example.model.myapplication.Reply;
@@ -195,13 +196,15 @@ public class PaperDetailMainActivity extends AppCompatActivity implements View.O
         comment_bt.setOnClickListener(this);
         //查看回复
         ShowReply();
+        //更新显示的评论数
+        UpdateCommentNumber();
     }
 
     private void getUserAId(){
         Intent intent = getIntent();
         user = (User) intent.getSerializableExtra("user");
         String ID = intent.getStringExtra("document_id");
-        id = Integer.getInteger(ID);
+        id = Integer.parseInt(ID);
     }
 
     //下载
@@ -497,5 +500,35 @@ public class PaperDetailMainActivity extends AppCompatActivity implements View.O
             }
         });
         mQueue.add(jsonObjectRequest);
+    }
+
+    private void UpdateCommentNumber(){
+        String url = "http://47.100.226.176:8080/XueBaJun/GetBook";
+
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("id", id);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, jsonObject, new Response.Listener<JSONObject>() {
+
+            public void onResponse(JSONObject jsonObject) {
+                Gson gson = new DateGson().getGson();
+                document = gson.fromJson(jsonObject.toString(), Document.class);
+                if (document != null) {
+                    String scc = "评论"+document.getComment();
+                    mComment.setText(scc);
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        });
+        mQueue.add(jsonObjectRequest);
+        Log.e("##","最后的最后"+document.getComment());
     }
 }

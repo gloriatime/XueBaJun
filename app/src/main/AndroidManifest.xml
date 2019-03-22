@@ -47,6 +47,7 @@
         <activity android:name=".SignIn.SignUp4Activity"></activity>
         <activity android:name=".SignIn.SignUp5Activity"></activity>
         <activity android:name=".searchPaper.PaperDetailMainActivity"></activity>
+        <activity android:name=".bookDetail.BookMainActivity"></activity>
     </application>
 
 </manifest>

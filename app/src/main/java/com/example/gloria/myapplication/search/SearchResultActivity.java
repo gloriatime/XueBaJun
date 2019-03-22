@@ -20,8 +20,10 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.base.myapplication.DateGson;
 import com.example.base.myapplication.MyJsonArrayRequest;
+import com.example.gloria.myapplication.MainActivity;
 import com.example.gloria.myapplication.R;
 import com.example.gloria.myapplication.TempActivity;
+import com.example.gloria.myapplication.bookDetail.BookMainActivity;
 import com.example.gloria.myapplication.searchPaper.PaperDetailMainActivity;
 import com.example.model.myapplication.Book;
 import com.example.model.myapplication.Course;
@@ -33,6 +35,7 @@ import com.google.gson.JsonObject;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -187,6 +190,17 @@ public class SearchResultActivity extends AppCompatActivity {
                         Intent intent = new Intent(SearchResultActivity.this, PaperDetailMainActivity.class);
                         intent.putExtra("user", user);
                         intent.putExtra("document_id", document_list.get(i).getId() + "");
+                        startActivity(intent);
+                    }
+                });
+            }
+            else if(type == "资料") {
+                list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        Intent intent = new Intent(SearchResultActivity.this, BookMainActivity.class);
+                        intent.putExtra("user",(Serializable) user);
+                        intent.putExtra("book_id",""+3);
                         startActivity(intent);
                     }
                 });

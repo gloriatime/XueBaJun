@@ -35,6 +35,7 @@ import com.example.base.myapplication.DateGson;
 import com.example.base.myapplication.GlideImageLoader;
 import com.example.base.myapplication.ListItemViewHolder;
 import com.example.gloria.myapplication.SignIn.SignInActivity;
+import com.example.gloria.myapplication.bookDetail.BookMainActivity;
 import com.example.gloria.myapplication.manage.AboutMeActivity;
 import com.example.gloria.myapplication.manage.ChangeInfoActivity;
 import com.example.gloria.myapplication.manage.MyCollectActivity;
