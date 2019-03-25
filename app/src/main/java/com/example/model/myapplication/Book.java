@@ -3,7 +3,7 @@ package com.example.model.myapplication;
 import java.util.List;
 
 public class Book {
-	private int Id;
+	private int id;
 	private String name;
 	private String author;
 	private String press;
@@ -34,11 +34,11 @@ public class Book {
 	private List<Book> topTwentyList;
 
 	public int getId() {
-		return Id;
+		return id;
 	}
 
 	public void setId(int id) {
-		Id = id;
+		this.id = id;
 	}
 
 	/**
@@ -130,7 +130,7 @@ public class Book {
 	// 重写相同判别法，过滤推荐列表中的相同元素
 	@Override
 	public int hashCode() {
-		return Id;
+		return id;
 	}
 
 	@Override
@@ -138,7 +138,7 @@ public class Book {
 		if (this.getClass() != x.getClass())
 			return false;
 		Book b = (Book) x;
-		return this.Id == b.getId();
+		return this.id == b.getId();
 	}
 
 	public List<Book> getRecommendList() {

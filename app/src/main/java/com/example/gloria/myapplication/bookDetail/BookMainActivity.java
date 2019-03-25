@@ -120,6 +120,7 @@ public class BookMainActivity extends AppCompatActivity implements View.OnClickL
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("id", id);
+            jsonObject.put("applicant", user.getPhone());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -226,11 +227,12 @@ public class BookMainActivity extends AppCompatActivity implements View.OnClickL
         Log.e("##","已进入book");
         Intent intent = getIntent();
         user = (User) intent.getSerializableExtra("user");
-        Log.e("##", "user"+user);
-        String ID = intent.getStringExtra("book_id");
-        Log.e("##", "string_id"+ID);
-        id = Integer.parseInt(ID);
-        Log.e("##","id"+id);
+        Log.e("##", "user"+user.getPhone());
+        //String ID = intent.getStringExtra("book_id");
+        //Log.e("##", "string_id"+ID);
+        //id = Integer.parseInt(ID);
+        //Log.e("##","id"+id);
+        id = intent.getIntExtra("book_id",0);
     }
     //下载
     class TextListenerDown implements View.OnClickListener {

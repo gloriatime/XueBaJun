@@ -12,5 +12,6 @@ public final class ListItemViewHolder {
     public TextView content;
 
     // for upload_document_list
-    public TextView author,path;
+    public TextView author,path,tag;
+    public Button choose_tag;
 }

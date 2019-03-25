@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewDebug;
@@ -18,11 +19,17 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.gloria.myapplication.R;
 import com.example.model.myapplication.Book;
 import com.example.model.myapplication.Course;
+import com.example.model.myapplication.News;
 import com.example.model.myapplication.Professor;
 import com.example.model.myapplication.ProfessorCourse;
+import com.example.model.myapplication.User;
+import com.google.gson.Gson;
+
+import org.json.JSONException;
 
 import java.io.Serializable;
 import java.util.List;
@@ -41,15 +48,24 @@ public class CourseDetailActivity extends AppCompatActivity {
     private Button givescore;
     private RequestQueue mQueue;
     private ImageView bookimage;
+    User user;
+    int id; // 详情界面展示的课程Id
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
         setContentView(R.layout.course_detail);
         getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,R.layout.course_title);
+        getPassInfo();
         getCourse();
         init();
         SetButton();
+    }
+
+    private void getPassInfo() {
+        Intent intent = getIntent();
+        user = (User) intent.getSerializableExtra("user");
+        id = intent.getIntExtra("course_id",0);
     }
 
     private void SetButton() {
@@ -102,8 +118,32 @@ public class CourseDetailActivity extends AppCompatActivity {
     }
 
     private void getCourse(){
-        Intent intent = getIntent();
-        course = (Course) intent.getSerializableExtra("course");
+
+        org.json.JSONObject jsonObject = new org.json.JSONObject();
+        try {
+            jsonObject.put("id", id);
+            jsonObject.put("applicant", user.getPhone());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        // 与服务器交互得到我收藏的资料列表
+        String url = "http://47.100.226.176:8080/XueBaJun/GetCoures";
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, jsonObject, new Response.Listener<org.json.JSONObject>() {
+
+            public void onResponse(org.json.JSONObject jsonObject) {
+                 course = new Gson().fromJson(jsonObject.toString(), Course.class);
+                Log.e("##", jsonObject.toString());
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        });
+        mQueue.add(jsonObjectRequest);
     }
     private void init() {
         course_name_text = (TextView)findViewById(R.id.course_name_text);

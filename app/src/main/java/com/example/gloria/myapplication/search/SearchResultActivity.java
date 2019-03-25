@@ -25,6 +25,7 @@ import com.example.gloria.myapplication.R;
 import com.example.gloria.myapplication.TempActivity;
 import com.example.gloria.myapplication.bookDetail.BookMainActivity;
 import com.example.gloria.myapplication.searchPaper.PaperDetailMainActivity;
+import com.example.gloria.myapplication.showInfo.CourseDetailActivity;
 import com.example.model.myapplication.Book;
 import com.example.model.myapplication.Course;
 import com.example.model.myapplication.Document;
@@ -195,13 +196,24 @@ public class SearchResultActivity extends AppCompatActivity {
                     }
                 });
             }
-            else if(type == "书籍") {
+            else if(type .compareTo("书籍") == 0) {
                 list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                         Intent intent = new Intent(SearchResultActivity.this, BookMainActivity.class);
                         intent.putExtra("user",(Serializable) user);
-                        intent.putExtra("book_id",""+3);
+                        intent.putExtra("book_id",""+book_list.get(i).getId());
+                        startActivity(intent);
+                    }
+                });
+            }
+            else if(type .compareTo("课程") == 0 ) {
+                list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        Intent intent = new Intent(SearchResultActivity.this, CourseDetailActivity.class);
+                        intent.putExtra("user",(Serializable) user);
+                        intent.putExtra("course_id",""+course_list.get(i).getId());
                         startActivity(intent);
                     }
                 });

@@ -520,6 +520,8 @@ public class UploadFileActivity extends AppCompatActivity {
                 holder.author = (TextView) convertView.findViewById(R.id.document_author_text);
                 holder.path = (TextView) convertView.findViewById(R.id.document_path_text);
                 holder.button = (Button)  convertView.findViewById(R.id.change_document_info_button);
+                //holder.tag = (TextView)convertView.findViewById(R.id.document_tag_text);
+                //holder.choose_tag = (Button)  convertView.findViewById(R.id.button_choose_tag);
                 convertView.setTag(holder);//绑定ViewHolder对象
             }
             else{
@@ -530,9 +532,12 @@ public class UploadFileActivity extends AppCompatActivity {
             holder.name.setText("资料名："+getData().get(position).get("name").toString());
             holder.author.setText("作者："+getData().get(position).get("author").toString());
             holder.path.setText("文件路径："+getData().get(position).get("path").toString());
+            //holder.tag.setText("标签："+getData().get(position).get("tag").toString());
+
             // 没有文件不显示修改信息按钮
             if(getData().get(position).get("path").toString().compareTo("点击选择文件")!=0){
                 holder.button.setVisibility(View.VISIBLE);
+               // holder.choose_tag.setVisibility(View.VISIBLE);
             }
 
 

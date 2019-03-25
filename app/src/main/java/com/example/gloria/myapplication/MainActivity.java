@@ -34,6 +34,9 @@ import com.android.volley.toolbox.Volley;
 import com.example.base.myapplication.DateGson;
 import com.example.base.myapplication.GlideImageLoader;
 import com.example.base.myapplication.ListItemViewHolder;
+import com.example.base.myapplication.ListViewForMainPage;
+import com.example.base.myapplication.UnfinishDialog;
+import com.example.gloria.myapplication.Recommend.Reco_book;
 import com.example.gloria.myapplication.SignIn.SignInActivity;
 import com.example.gloria.myapplication.bookDetail.BookMainActivity;
 import com.example.gloria.myapplication.manage.AboutMeActivity;
@@ -43,6 +46,8 @@ import com.example.gloria.myapplication.manage.MyConcernActivity;
 import com.example.gloria.myapplication.manage.UploadFileActivity;
 import com.example.gloria.myapplication.paper.DataMainActivity;
 import com.example.gloria.myapplication.search.SearchResultActivity;
+import com.example.gloria.myapplication.searchPaper.PaperDetailMainActivity;
+import com.example.gloria.myapplication.showInfo.CourseDetailActivity;
 import com.example.model.myapplication.Book;
 import com.example.model.myapplication.Course;
 import com.example.model.myapplication.Document;
@@ -77,12 +82,15 @@ public class MainActivity extends AppCompatActivity {
     // 搜索功能
     TextView search_box;
     ImageButton search_button;
-    ImageButton paper_button;
+
     // ListView user_management_list;
 
     // 设置本周热门TOP
     TextView course_top,book_top,document_top;
     Banner banner;
+
+    // 中心模块跳转
+    ImageButton paper_button,course_button,book_button,square_button;
 
     // 推荐列表
     List<Document> documents;
@@ -152,6 +160,9 @@ public class MainActivity extends AppCompatActivity {
         book_list_view = (ListView) findViewById(R.id.book_list_view);
         // user_management_list = (ListView) findViewById(R.id.user_management_list);
         paper_button = (ImageButton)findViewById(R.id.paper);
+        course_button = (ImageButton)findViewById(R.id.course);
+        book_button = (ImageButton)findViewById(R.id.book);
+        square_button = (ImageButton)findViewById(R.id.square);
 
         mQueue = Volley.newRequestQueue(MainActivity.this);
 
@@ -194,8 +205,8 @@ public class MainActivity extends AppCompatActivity {
         setHot();
         // ------------------设置推荐列表------------------
         setRecommendList();
-        //--------------设置资料---------
-        setPaper();
+        //--------------设置模块跳转---------
+        setModelJump();
     }
 
 
@@ -227,8 +238,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-    //---------设置资料----------
-    private void setPaper(){
+    //---------设置模块跳转----------
+    private void setModelJump(){
         paper_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -237,8 +248,33 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        course_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, Reco_book.class);
+                intent.putExtra("user",(Serializable) user);
+                startActivity(intent);
+            }
+        });
+        book_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, Reco_book.class);
+                intent.putExtra("user",(Serializable) user);
+                startActivity(intent);
+            }
+        });
+        square_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // 弹出警告对话框
+                showUnfinishDialog();
+            }
+        });
     }
-
+    private void showUnfinishDialog(){
+        UnfinishDialog u = new UnfinishDialog(this);
+    }
     //-------------------设置热门-----------
     private void setHot() {
         // 设置主页热门top
@@ -389,36 +425,75 @@ public class MainActivity extends AppCompatActivity {
     private void showRecommendList() {
         mAdapter_document = new RecommendAdapter(this,DOCUMENT);
         document_list_view.setAdapter(mAdapter_document);
+        setListViewHeightBasedOnChildren(document_list_view);
         document_list_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                 Log.e("##", "你点击了ListView条目" + arg2);//在LogCat中输出信息
                 // ---------------------------跳转到对应的信息展示界面，目前先空着--------------------------------------
+                Intent intent = new Intent(MainActivity.this, PaperDetailMainActivity.class);
+                intent.putExtra("user", (Serializable) user);
+                intent.putExtra("document_id", documents.get(arg2).getId());
+                startActivity(intent);
             }
         });
 
         mAdapter_course = new RecommendAdapter(this,COURSE);
         course_list_view.setAdapter(mAdapter_course);
+        setListViewHeightBasedOnChildren(course_list_view);
         course_list_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                 Log.e("##", "你点击了ListView条目" + arg2);//在LogCat中输出信息
                 // ---------------------------跳转到对应的信息展示界面，目前先空着--------------------------------------
+                Intent intent = new Intent(MainActivity.this, CourseDetailActivity.class);
+                intent.putExtra("user", (Serializable) user);
+                intent.putExtra("course_id", courses.get(arg2).getId());
+                startActivity(intent);
             }
         });
 
         mAdapter_book = new RecommendAdapter(this,BOOK);
         book_list_view.setAdapter(mAdapter_book);
+        setListViewHeightBasedOnChildren(book_list_view);
         book_list_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                 Log.e("##", "你点击了ListView条目" + arg2);//在LogCat中输出信息
                 // ---------------------------跳转到对应的信息展示界面，目前先空着--------------------------------------
+                Intent intent = new Intent(MainActivity.this, BookMainActivity.class);
+                intent.putExtra("user", (Serializable) user);
+                intent.putExtra("book_id", books.get(arg2).getId());
+                startActivity(intent);
             }
         });
+    }
+
+    public void setListViewHeightBasedOnChildren(ListView listView) {
+        // 获取ListView对应的Adapter
+        RecommendAdapter listAdapter = (RecommendAdapter) listView.getAdapter();
+        if (listAdapter == null) {
+            return;
+        }
+
+        int totalHeight = 0;
+        for (int i = 0, len = listAdapter.getCount(); i < len; i++) {
+            // listAdapter.getCount()返回数据项的数目
+            View listItem = listAdapter.getView(i, null, listView);
+            // 计算子项View 的宽高
+            listItem.measure(0, 0);
+            // 统计所有子项的总高度
+            totalHeight += listItem.getMeasuredHeight();
+        }
+
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight+ (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        // listView.getDividerHeight()获取子项间分隔符占用的高度
+        // params.height最后得到整个ListView完整显示需要的高度
+        listView.setLayoutParams(params);
     }
 
     // ---------------设置用户信息边栏------------------
@@ -576,6 +651,7 @@ public class MainActivity extends AppCompatActivity {
 /*
  */ // 未登录用户可见主页修改为必须先登陆
     // 请先登录对话框
+    /*
     private void showSignInDialog(){
         AlertDialog dialog = new AlertDialog.Builder(MainActivity.this).setIcon(R.drawable.icon_personal_message)//设置标题的图片
                 .setTitle("未登录")// 设置对话框的标题
@@ -637,8 +713,8 @@ public class MainActivity extends AppCompatActivity {
             for (int i = 0; i < documents.size(); i++) {
                 HashMap<String, Object> map = new HashMap<>();
                 map.put("text_1", documents.get(i).getName());
-                map.put("text_2", documents.get(i).getUp_user());
-                map.put("text_3", documents.get(i).getUp_time());
+                map.put("text_2", "上传by："+documents.get(i).getUp_user());
+                map.put("text_3", "上传时间："+documents.get(i).getUp_time());
                 listItem.add(map);
             }
         }else if(listContent == BOOK){
@@ -646,7 +722,7 @@ public class MainActivity extends AppCompatActivity {
             for (int i = 0; i < books.size(); i++) {
                 HashMap<String, Object> map = new HashMap<>();
                 map.put("text_1", books.get(i).getName());
-                map.put("text_3", books.get(i).getAuthor());
+                map.put("text_3", "作者："+books.get(i).getAuthor());
                 map.put("text_2", "");
 
                 listItem.add(map);

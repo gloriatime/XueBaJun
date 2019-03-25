@@ -113,14 +113,13 @@ public class SignUp5Activity extends AppCompatActivity {
                     jsonObject.put("grade", user.getGrade());
                     jsonObject.put("college", user.getCollege());
                     jsonObject.put("major", user.getHead());
-                    jsonObject.put("art",user.isArt());
-                    jsonObject.put("medicine", user.isMedicine());
-                    jsonObject.put("management", user.isManagement());
-                    jsonObject.put("humanity", user.isHumanity());
-                    jsonObject.put("technology", user.isTechnology());
-                    jsonObject.put("agriculture", user.isAgriculture());
-                    jsonObject.put("play", user.isPlay());
-                    jsonObject.put("point",0);
+                    jsonObject.put("medicine" ,String.valueOf(user.isMedicine()));
+                    jsonObject.put("technology" ,String.valueOf(user.isTechnology()));
+                    jsonObject.put("art" ,String.valueOf(user.isArt()));
+                    jsonObject.put("agriculture" ,String.valueOf(user.isAgriculture()));
+                    jsonObject.put("management" ,String.valueOf(user.isManagement()));
+                    jsonObject.put("humanity" ,String.valueOf(user.isHumanity()));
+                    jsonObject.put("play" ,String.valueOf(user.isPlay()));
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -133,7 +132,7 @@ public class SignUp5Activity extends AppCompatActivity {
                         User ur = gson.fromJson(jsonObject.toString(), User.class);
                         if(ur != null){
                             Intent intent = new Intent(SignUp5Activity.this, MainActivity.class);
-                            intent.putExtra("user", (Serializable) ur);
+                            intent.putExtra("user", (Serializable) user);
                             startActivity(intent);
                         }
                         else {

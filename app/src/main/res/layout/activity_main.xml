@@ -244,7 +244,8 @@
                 <ListView
                     android:id="@+id/document_list_view"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"></ListView>
+                    android:layout_height="wrap_content"
+                    android:divider="@null"></ListView>
 
 
                 <TextView
@@ -268,7 +269,8 @@
                 <ListView
                     android:id="@+id/book_list_view"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"></ListView>
+                    android:layout_height="wrap_content"
+                    android:divider="@null"></ListView>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -291,7 +293,8 @@
                 <ListView
                     android:id="@+id/course_list_view"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"></ListView>
+                    android:layout_height="wrap_content"
+                    android:divider="@null"></ListView>
 
             </LinearLayout>
 

@@ -21,46 +21,50 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:layout_marginBottom="@dimen/small_margin">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="40dp"
+            android:layout_margin="@dimen/activity_horizontal_margin"
             android:background="@drawable/layout_background">
 
             <TextView
                 android:id="@+id/textViewName"
-                android:layout_width="wrap_content"
+                android:textSize="@dimen/common"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="15dp"
+                android:layout_margin="@dimen/small_margin"
                 android:text="数据结构(C语言版)"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
 
             <TextView
                 android:id="@+id/textViewAuthor"
-                android:layout_width="180dp"
-                android:layout_height="25dp"
-                android:layout_marginLeft="15dp"
+                android:textSize="@dimen/common"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/small_margin"
                 android:text="严蔚敏 吴伟 编著"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
             <TextView
                 android:id="@+id/textViewPress"
-                android:layout_width="180dp"
-                android:layout_height="25dp"
-                android:layout_marginLeft="15dp"
+                android:textSize="@dimen/common"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/small_margin"
                 android:text="清华大学出版社"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
             <TextView
                 android:id="@+id/textViewLabel"
-                android:layout_width="180dp"
-                android:layout_height="25dp"
-                android:layout_marginLeft="15dp"
+                android:textSize="@dimen/common"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/small_margin"
                 android:text="计算机/数据结构"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
@@ -72,9 +76,10 @@
 
                 <TextView
                     android:id="@+id/textViewCourseTitle"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
+                    android:layout_margin="@dimen/small_margin"
+                    android:textSize="@dimen/common"
                     android:text="相关课程"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
 
@@ -88,34 +93,21 @@
                     android:textColor="#ffffff" />
             </LinearLayout>
         </LinearLayout>
-        <TextView
-            android:id="@+id/textViewBookPic"
-            android:layout_width="85dp"
-            android:layout_height="120dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginBottom="5dp"
-            android:background="@drawable/book"
-            android:text="" />
-    </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:background="@drawable/layout_background">
+        <!-- 右对齐所需要的多余布局 -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="end|center_vertical">
+            <TextView
+                android:id="@+id/textViewBookPic"
+                android:layout_width="85dp"
+                android:layout_height="120dp"
+                android:background="@drawable/book"
+                android:text="" />
+        </RelativeLayout>
 
-        <TextView
-            android:id="@+id/textViewSynopsis"
-            android:layout_width="wrap_content"
-            android:layout_height="80dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:scrollbars="vertical"
-            android:text="简介：balabalala风把儿时的记忆吹醒，那条掏蜂窝、捉鸟雀、拾贝石的沟里，已无往日的痕迹。代之而来的是，炸开、修起的通村公路，遮住了渐行渐远的童伴的影子。曾经合伙偷摘海红果的果树，老态龙钟，几个稀疏的、干瘪的果子，挂在枝头上，无人问津"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -126,27 +118,46 @@
             android:id="@+id/ButtonScore"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
-            android:layout_marginTop="10dp"
             android:layout_marginLeft="20dp"
             android:text="打分"
-            android:textColor="#ffffff"
-            android:background="@drawable/textview_shape"
+            android:textColor="@color/white"
+            android:background="@drawable/bg_fillet_red"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
         <TextView
             android:id="@+id/textViewScore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_gravity="center_vertical"
             android:layout_marginLeft="20dp"
             android:text="score"
+            android:textColor="@color/red"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:layout_margin="@dimen/activity_vertical_margin"
+        android:layout_marginTop="0dp"
+        android:background="@drawable/layout_background">
+
+        <TextView
+            android:id="@+id/textViewSynopsis"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/small_margin"
+            android:scrollbars="vertical"
+            android:textSize="@dimen/common"
+            android:text="简介：balabalala风把儿时的记忆吹醒，那条掏蜂窝、捉鸟雀、拾贝石的沟里，已无往日的痕迹。代之而来的是，炸开、修起的通村公路，遮住了渐行渐远的童伴的影子。曾经合伙偷摘海红果的果树，老态龙钟，几个稀疏的、干瘪的果子，挂在枝头上，无人问津"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginBottom="@dimen/common">
         <TextView
             android:id="@+id/textViewDownloadPic"
             android:layout_width="31dp"

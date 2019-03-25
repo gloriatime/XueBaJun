@@ -32,6 +32,7 @@ import com.example.gloria.myapplication.R;
 import com.example.gloria.myapplication.bookDetail.BookMainActivity;
 import com.example.gloria.myapplication.showInfo.Activity_Top20_book;
 import com.example.model.myapplication.Book;
+import com.example.model.myapplication.User;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -58,10 +59,17 @@ public class Reco_book extends AppCompatActivity {
     private SearchView searchView;
     private ListView listView;
     private final String[] strings = {"数据结构","C++","JAVA"};
+
+    User user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rec_course);
+
+
+        getUser();
+        mQueue = Volley.newRequestQueue(Reco_book.this);
         getBook();
         //设置可能喜欢列表
         init();
@@ -104,12 +112,20 @@ public class Reco_book extends AppCompatActivity {
     }
 
     private void init() {
+        user = new User();
         latest =(Button) findViewById(R.id.latest);
         maylike =(Button) findViewById(R.id.likebook);
-        latest.setBackgroundColor(getResources().getColor(R.color.white));
-        maylike.setBackgroundColor(getResources().getColor(R.color.blue));
+        //latest.setBackgroundColor(getResources().getColor(R.color.white));
+        //maylike.setBackgroundColor(getResources().getColor(R.color.blue));
         morebook = (TextView) findViewById(R.id.morebook);
-        morebook.setOnClickListener( new moreb());
+        morebook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Reco_book.this, Activity_Top20_book.class);
+                intent.putExtra("user",user);
+                startActivity(intent);
+            }
+        });
         List<Book> Blist = book.getRecommendList();
         T_C_one = (TextView)findViewById(R.id.T_C_one);
         String a = "1."+Blist.get(0).getName()+"------"+Blist.get(0).getName();
@@ -121,18 +137,23 @@ public class Reco_book extends AppCompatActivity {
         String c = "3."+Blist.get(2).getName()+"------"+Blist.get(2).getName();
         T_C_three.setText(c);
         list_re_C = (ListView)findViewById(R.id.ListView_like);
-        mQueue = Volley.newRequestQueue(Reco_book.this);
         //开始设置搜索框
         //  searchView = (SearchView) findViewById(R.id.searchEdit);
     }
 
+    private void getUser(){
+
+        Intent intent = getIntent();
+        user = (User) intent.getSerializableExtra("user");
+    }
+
     private void getBook() {
         // 与服务器交互
-        String url = "http://47.100.226.176:8080/XueBaJun/GetBook";
+        String url = "http://47.100.226.176:8080/XueBaJun/GetRecommendListOfBookPage";
 
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("id",1);
+            jsonObject.put("phone",user.getPhone());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -141,8 +162,8 @@ public class Reco_book extends AppCompatActivity {
             public void onResponse(JSONObject jsonObject) {
                 Gson gson = new DateGson().getGson();
                 Book tempuser = gson.fromJson(jsonObject.toString(), Book.class);
-                // 签到成功，更新user的积分值并修改UI显示
-                book = tempuser;//从后台请求第一个course成功
+
+                book = tempuser;
 
                 if(tempuser != null) {
                     Log.e("##getSuccess##", "Id"+tempuser.getName()+ "\n");
@@ -157,13 +178,13 @@ public class Reco_book extends AppCompatActivity {
         mQueue.add(jsonObjectRequest);
     }
     //为更多课程添加点击事件
-    class moreb implements View.OnClickListener {
+    /*class moreb implements View.OnClickListener {
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(Reco_book.this, Activity_Top20_book.class);
             startActivity(intent);
         }
-    }
+    }*/
 
     private void setListView()//设置列表的点击事件
     {
