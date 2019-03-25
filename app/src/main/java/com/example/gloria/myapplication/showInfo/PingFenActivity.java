@@ -3,6 +3,7 @@ package com.example.gloria.myapplication.showInfo;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -28,7 +29,7 @@ import org.json.JSONException;
 
 import java.util.List;
 
-public class PingFenActivity extends Activity{
+public class PingFenActivity extends AppCompatActivity {
     Button btn;
     EditText editText;
     private Course course;

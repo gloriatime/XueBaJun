@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
@@ -51,7 +52,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Reco_course extends Activity {
+public class Reco_course extends AppCompatActivity {
     private ListView list_re_C;
     private RecommandAdapter mAdapter;
    // private final ArrayList<Course> data = new ArrayList<>();

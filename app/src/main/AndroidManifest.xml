@@ -48,6 +48,14 @@
         <activity android:name=".SignIn.SignUp5Activity"></activity>
         <activity android:name=".searchPaper.PaperDetailMainActivity"></activity>
         <activity android:name=".bookDetail.BookMainActivity"></activity>
+        <activity android:name=".showInfo.activity_T_pingfen"></activity>
+        <activity android:name=".showInfo.Activity_Top20_book"></activity>
+        <activity android:name=".showInfo.Activity_Top20_course"></activity>
+        <activity android:name=".showInfo.CourseDetailActivity"></activity>
+        <activity android:name=".showInfo.PingFenActivity"></activity>
+        <activity android:name=".showInfo.TeacherDetailActivity"></activity>
+        <activity android:name=".Recommend.Reco_book"></activity>
+        <activity android:name=".Recommend.Reco_course"></activity>
     </application>
 
 </manifest>

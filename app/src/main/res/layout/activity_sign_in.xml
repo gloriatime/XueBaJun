@@ -40,16 +40,6 @@
         android:ems="10"
         android:hint="密码" />
 
-    <RadioButton
-        android:id="@+id/rememberPwd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/editText4"
-        android:layout_marginTop="16dp"
-        android:text="同意用户使用协议"
-        android:layout_alignLeft="@+id/editText4"
-        />
-
     <Button
         android:id="@+id/button"
         android:layout_width="160dp"

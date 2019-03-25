@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewDebug;
@@ -26,7 +27,7 @@ import com.example.model.myapplication.ProfessorCourse;
 import java.io.Serializable;
 import java.util.List;
 
-public class CourseDetailActivity extends Activity{
+public class CourseDetailActivity extends AppCompatActivity {
 
     private Course course;
     private TextView course_name_text;

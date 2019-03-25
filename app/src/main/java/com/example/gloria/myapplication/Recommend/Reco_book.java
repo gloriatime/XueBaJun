@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -40,7 +41,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class Reco_book extends Activity {
+public class Reco_book extends AppCompatActivity {
     private ListView list_re_C;
     private RecommandAdapter mAdapter;
     // private final ArrayList<Course> data = new ArrayList<>();

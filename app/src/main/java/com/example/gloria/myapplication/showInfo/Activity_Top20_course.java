@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,7 +38,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class Activity_Top20_course extends Activity {
+public class Activity_Top20_course extends AppCompatActivity {
     private ListView list_re_C;
     private RecommandAdapter mAdapter;
     //以上为列表内容

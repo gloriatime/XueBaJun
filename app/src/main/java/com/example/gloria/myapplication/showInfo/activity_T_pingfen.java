@@ -3,6 +3,7 @@ package com.example.gloria.myapplication.showInfo;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -21,7 +22,7 @@ import com.google.gson.Gson;
 
 import org.json.JSONException;
 
-public class activity_T_pingfen extends Activity{
+public class activity_T_pingfen extends AppCompatActivity {
     Button btn;
     EditText editText;
     private Professor teacher;
