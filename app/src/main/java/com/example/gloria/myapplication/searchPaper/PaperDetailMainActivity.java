@@ -142,7 +142,7 @@ public class PaperDetailMainActivity extends AppCompatActivity implements View.O
                     mName.setText(document.getName());
                     //获得书籍标签
                     Log.e("##","显示标签");
-                    if(document.getTagList()!=null) {
+                    if(document.getTagList().size()!=0) {
                         String tag = "";
                         int n = document.getTagList().size();
                         if(n == 1) {

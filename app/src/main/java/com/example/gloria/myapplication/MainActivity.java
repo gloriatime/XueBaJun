@@ -371,7 +371,7 @@ public class MainActivity extends AppCompatActivity {
                     Log.e("##getSuccess##", "推荐列表返回"+jsonObject.toString());
                     // 设置列表
                     documents = temp.getRecommendDocumentList();
-                    courses = temp.getRecommendCourseList(); Log.e("##getSuccess##", "推荐列表返回"+courses.isEmpty());
+                    courses = temp.getRecommendCourseList();
                     books = temp.getRecommendBookList();
                     // 更新UI
                     showRecommendList();
@@ -574,6 +574,7 @@ public class MainActivity extends AppCompatActivity {
         interest_text.setText(interest_string);
     }
 /*
+ */ // 未登录用户可见主页修改为必须先登陆
     // 请先登录对话框
     private void showSignInDialog(){
         AlertDialog dialog = new AlertDialog.Builder(MainActivity.this).setIcon(R.drawable.icon_personal_message)//设置标题的图片
@@ -639,7 +640,6 @@ public class MainActivity extends AppCompatActivity {
                 map.put("text_2", documents.get(i).getUp_user());
                 map.put("text_3", documents.get(i).getUp_time());
                 listItem.add(map);
-
             }
         }else if(listContent == BOOK){
             Log.e("##", "此时book列表为" +books.size());//在LogCat中输出信息
