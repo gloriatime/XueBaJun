@@ -1,21 +1,34 @@
 package com.example.model.myapplication;
 
+import android.provider.ContactsContract;
+
 import java.io.Serializable;
 import java.util.Date;
 
-public class Comment{
+import java.util.Date;
+import java.util.List;
+
+public class Comment {
 	private int id;
 	private User critic;
-	private Comment reply;
 	private Date date;
-	private String content;
 	private String type;
 	private int belong;
+	private String Content;
 
-	private Document document;
+	// 我的评论中需要显示所评论体
 	private Book book;
 	private Course course;
+	private Document document;
 
+	// 从属的回复列表
+	private List<Reply> replyList;
+
+	public Comment(User critic, String Content, Date date){
+		this.critic = critic;
+		this.Content = Content;
+		this.date = date;
+	}
 	public int getId() {
 		return id;
 	}
@@ -28,12 +41,6 @@ public class Comment{
 	public void setCritic(User critic) {
 		this.critic = critic;
 	}
-	public Comment getReply() {
-		return reply;
-	}
-	public void setReply(Comment reply) {
-		this.reply = reply;
-	}
 	public Date getDate() {
 		return date;
 	}
@@ -41,16 +48,28 @@ public class Comment{
 		this.date = date;
 	}
 	public String getContent() {
-		return content;
+		return Content;
 	}
 	public void setContent(String content) {
-		this.content = content;
+		Content = content;
 	}
-	public Document getDocument() {
-		return document;
+	public String getType() {
+		return type;
 	}
-	public void setDocument(Document document) {
-		this.document = document;
+	public void setType(String type) {
+		this.type = type;
+	}
+	public int getBelong() {
+		return belong;
+	}
+	public void setBelong(int belong) {
+		this.belong = belong;
+	}
+	public List<Reply> getReplyList() {
+		return replyList;
+	}
+	public void setReplyList(List<Reply> replyList) {
+		this.replyList = replyList;
 	}
 	public Book getBook() {
 		return book;
@@ -64,16 +83,10 @@ public class Comment{
 	public void setCourse(Course course) {
 		this.course = course;
 	}
-	public String getType() {
-		return type;
+	public Document getDocument() {
+		return document;
 	}
-	public void setType(String type) {
-		this.type = type;
-	}
-	public int getBelong() {
-		return belong;
-	}
-	public void setBelong(int belong) {
-		this.belong = belong;
+	public void setDocument(Document document) {
+		this.document = document;
 	}
 }

@@ -34,11 +34,14 @@ import com.android.volley.toolbox.Volley;
 import com.example.base.myapplication.DateGson;
 import com.example.base.myapplication.GlideImageLoader;
 import com.example.base.myapplication.ListItemViewHolder;
+import com.example.gloria.myapplication.SignIn.SignInActivity;
+import com.example.gloria.myapplication.bookDetail.BookMainActivity;
 import com.example.gloria.myapplication.manage.AboutMeActivity;
 import com.example.gloria.myapplication.manage.ChangeInfoActivity;
 import com.example.gloria.myapplication.manage.MyCollectActivity;
 import com.example.gloria.myapplication.manage.MyConcernActivity;
 import com.example.gloria.myapplication.manage.UploadFileActivity;
+import com.example.gloria.myapplication.paper.DataMainActivity;
 import com.example.gloria.myapplication.search.SearchResultActivity;
 import com.example.model.myapplication.Book;
 import com.example.model.myapplication.Course;
@@ -74,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
     // 搜索功能
     TextView search_box;
     ImageButton search_button;
+    ImageButton paper_button;
     // ListView user_management_list;
 
     // 设置本周热门TOP
@@ -147,6 +151,7 @@ public class MainActivity extends AppCompatActivity {
         course_list_view = (ListView) findViewById(R.id.course_list_view);
         book_list_view = (ListView) findViewById(R.id.book_list_view);
         // user_management_list = (ListView) findViewById(R.id.user_management_list);
+        paper_button = (ImageButton)findViewById(R.id.paper);
 
         mQueue = Volley.newRequestQueue(MainActivity.this);
 
@@ -189,17 +194,18 @@ public class MainActivity extends AppCompatActivity {
         setHot();
         // ------------------设置推荐列表------------------
         setRecommendList();
+        //--------------设置资料---------
+        setPaper();
     }
 
 
     private void getUser(){
         // ---------------得到user-----------------
-        user.setName("我最帅");
-        user.setPoint(200);
-        user.setPhone("13061765432");
-        user.setTechnology(true);
-        user.setCollege("计算机科学与技术");
-        user.setGrade("大三");
+        Intent intent = getIntent();
+        user = (User) intent.getSerializableExtra("user");
+        Log.e("##","phone"+user.getPhone());
+        //Log.e("##","college"+user.getCollege());
+        Log.e("##","pwd"+user.getName());
     }
 
     // ------------------设置主页的搜索功能--------------
@@ -211,16 +217,26 @@ public class MainActivity extends AppCompatActivity {
                 // 得到当前搜索类别
                 String type = search.getText().toString();
                 // 跳转到结果界面进行搜索
-                Intent intent = new Intent(MainActivity.this,SearchResultActivity.class);
+                Intent intent = new Intent(MainActivity.this, SearchResultActivity.class);
                 // 传递参数
                 intent.putExtra("user", (Serializable) user);
-                intent.putExtra("type",type);
-                intent.putExtra("search_content",search_box.getText().toString());
-                Log.e("##", "传递"+type+"  "+search_box.getText().toString());
+                intent.putExtra("type", type);
+                intent.putExtra("search_content", search_box.getText().toString());
+                Log.e("##", "传递" + type + "  " + search_box.getText().toString());
                 startActivity(intent);
             }
         });
-
+    }
+    //---------设置资料----------
+    private void setPaper(){
+        paper_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, DataMainActivity.class);
+                intent.putExtra("user",(Serializable) user);
+                startActivity(intent);
+            }
+        });
     }
 
     //-------------------设置热门-----------
@@ -408,6 +424,7 @@ public class MainActivity extends AppCompatActivity {
     // ---------------设置用户信息边栏------------------
     private void setLeftDrawable(){
 
+        //Log.e("###","user存不存在"+user);
         // 如果没有登陆，不能打开个人信息边栏
         if(user == null){
             main_drawable.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
@@ -417,9 +434,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if(user == null){
-                    showSignInDialog();
-                }else{
+                //if(user == null){
+                    //showSignInDialog();
+               // }else{
 
                     // 设置用户信息栏内容和跳转
                     setHeadImage();
@@ -429,7 +446,7 @@ public class MainActivity extends AppCompatActivity {
                     setLeftDrawableJump();
 
                     main_drawable.openDrawer(GravityCompat.START);
-                }
+               // }
             }
         });
 
@@ -556,7 +573,7 @@ public class MainActivity extends AppCompatActivity {
         }
         interest_text.setText(interest_string);
     }
-
+/*
     // 请先登录对话框
     private void showSignInDialog(){
         AlertDialog dialog = new AlertDialog.Builder(MainActivity.this).setIcon(R.drawable.icon_personal_message)//设置标题的图片
@@ -568,12 +585,17 @@ public class MainActivity extends AppCompatActivity {
                 .setPositiveButton("好的，去登陆", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(MainActivity.this,ChangeInfoActivity.class);
-                        startActivity(intent);
-                    } })
+                        /**8
+                         * 登录注册
+                         *
+                         *
+
+                        Intent intent = new Intent(MainActivity.this, SignInActivity.class);
+                        startActivity(intent);*/
+                  /* } })
                 .create();
         dialog.show();
-    }
+    }*/
 
     // 设置头像
     private void setHeadImage(){

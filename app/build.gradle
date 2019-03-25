@@ -36,4 +36,7 @@ dependencies {
 
     implementation 'com.youth.banner:banner:1.4.10'
 
+    implementation 'de.hdodenhof:circleimageview:2.1.0'
+
+    implementation 'com.android.support:design:23.3.0'
 }

@@ -4,7 +4,7 @@ package com.example.model.myapplication;
 import java.util.List;
 
 public class Book {
-	private int id;
+	private int Id;
 	private String name;
 	private String author;
 	private String press;
@@ -14,17 +14,34 @@ public class Book {
 	private int comment;
 	private int download;
 	private String cover;
+	private Course course;
+
+	// 申请查看用户
+	private String applicant;
+
+	// 所属评论列表
+	private List<Comment> commentList;
+
+	// 对应标签序列
+	private List<Tag> tagList;
 
 	// 搜索功能
 	private List<Book> bookList;
 
+	// 推荐功能--猜你喜欢
+	private List<Book> recommendList;
+
+	// 推荐功能--20热门
+	private List<Book> topTwentyList;
+
 	public int getId() {
-		return id;
+		return Id;
 	}
 
 	public void setId(int id) {
-		this.id = id;
+		Id = id;
 	}
+
 	/**
 	 * @return the name
 	 */
@@ -109,5 +126,66 @@ public class Book {
 
 	public void setBookList(List<Book> bookList) {
 		this.bookList = bookList;
+	}
+
+	// 重写相同判别法，过滤推荐列表中的相同元素
+	@Override
+	public int hashCode() {
+		return Id;
+	}
+	@Override
+	public boolean equals(Object x){
+		if(this.getClass() != x.getClass())
+			return false;
+		Book b = (Book)x;
+		return this.Id == b.Id;
+	}
+
+	public List<Book> getRecommendList() {
+		return recommendList;
+	}
+
+	public void setRecommendList(List<Book> recommendList) {
+		this.recommendList = recommendList;
+	}
+
+	public List<Book> getTopTwentyList() {
+		return topTwentyList;
+	}
+
+	public void setTopTwentyList(List<Book> topTwentyList) {
+		this.topTwentyList = topTwentyList;
+	}
+
+	public List<Comment> getCommentList() {
+		return commentList;
+	}
+
+	public void setCommentList(List<Comment> commentList) {
+		this.commentList = commentList;
+	}
+
+	public List<Tag> getTagList() {
+		return tagList;
+	}
+
+	public void setTagList(List<Tag> tagList) {
+		this.tagList = tagList;
+	}
+
+	public Course getCourse() {
+		return course;
+	}
+
+	public void setCourse(Course course) {
+		this.course = course;
+	}
+
+	public String getApplicant() {
+		return applicant;
+	}
+
+	public void setApplicant(String applicant) {
+		this.applicant = applicant;
 	}
 }
