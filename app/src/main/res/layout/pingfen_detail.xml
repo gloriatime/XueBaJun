@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_marginTop="100dp"
+    android:text="@string/giveyouscore"
+    android:textSize="30sp"/>
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_gravity="center"
+        android:background="@drawable/biankuang"
+        android:hint="@string/setnum"
+        android:inputType="text">
+        <requestFocus/>
+    </EditText>
+    <Button
+        android:id="@+id/okbtn"
+        android:layout_width="75dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="15dp"
+        android:layout_gravity="center"
+        android:background="@drawable/biankuang_bt"
+        android:text="@string/ok"/>
+</LinearLayout>
