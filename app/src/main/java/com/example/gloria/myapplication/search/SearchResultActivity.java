@@ -181,20 +181,21 @@ public class SearchResultActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "什么都没找到╥﹏╥...", Toast.LENGTH_SHORT).show();
 
         }else {
-            list.setAdapter(new ArrayAdapter<>(this,
-                    android.R.layout.simple_list_item_1, str));
-            if(type == "资料") {
+            if(type.compareTo("资料") == 0) {
+
                 list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                         Intent intent = new Intent(SearchResultActivity.this, PaperDetailMainActivity.class);
                         intent.putExtra("user", (Serializable) user);
-                        intent.putExtra("document_id", document_list.get(i).getId() + "");
+                        intent.putExtra("document_id", document_list.get(i).getId());
+                        Log.e("##","跳转前Id："+document_list.get(i).getId());
+                        Log.e("##","资料搜索跳转详情");
                         startActivity(intent);
                     }
                 });
             }
-            else if(type == "资料") {
+            else if(type == "书籍") {
                 list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -205,6 +206,8 @@ public class SearchResultActivity extends AppCompatActivity {
                     }
                 });
             }
+            list.setAdapter(new ArrayAdapter<>(this,
+                    android.R.layout.simple_list_item_1, str));
         }
     }
 

@@ -2,6 +2,7 @@ package com.example.gloria.myapplication.SignIn;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
@@ -36,8 +37,8 @@ public class SignInActivity extends AppCompatActivity {
     private EditText phone, passwd;
     private Button log_in, sign_up;
     private String sphone, spasswd;
-    private RadioButton remember_pwd;
     String TAG = "SignInActivity";
+    User user;
 
     RequestQueue mQueue;
 
@@ -50,9 +51,9 @@ public class SignInActivity extends AppCompatActivity {
         passwd = (EditText)findViewById(R.id.editText4);
         log_in = (Button)findViewById(R.id.button);
         sign_up = (Button)findViewById(R.id.button2);
-        remember_pwd = (RadioButton)findViewById(R.id.rememberPwd);
         passwd.setTransformationMethod(new PasswordTransformationMethod());
 
+        user = new User();
         mQueue = Volley.newRequestQueue(SignInActivity.this);
 
         log_in.setOnClickListener(new View.OnClickListener(){
@@ -82,14 +83,14 @@ public class SignInActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         Gson gson = new DateGson().getGson();
-                        User user = gson.fromJson(response.toString(), User.class);
+                        user = gson.fromJson(response.toString(), User.class);
                         Log.e("##","name"+user.getName());
                         Log.e("##","pwd"+user.getPwd());
                         Log.e("##","COLLEGE"+user.getCollege());
                         if(user != null ){
                             //***********t跳转到主页************
                             Intent intent = new Intent(SignInActivity.this, MainActivity.class);
-                            intent.putExtra("user", (Serializable)user);
+                            intent.putExtra("user", user);
                             startActivity(intent);
                         }
                     }
@@ -100,8 +101,10 @@ public class SignInActivity extends AppCompatActivity {
                     }
                 });
                 mQueue.add(jsonObjectRequest);
+
             }
         });
+
 
         sign_up.setOnClickListener(new View.OnClickListener(){
             @Override

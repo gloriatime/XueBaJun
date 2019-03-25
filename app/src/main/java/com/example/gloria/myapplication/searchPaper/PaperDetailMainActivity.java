@@ -58,6 +58,8 @@ import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static java.lang.Float.valueOf;
+
 /**
  * by moos on 2018/04/20
  */
@@ -123,7 +125,8 @@ public class PaperDetailMainActivity extends AppCompatActivity implements View.O
 
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("id", id);
+            jsonObject.put("id", 26);
+            jsonObject.put("applicant",user.getPhone());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -137,9 +140,33 @@ public class PaperDetailMainActivity extends AppCompatActivity implements View.O
                 if (document != null) {
                     Log.e("##getSuccess##", "Id"+document.getName()+ "\n");
                     mName.setText(document.getName());
-                    mLabel1.setText(document.getAuthor());
-                    mLabel2.setText(document.getAuthor());
-                    mLabel3.setText(document.getAuthor());
+                    //获得书籍标签
+                    Log.e("##","显示标签");
+                    if(document.getTagList()!=null) {
+                        String tag = "";
+                        int n = document.getTagList().size();
+                        if(n == 1) {
+                            mLabel1.setText(document.getTagList().get(0).getName());
+                            mLabel2.setVisibility(View.GONE);
+                            mLabel3.setVisibility(View.GONE);
+                        }
+                        else if(n == 2){
+                            mLabel1.setText(document.getTagList().get(0).getName());
+                            mLabel2.setText(document.getTagList().get(1).getName());
+                            mLabel3.setVisibility(View.GONE);
+                        }
+                        else {
+                            mLabel1.setText(document.getTagList().get(0).getName());
+                            mLabel2.setText(document.getTagList().get(1).getName());
+                            mLabel3.setText(document.getTagList().get(2).getName());
+                        }
+                    }
+                    /***测试*/
+                    else {
+                        mLabel1.setText("暂无标签");
+                        mLabel2.setVisibility(View.GONE);
+                        mLabel3.setVisibility(View.GONE);
+                    }
                     String str = "当前评分："+document.getScore()+"分";
                     mScore.setText(str);
                     String src = "上传者："+document.getUp_user();
@@ -155,6 +182,7 @@ public class PaperDetailMainActivity extends AppCompatActivity implements View.O
             }
         });
         mQueue.add(jsonObjectRequest);
+
 
         //下载、收藏、分享
         mDownload = (TextView)findViewById(R.id.textViewDownload);
@@ -203,8 +231,11 @@ public class PaperDetailMainActivity extends AppCompatActivity implements View.O
     private void getUserAId(){
         Intent intent = getIntent();
         user = (User) intent.getSerializableExtra("user");
-        String ID = intent.getStringExtra("document_id");
-        id = Integer.parseInt(ID);
+        //String ID = intent.getStringExtra("document_id");
+        //id = Integer.parseInt(ID);
+        id = intent.getIntExtra("document_id",0);
+       // Log.e("##","跳转后ID："+ID);
+        Log.e("##","跳转后Id："+intent.getIntExtra("document_id",0));
     }
 
     //下载
@@ -311,6 +342,13 @@ public class PaperDetailMainActivity extends AppCompatActivity implements View.O
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 //按下确定键后的事件
                                 mScore.setText(et.getText().toString()+"分");
+                                int sum = document.getNumber()+1;
+                                float sc = (document.getScore()+  Float.valueOf(et.getText().toString()).floatValue())/sum;
+                                String res = String.format("{0.0}",sc)+"分";
+                                mScore.setText(res);
+                                /****
+                                 * 提交分数
+                                 */
                             }
                         }).setNegativeButton("取消",null).show();
                 break;
@@ -381,7 +419,7 @@ public class PaperDetailMainActivity extends AppCompatActivity implements View.O
                     }
                     mComment.setText("评论"+document.getComment());
                     /*上传到服务器*/
-                    SendToServer();
+                    SendCommentToServer(detailBean,now);
                     Toast.makeText(PaperDetailMainActivity.this, "评论成功",Toast.LENGTH_SHORT).show();
                 }
                 else{
@@ -417,7 +455,7 @@ public class PaperDetailMainActivity extends AppCompatActivity implements View.O
                     Reply detailBean = new Reply(user,replyList.get(p).getCritic(), commentContent);
                     //Reply detailBean = new Reply(user, "回复 " + document.getUp_user() + "：" + commentContent);
                     Radapter.addTheCommentData(detailBean);
-                    SendToServer();
+                    SendReplyToSever(detailBean);
                     Toast.makeText(PaperDetailMainActivity.this, "评论成功", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(PaperDetailMainActivity.this, "评论不能为空", Toast.LENGTH_SHORT).show();
@@ -457,8 +495,8 @@ public class PaperDetailMainActivity extends AppCompatActivity implements View.O
                     Radapter = new ReplyAdapter(replyView.getContext(),replyList);
                     //Log.e("##","设置第一条评论的回复第一条回复");
                     commentList.get(p).setReplyList(replyList);
+                    SendReplyToSever(detailBean);
                     Toast.makeText(PaperDetailMainActivity.this, "评论成功",Toast.LENGTH_SHORT).show();
-                    SendToServer();
                 }
                 else{
                     Toast.makeText(PaperDetailMainActivity.this, "评论不能为空",Toast.LENGTH_SHORT).show();
@@ -468,23 +506,40 @@ public class PaperDetailMainActivity extends AppCompatActivity implements View.O
         dialog.show();
     }
 
-    private void SendToServer(){
-        String url = "http://47.100.226.176:8080/XueBaJun/Document";
+    private void SendCommentToServer(Comment comment, Date date){
+        String url = "http://47.100.226.176:8080/XueBaJun/addComment";
         //发送数据
         org.json.JSONObject jsonObject = new org.json.JSONObject();
 
         try {
-            jsonObject.put("id", document.getId());
-            jsonObject.put("name", document.getName());
-            jsonObject.put("author", document.getAuthor());
-            jsonObject.put("up_user", document.getUp_user());
-            jsonObject.put("up_time", document.getUp_time());
-            jsonObject.put("score", document.getScore());
-            jsonObject.put("number",document.getNumber());
-            jsonObject.put("comment", document.getComment());
-            jsonObject.put("download", document.getDownload());
-            jsonObject.put("url", document.getUrl());
-            jsonObject.put("commentList", document.getCommentList());
+            jsonObject.put("Content", comment);
+            jsonObject.put("critic", user);
+            jsonObject.put("date", date);
+            jsonObject.put("type", "document");
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Log.e("##","发送 "+jsonObject.toString());
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, jsonObject, new Response.Listener<JSONObject>() {
+            public void onResponse(JSONObject jsonObject) {
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+            }
+        });
+        mQueue.add(jsonObjectRequest);
+    }
+
+    private void SendReplyToSever(Reply reply){
+        String url = "http://47.100.226.176:8080/XueBaJun/addReply";
+        //发送数据
+        org.json.JSONObject jsonObject = new org.json.JSONObject();
+
+        try {
+            jsonObject.put("reply", reply);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -503,7 +558,7 @@ public class PaperDetailMainActivity extends AppCompatActivity implements View.O
     }
 
     private void UpdateCommentNumber(){
-        String url = "http://47.100.226.176:8080/XueBaJun/GetBook";
+        String url = "http://47.100.226.176:8080/XueBaJun/GetDocument";
 
         JSONObject jsonObject = new JSONObject();
         try {

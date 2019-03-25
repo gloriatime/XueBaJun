@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 public class Document {
-	private int Id;
+	private int id;
 	private String name = "没名字";
 	private String author = "佚名";
 	private String up_user;
@@ -33,10 +33,10 @@ public class Document {
 	private List<Document> recommendList;
 
 	public int getId() {
-		return Id;
+		return id;
 	}
 	public void setId(int id) {
-		this.Id = id;
+		this.id = id;
 	}
 	public String getName() {
 		return name;
@@ -108,14 +108,14 @@ public class Document {
 	// 重写相同判别法，过滤推荐列表中的相同元素
 	@Override
 	public int hashCode() {
-		return Id;
+		return id;
 	}
 	@Override
 	public boolean equals(Object x){
 		if(this.getClass() != x.getClass())
 			return false;
 		Document d = (Document)x;
-		return this.Id == d.Id;
+		return this.id == d.id;
 	}
 	public List<Tag> getTagList() {
 		return tagList;
