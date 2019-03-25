@@ -26,6 +26,7 @@ import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,7 +64,7 @@ public class DataMainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(DataMainActivity.this, MainActivity.class);
-                intent.putExtra("user", user);
+                intent.putExtra("user", (Serializable) user);
                 startActivity(intent);
             }
         });
@@ -74,7 +75,7 @@ public class DataMainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //***跳入“资料”详情界面
                  Intent intent = new Intent(DataMainActivity.this, SearchResultActivity.class);
-                 intent.putExtra("user", user);
+                intent.putExtra("user", (Serializable) user);
                  intent.putExtra("type", "资料");
                  intent.putExtra("search_content",content);
                  startActivity(intent);
