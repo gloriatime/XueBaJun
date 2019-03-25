@@ -24,6 +24,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -697,8 +698,37 @@ public class MainActivity extends AppCompatActivity {
     // 再返回时刷新页面边栏的信息
     public void onResume() {
         super.onResume();
+
         setHeadImage();
-        setLeftDrawableInfo();
+
+        // 刷新用户信息
+        final String url = "http://47.100.226.176:8080/XueBaJun/SignUp";
+
+        final org.json.JSONObject jsonObject = new org.json.JSONObject();
+        try {
+            jsonObject.put("phone",user.getPhone());
+            jsonObject.put("pwd", user.getPwd());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, jsonObject, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Gson gson = new DateGson().getGson();
+                user = gson.fromJson(response.toString(), User.class);
+
+                setLeftDrawableInfo();
+                setMainPage();
+
+            }
+        },  new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        mQueue.add(jsonObjectRequest);
 
     }
 
