@@ -24,6 +24,7 @@ import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -132,7 +133,7 @@ public class SignUp5Activity extends AppCompatActivity {
                         User ur = gson.fromJson(jsonObject.toString(), User.class);
                         if(ur != null){
                             Intent intent = new Intent(SignUp5Activity.this, MainActivity.class);
-                            intent.putExtra("user",ur);
+                            intent.putExtra("user", (Serializable) ur);
                             startActivity(intent);
                         }
                         else {

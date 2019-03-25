@@ -188,7 +188,7 @@ public class SearchResultActivity extends AppCompatActivity {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                         Intent intent = new Intent(SearchResultActivity.this, PaperDetailMainActivity.class);
-                        intent.putExtra("user", user);
+                        intent.putExtra("user", (Serializable) user);
                         intent.putExtra("document_id", document_list.get(i).getId() + "");
                         startActivity(intent);
                     }
