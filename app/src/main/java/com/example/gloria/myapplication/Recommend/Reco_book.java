@@ -2,7 +2,6 @@ package com.example.gloria.myapplication.Recommend;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -10,13 +9,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -31,11 +28,9 @@ import com.example.base.myapplication.DateGson;
 import com.example.base.myapplication.ListItemViewHolderCAndB;
 import com.example.base.myapplication.NetImage;
 import com.example.gloria.myapplication.R;
+import com.example.gloria.myapplication.bookDetail.BookMainActivity;
 import com.example.gloria.myapplication.showInfo.Activity_Top20_book;
-import com.example.gloria.myapplication.showInfo.BookDetailActivity;
-import com.example.gloria.myapplication.showInfo.CourseDetailActivity;
 import com.example.model.myapplication.Book;
-import com.example.model.myapplication.Course;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -180,7 +175,7 @@ public class Reco_book extends Activity {
                 Log.e("##", "你点击了ListView条目" + i);//在LogCat中输出信息
                 // ---显示点击之后的页面
                 Intent intent = new Intent();
-                intent.setClass(Reco_book.this, BookDetailActivity.class);
+                intent.setClass(Reco_book.this, BookMainActivity.class);
                 Bundle bundle = new Bundle();
                 List<Book> bookList = book.getRecommendList();
                 bundle.putString("bookone",bookList.get(i).getName());

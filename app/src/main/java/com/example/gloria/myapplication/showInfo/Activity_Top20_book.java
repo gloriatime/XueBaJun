@@ -26,6 +26,7 @@ import com.example.base.myapplication.ListItemViewHolderCAndB;
 import com.example.base.myapplication.NetImage;
 import com.example.gloria.myapplication.R;
 import com.example.gloria.myapplication.Recommend.Reco_book;
+import com.example.gloria.myapplication.bookDetail.BookMainActivity;
 import com.example.model.myapplication.Book;
 import com.google.gson.Gson;
 
@@ -97,7 +98,7 @@ public class Activity_Top20_book  extends Activity {
                 Log.e("##", "你点击了ListView条目" + i);//在LogCat中输出信息
                 // ---显示点击之后的页面
                 Intent intent = new Intent();
-                intent.setClass(Activity_Top20_book.this, BookDetailActivity.class);
+                intent.setClass(Activity_Top20_book.this, BookMainActivity.class);
                 Bundle bundle = new Bundle();
                 List<Book> bookList = book.getRecommendList();
                 bundle.putString("bookone",bookList.get(i).getName());
