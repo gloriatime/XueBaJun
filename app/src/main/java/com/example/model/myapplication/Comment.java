@@ -1,10 +1,6 @@
 package com.example.model.myapplication;
 
-import android.provider.ContactsContract;
-
 import java.io.Serializable;
-import java.util.Date;
-
 import java.util.Date;
 import java.util.List;
 
@@ -20,15 +16,11 @@ public class Comment {
 	private Book book;
 	private Course course;
 	private Document document;
+	private Professor professor;
 
 	// 从属的回复列表
 	private List<Reply> replyList;
 
-	public Comment(User critic, String Content, Date date){
-		this.critic = critic;
-		this.Content = Content;
-		this.date = date;
-	}
 	public int getId() {
 		return id;
 	}
@@ -88,5 +80,11 @@ public class Comment {
 	}
 	public void setDocument(Document document) {
 		this.document = document;
+	}
+	public Professor getProfessor() {
+		return professor;
+	}
+	public void setProfessor(Professor professor) {
+		this.professor = professor;
 	}
 }

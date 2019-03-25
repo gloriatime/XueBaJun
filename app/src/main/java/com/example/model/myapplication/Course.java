@@ -1,53 +1,55 @@
 package com.example.model.myapplication;
 
-import com.example.model.myapplication.Book;
-import com.example.model.myapplication.Teacher;
-
 import java.util.List;
 
 public class Course {
-	private int id;
+	private int Id;
 	private String name;
 	private String term;
 	private String intro;
-	private String wcollege;
-	private String prefermajor;
-	private String Ctime;
-	private String examiningmode;
-	private Book textbbook;
 	private float score;
 	private int number;
 	private int comment;
-	private List<Teacher> teacherList;
-	public Course() { }
-	public int getId() { return id; }
-	public void setId(int id) {
-		this.id = id;
+	private Book book;
+
+	// 申请查看用户
+	private String applicant;
+
+	// 所属评论列表
+	private List<Comment> commentList;
+
+	// 对应标签序列
+	private List<Tag> tagList;
+
+	// 对应教师关系列表
+	private List<ProfessorCourse> professorCourseList;
+
+	// 搜索功能
+	private List<Course> courseList;
+
+	// 推荐功能--猜你喜欢
+	private  List<Course> recommendList;
+
+	// 20热门
+	private List<Course> topTwentyList;
+
+	public int getId() {
+		return Id;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setId(int id) {
+		Id = id;
 	}
 	public String getName() {
 		return name;
 	}
-	public String getWcollege() { return wcollege; }
-	public void setWcollege() {this.wcollege = wcollege;}
-	public String getprefermajor(){ return prefermajor;}
-	public void setPrefermajor(){ this.prefermajor = prefermajor;}
-	public String getTerm() { return term; }
-	public void setTerm(String term) { this.term = term; }
-	public void setCtime() { this.Ctime = Ctime;}
-
-	public String getCtime() {
-		return Ctime;
+	public void setName(String name) {
+		this.name = name;
 	}
-	public void setExaminingmode()
-	{
-		this.examiningmode = examiningmode;
+	public String getTerm() {
+		return term;
 	}
-	public String getExaminingmode()
-	{
-		return examiningmode;
+	public void setTerm(String term) {
+		this.term = term;
 	}
 	public String getIntro() {
 		return intro;
@@ -55,15 +57,12 @@ public class Course {
 	public void setIntro(String intro) {
 		this.intro = intro;
 	}
-	public String getScore() {
-		String sco = String.valueOf(score);
-		return sco;
+	public float getScore() {
+		return score;
 	}
 	public void setScore(float score) {
 		this.score = score;
 	}
-
-
 	public int getNumber() {
 		return number;
 	}
@@ -76,23 +75,66 @@ public class Course {
 	public void setComment(int comment) {
 		this.comment = comment;
 	}
-	public void changeScore(String str)
-	{
-		float sc = Float.parseFloat(str);
+	public List<Course> getCourseList() {
+		return courseList;
 	}
-	public List<Teacher> getTeacherList() {
-		return teacherList;
-	}
-
-	public void setTeacherList(List<Teacher> teacherList) {
-		this.teacherList = teacherList;
+	public void setCourseList(List<Course> courseList) {
+		this.courseList = courseList;
 	}
 
-	public Book getTextbbook() {
-		return textbbook;
+	// 重写相同判别法，过滤推荐列表中的相同元素
+	@Override
+	public int hashCode() {
+		return Id;
+	}
+	@Override
+	public boolean equals(Object x){
+		if(this.getClass() != x.getClass())
+			return false;
+		Course c = (Course)x;
+		return this.Id == c.Id;
+	}
+	public List<Course> getRecommendList() {
+		return recommendList;
+	}
+	public void setRecommendList(List<Course> recommendList) {
+		this.recommendList = recommendList;
+	}
+	public List<Course> getTopTwentyList() {
+		return topTwentyList;
+	}
+	public void setTopTwentyList(List<Course> topTwentyList) {
+		this.topTwentyList = topTwentyList;
+	}
+	public List<Comment> getCommentList() {
+		return commentList;
+	}
+	public void setCommentList(List<Comment> commentList) {
+		this.commentList = commentList;
+	}
+	public Book getBook() {
+		return book;
+	}
+	public void setBook(Book book) {
+		this.book = book;
+	}
+	public List<Tag> getTagList() {
+		return tagList;
+	}
+	public void setTagList(List<Tag> tagList) {
+		this.tagList = tagList;
+	}
+	public List<ProfessorCourse> getProfessorCourseList() {
+		return professorCourseList;
+	}
+	public void setProfessorCourseList(List<ProfessorCourse> professorCourseList) {
+		this.professorCourseList = professorCourseList;
+	}
+	public String getApplicant() {
+		return applicant;
+	}
+	public void setApplicant(String applicant) {
+		this.applicant = applicant;
 	}
 
-	public void setTextbbook(Book textbbook) {
-		this.textbbook = textbbook;
-	}
 }

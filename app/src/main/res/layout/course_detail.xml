@@ -23,41 +23,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toEndOf="@id/one" />
-    <!-- 开课学院 -->
-    <TextView
-        android:id="@+id/two"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/wcollege"
-        android:layout_below="@id/one"
-        android:layout_marginTop="5dp"/>
-    <TextView
-        android:id="@+id/course_wcollege"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toEndOf="@id/two"
-        android:layout_alignTop="@id/two" />
-    <!-- 优选专业 -->
-    <TextView
-        android:id="@+id/three"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/prefermajor"
-        android:layout_below="@id/two"
-        android:layout_marginTop="5dp" />
-    <TextView
-        android:id="@+id/course_prefermajor"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toEndOf="@id/three"
-        android:layout_alignTop="@id/three"/>
     <!-- 优选学期 -->
     <TextView
         android:id="@+id/four"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/prefersemester"
-        android:layout_below="@id/three"
+        android:layout_below="@id/one"
         android:layout_marginTop="5dp"/>
     <TextView
         android:id="@+id/course_prefersemester"
@@ -65,12 +37,12 @@
         android:layout_height="wrap_content"
         android:layout_toEndOf="@id/four"
         android:layout_alignTop="@id/four"/>
-    <!-- 开课时间 -->
+    <!-- 开课时间
     <TextView
         android:id="@+id/five"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/Ttime"
+        android:text="@string/CSuggestion"
         android:layout_below="@id/four"
         android:layout_marginTop="5dp"/>
     <TextView
@@ -78,14 +50,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toEndOf="@id/five"
-        android:layout_alignTop="@id/five"/>
+        android:layout_alignTop="@id/five"/>-->
     <!-- 任课老师 -->
     <TextView
         android:id="@+id/six"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/teatching"
-        android:layout_below="@id/five"
+        android:text="@string/teaching"
+        android:layout_below="@id/four"
         android:layout_marginTop="5dp"/>
      <Button
          android:id="@+id/teacher_one"
@@ -120,7 +92,7 @@
          android:layout_toEndOf="@id/teacher_two"
          android:layout_alignTop="@id/six"
          android:layout_marginStart="10dp"/>
-    <!-- 考核方式 -->
+    <!-- 考核方式
     <TextView
         android:id="@+id/seven"
         android:layout_width="wrap_content"
@@ -133,14 +105,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toEndOf="@id/seven"
-        android:layout_alignTop="@id/seven" />
+        android:layout_alignTop="@id/seven" />-->
     <!-- 评分 -->
     <TextView
         android:id="@+id/eight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/setscore"
-        android:layout_below="@id/seven"
+        android:layout_below="@id/six"
         android:layout_marginTop="5dp"/>
     <TextView
         android:id="@+id/setscore"

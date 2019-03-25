@@ -1,1 +1,1 @@
-include ':app', ':Okhttp3Helper'
+include ':app', ':Okhttp3Helper', ':myapplication'

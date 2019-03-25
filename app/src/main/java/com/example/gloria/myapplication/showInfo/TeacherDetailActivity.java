@@ -18,129 +18,113 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.example.gloria.myapplication.R;
 import com.example.model.myapplication.Course;
-import com.example.model.myapplication.Teacher;
+import com.example.model.myapplication.Professor;
+import com.example.model.myapplication.ProfessorCourse;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class TeacherDetailActivity extends Activity{
-    private Teacher teacher;
-    private ImageView teacherimage;
+    private Professor professor;
+    private ImageView professorimage;
     private RequestQueue mQueue;
-    private TextView student1;
-    private TextView student2;
-    private TextView student3;
-    private TextView student4;
     private TextView peopleintro;
     private TextView researchin;
     private Button courseone;
     private Button coursetwo;
     private Button coursethree;
     private Button coursefour;
-
+    private Button score;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.teacher_detail);
-        getTeacher();
-        SetTeacherImg();
+        getProfessor();
+        SetProfessorImg();
         init();
         SetButtonAndText();
     }
     private void  init(){
-     teacherimage = (ImageView)findViewById(R.id.teacherimage)   ;
-     student1 = (TextView)findViewById(R.id.student1);
-     student2 = (TextView)findViewById(R.id.student2);
-     student3 = (TextView)findViewById(R.id.student3);
-     student4 = (TextView)findViewById(R.id.student4);
+        professorimage = (ImageView)findViewById(R.id.teacherimage)   ;
      courseone = (Button)findViewById(R.id.courseone);
      coursetwo = (Button)findViewById(R.id.coursetwo);
      coursethree = (Button)findViewById(R.id.coursethree);
      coursefour = (Button)findViewById(R.id.coursefour);
      peopleintro = (TextView)findViewById(R.id.peopleintro);
-     peopleintro.setText(teacher.getintrpeople());
+     peopleintro.setText(professor.getIntro());
      researchin = (TextView)findViewById(R.id.researchin);
-     researchin.setText(teacher.getResearch());
+     researchin.setText(professor.getField());
+     score = (Button)findViewById(R.id.score);
+     score.setOnClickListener(new gscore());
+    }
+    class gscore implements OnClickListener
+    {
+        @Override
+        public void onClick(View V) {
+            Intent intent = new Intent(TeacherDetailActivity.this,activity_T_pingfen.class);
+            intent.putExtra("professor", (Serializable) professor);
+            startActivity(intent);
+        }
     }
     private void SetButtonAndText() {
-        List<Course> courseList = teacher.getCourseList();
+        List<ProfessorCourse> courseList = professor.getProfessorCourseList();
         int tnum = courseList.size();
         if(tnum>=4)
         {
-         student1.setVisibility(TextView.VISIBLE);
          courseone.setVisibility(Button.VISIBLE);
-         student2.setVisibility(TextView.VISIBLE);
          coursetwo.setVisibility(Button.VISIBLE);
-         student3.setVisibility(TextView.VISIBLE);
          coursethree.setVisibility(Button.VISIBLE);
-         student4.setVisibility(TextView.VISIBLE);
          coursefour.setVisibility(Button.VISIBLE);
         }
         else if(tnum == 3)
         {
-            student1.setVisibility(TextView.VISIBLE);
             courseone.setVisibility(Button.VISIBLE);
-            student2.setVisibility(TextView.VISIBLE);
             coursetwo.setVisibility(Button.VISIBLE);
-            student3.setVisibility(TextView.VISIBLE);
             coursethree.setVisibility(Button.VISIBLE);
-            student4.setVisibility(TextView.GONE);
             coursefour.setVisibility(Button.GONE);
         }
         else if(tnum ==2)
         {
-            student1.setVisibility(TextView.VISIBLE);
             courseone.setVisibility(Button.VISIBLE);
-            student2.setVisibility(TextView.VISIBLE);
             coursetwo.setVisibility(Button.VISIBLE);
-            student3.setVisibility(TextView.GONE);
             coursethree.setVisibility(Button.GONE);
-            student4.setVisibility(TextView.GONE);
             coursefour.setVisibility(Button.GONE);
         }
         else if(tnum == 1)
         {
-            student1.setVisibility(TextView.VISIBLE);
             courseone.setVisibility(Button.VISIBLE);
-            student2.setVisibility(TextView.GONE);
             coursetwo.setVisibility(Button.GONE);
-            student3.setVisibility(TextView.GONE);
             coursethree.setVisibility(Button.GONE);
-            student4.setVisibility(TextView.GONE);
             coursefour.setVisibility(Button.GONE);
         }
         else if(tnum==0)
         {
-            student1.setText("暂无教授课程");
-            student1.setVisibility(TextView.VISIBLE);
             courseone.setVisibility(Button.GONE);
-            student2.setVisibility(TextView.GONE);
             coursetwo.setVisibility(Button.GONE);
-            student3.setVisibility(TextView.GONE);
             coursethree.setVisibility(Button.GONE);
-            student4.setVisibility(TextView.GONE);
             coursefour.setVisibility(Button.GONE);
         }
     }
 
-    private void getTeacher(){
+    private void getProfessor(){
         Intent intent = getIntent();
-        teacher = (Teacher) intent.getSerializableExtra("Teacher");
+        professor = (Professor) intent.getSerializableExtra("Professor");
     }
-    private void SetTeacherImg(){
+    private void   SetProfessorImg(){
         // 请求教师对应头像，如果没有，就使用默认图片
         ImageRequest imageRequest = new ImageRequest(
-                "http://47.100.226.176:8080/XueBaJun/teacher_image/"+teacher.getCover()+".jpg",
+                "http://47.100.226.176:8080/XueBaJun/teacher_image/"+professor.getPic()+".jpg",
                 new Response.Listener<Bitmap>() {
                     @Override
                     public void onResponse(Bitmap response) {
                         BitmapDrawable temp = new BitmapDrawable(response);
-                        teacherimage.setBackground(temp);
+                        professorimage.setBackground(temp);
                     }
                 }, 300, 300, Bitmap.Config.RGB_565, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                teacherimage.setBackgroundResource(R.drawable.bookimgsample);
+                professorimage.setBackgroundResource(R.drawable.bookimgsample);
             }
         });
         mQueue.add(imageRequest);
@@ -152,9 +136,10 @@ public class TeacherDetailActivity extends Activity{
             Intent intent = new Intent();
             intent.setClass(TeacherDetailActivity.this,CourseDetailActivity.class);
             Bundle bundle = new Bundle();
-            List<Course> courseList = teacher.getCourseList();
-            Course courseone = courseList.get(0);
-            bundle.putString("courseone",courseone.getName());
+            List<ProfessorCourse> courseList = professor.getProfessorCourseList();
+            ProfessorCourse courseone = courseList.get(0);
+            Course one = courseone.getCourse();
+            bundle.putString("courseone",one.getName());
             intent.putExtras(bundle);
             startActivity(intent);
         }
@@ -166,9 +151,10 @@ public class TeacherDetailActivity extends Activity{
             Intent intent = new Intent();
             intent.setClass(TeacherDetailActivity.this,CourseDetailActivity.class);
             Bundle bundle = new Bundle();
-            List<Course> courseList = teacher.getCourseList();
-            Course coursetwo = courseList.get(1);
-            bundle.putString("coursetwo",coursetwo.getName());
+            List<ProfessorCourse> courseList = professor.getProfessorCourseList();
+            ProfessorCourse coursetwo = courseList.get(1);
+            Course two = coursetwo.getCourse();
+            bundle.putString("coursetwo",two.getName());
             startActivity(intent);
         }
     }
@@ -179,9 +165,10 @@ public class TeacherDetailActivity extends Activity{
             Intent intent = new Intent();
             intent.setClass(TeacherDetailActivity.this,CourseDetailActivity.class);
             Bundle bundle = new Bundle();
-            List<Course> courseList = teacher.getCourseList();
-            Course coursethree = courseList.get(2);
-            bundle.putString("coursethree",coursethree.getName());
+            List<ProfessorCourse> courseList = professor.getProfessorCourseList();
+            ProfessorCourse coursethree = courseList.get(2);
+            Course three = coursethree.getCourse();
+            bundle.putString("coursethree",three.getName());
             intent.putExtras(bundle);
             startActivity(intent);
         }
@@ -193,9 +180,10 @@ public class TeacherDetailActivity extends Activity{
             Intent intent = new Intent();
             intent.setClass(TeacherDetailActivity.this,CourseDetailActivity.class);
             Bundle bundle = new Bundle();
-            List<Course> courseList = teacher.getCourseList();
-            Course coursefour = courseList.get(3);
-            bundle.putString("coursefour",coursefour.getName());
+            List<ProfessorCourse> courseList = professor.getProfessorCourseList();
+            ProfessorCourse coursefour = courseList.get(3);
+            Course four = coursefour.getCourse();
+            bundle.putString("coursefour",four.getName());
             intent.putExtras(bundle);
             startActivity(intent);
         }

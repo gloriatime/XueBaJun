@@ -7,6 +7,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewDebug;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -19,7 +20,8 @@ import com.android.volley.toolbox.ImageRequest;
 import com.example.gloria.myapplication.R;
 import com.example.model.myapplication.Book;
 import com.example.model.myapplication.Course;
-import com.example.model.myapplication.Teacher;
+import com.example.model.myapplication.Professor;
+import com.example.model.myapplication.ProfessorCourse;
 
 import java.io.Serializable;
 import java.util.List;
@@ -28,11 +30,7 @@ public class CourseDetailActivity extends Activity{
 
     private Course course;
     private TextView course_name_text;
-    private TextView course_wcollege;
-    private TextView course_prefermajor;
     private TextView course_prefersemester;
-    private TextView course_ctime;
-    private TextView course_examiningmode;
     private TextView setscore;
     private TextView textbbook;
     private TextView introducebook;
@@ -54,36 +52,42 @@ public class CourseDetailActivity extends Activity{
     }
 
     private void SetButton() {
-        List<Teacher> teacherList = course.getTeacherList();
-        int tnum = teacherList.size();
-        Teacher teachero, teachert, teacherth;
+        List<ProfessorCourse> professorCourseList = course.getProfessorCourseList();
+        int tnum = professorCourseList.size();
+       // Professor teachero, teachert, teacherth;
         if(tnum>=3)
         {
             teacher_one.setVisibility(Button.VISIBLE);
-            teachero = teacherList.get(0);
-            teacher_one.setText(teachero.getTname());
+            ProfessorCourse one = professorCourseList.get(0);
+            Professor professorO = one.getProfessor();
+            teacher_one.setText(professorO.getName());
             teacher_two.setVisibility(Button.VISIBLE);
-            teachert = teacherList.get(1);
-            teacher_two.setText(teachert.getTname());
+            ProfessorCourse two = professorCourseList.get(1);
+            Professor professorT = two.getProfessor();
+            teacher_two.setText(professorT.getName());
             teacher_three.setVisibility(Button.VISIBLE);
-            teacherth = teacherList.get(2);
-            teacher_three.setText(teacherth.getTname());
+            ProfessorCourse three = professorCourseList.get(2);
+            Professor professorTh = three.getProfessor();
+            teacher_three.setText(professorTh.getName());
         }
         else if(tnum==2)
         {
             teacher_one.setVisibility(Button.VISIBLE);
-            teachero = teacherList.get(0);
-            teacher_one.setText(teachero.getTname());
+            ProfessorCourse one = professorCourseList.get(0);
+            Professor professorO = one.getProfessor();
+            teacher_one.setText(professorO.getName());
             teacher_two.setVisibility(Button.VISIBLE);
-            teachert = teacherList.get(1);
-            teacher_two.setText(teachert.getTname());
+            ProfessorCourse two = professorCourseList.get(1);
+            Professor professorT = two.getProfessor();
+            teacher_two.setText(professorT.getName());
             teacher_three.setVisibility(Button.INVISIBLE);
         }
         else if(tnum==1)
         {
             teacher_one.setVisibility(Button.VISIBLE);
-            teachero = teacherList.get(0);
-            teacher_one.setText(teachero.getTname());
+            ProfessorCourse one = professorCourseList.get(0);
+            Professor professorO = one.getProfessor();
+            teacher_one.setText(professorO.getName());
             teacher_two.setVisibility(Button.INVISIBLE);
             teacher_three.setVisibility(Button.INVISIBLE);
         }
@@ -103,20 +107,14 @@ public class CourseDetailActivity extends Activity{
     private void init() {
         course_name_text = (TextView)findViewById(R.id.course_name_text);
         course_name_text.setText(course.getName());
-        course_wcollege = (TextView)findViewById(R.id.course_wcollege);
-        course_wcollege .setText(course.getWcollege());
-        course_prefermajor = (TextView)findViewById(R.id.course_prefermajor);
-        course_prefermajor.setText(course.getprefermajor());
         course_prefersemester = (TextView)findViewById(R.id.course_prefersemester);
         course_prefersemester.setText(course.getTerm());
-        course_ctime = (TextView)findViewById(R.id.course_ctime);
-        course_ctime.setText(course.getCtime());
-        course_examiningmode = (TextView)findViewById(R.id.course_examiningmode);
-        course_examiningmode.setText(course.getExaminingmode());
+        //course_ctime = (TextView)findViewById(R.id.course_ctime);
+       // course_ctime.setText(course.getCtime());
         setscore = (TextView)findViewById(R.id.setscore);
-        setscore.setText(course.getScore());
+        setscore.setText(String.valueOf(course.getScore()));
         textbbook = (TextView)findViewById(R.id.textbbook);
-        Book book = course.getTextbbook();
+        Book book = course.getBook();
         bookimage = (ImageView) findViewById(R.id.bookimage);
         SetBookImg();
         textbbook.setText(book.getName());
@@ -147,9 +145,9 @@ public class CourseDetailActivity extends Activity{
         Intent intent = new Intent();
         intent.setClass(CourseDetailActivity.this,TeacherDetailActivity.class);
         Bundle bundle = new Bundle();
-            List<Teacher> teacherList = course.getTeacherList();
-            Teacher teacherone = teacherList.get(0);
-            bundle.putString("teacherone",teacherone.getTname());
+            List<ProfessorCourse> teacherList = course.getProfessorCourseList();
+            Professor teacherone = teacherList.get(0).getProfessor();
+            bundle.putString("teacherone",teacherone.getName());
         intent.putExtras(bundle);
         startActivity(intent);
         }
@@ -161,9 +159,9 @@ public class CourseDetailActivity extends Activity{
             Intent intent = new Intent();
             intent.setClass(CourseDetailActivity.this,TeacherDetailActivity.class);
             Bundle bundle = new Bundle();
-            List<Teacher> teacherList = course.getTeacherList();
-            Teacher teachertwo = teacherList.get(1);
-            bundle.putString("teachertwo",teachertwo.getTname());
+            List<ProfessorCourse> teacherList = course.getProfessorCourseList();
+            Professor teachertwo = teacherList.get(1).getProfessor();
+            bundle.putString("teachertwo",teachertwo.getName());
             intent.putExtras(bundle);
             startActivity(intent);
         }
@@ -175,16 +173,16 @@ public class CourseDetailActivity extends Activity{
             Intent intent = new Intent();
             intent.setClass(CourseDetailActivity.this,TeacherDetailActivity.class);
             Bundle bundle = new Bundle();
-            List<Teacher> teacherList = course.getTeacherList();
-            Teacher teacherthree = teacherList.get(2);
-            bundle.putString("teacherthree",teacherthree.getTname());
+            List<ProfessorCourse> teacherList = course.getProfessorCourseList();
+            Professor teacherthree = teacherList.get(2).getProfessor();
+            bundle.putString("teacherthree",teacherthree.getName());
             intent.putExtras(bundle);
             startActivity(intent);
         }
     }
     private void SetBookImg(){
         // 请求图书对应头像，如果没有，就使用默认图片
-        Book book = course.getTextbbook();
+        Book book = course.getBook();
         ImageRequest imageRequest = new ImageRequest(
                 "http://47.100.226.176:8080/XueBaJun/book_image/"+book.getCover()+".jpg",
                 new Response.Listener<Bitmap>() {

@@ -14,8 +14,8 @@
     <string name="wcollege">开课学院：</string>
     <string name="prefermajor">优选专业：</string>
     <string name="prefersemester">优选学期：</string>
-    <string name="Ttime">开课时间：</string>
-    <string name="teatching">任课老师：</string>
+    <string name="CSuggestion">选课建议</string>
+    <string name="teaching">任课老师：</string>
     <string name="examiningmode">考核方式：</string>
     <string name="textbook">优选教材：</string>
     <string name="setscore">评分：</string>
@@ -44,6 +44,14 @@
     <string name="entercourse">请输入课程名或教师名</string>
     <string name="enterbook">请输入书籍</string>
     <string name="hot">热度</string>
-    <string name="hotcourse">热门课程Top20</string>
+    <string name="hotcourse">热门排行Top20</string>
+    <string name="hotbook">热门书籍Top20</string>
+
     <string name="re_courseone">推荐课程1</string>
+    <string name="name">名称：表演素质艺术</string>
+    <string name="category">类别：文素</string>
+    <string name="teacherwho">教师：XXX</string>
+    <string name="thelatest">最新上架</string>
+    <string name="youmaylikebook">可能喜欢</string>
+   <string name="formorebook">查看更多</string>
 </resources>

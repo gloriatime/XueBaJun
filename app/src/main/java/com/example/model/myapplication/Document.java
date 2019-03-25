@@ -32,14 +32,6 @@ public class Document {
 	// 推荐功能--猜你喜欢
 	private List<Document> recommendList;
 
-	public Document(){}
-
-	public Document(String name, int number, int comment){
-	    this.name = name;
-	    this.comment = comment;
-	    this.number = number;
-    }
-
 	public int getId() {
 		return Id;
 	}

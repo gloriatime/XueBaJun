@@ -1,5 +1,6 @@
 package com.example.model.myapplication;
 
+
 public class CollectCourse {
 	private User user;
 	private Course course;
@@ -15,5 +16,5 @@ public class CollectCourse {
 	public void setCourse(Course course) {
 		this.course = course;
 	}
-	
+
 }

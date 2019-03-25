@@ -1,6 +1,5 @@
 package com.example.model.myapplication;
 
-
 import java.util.List;
 
 public class Book {
@@ -133,12 +132,13 @@ public class Book {
 	public int hashCode() {
 		return Id;
 	}
+
 	@Override
-	public boolean equals(Object x){
-		if(this.getClass() != x.getClass())
+	public boolean equals(Object x) {
+		if (this.getClass() != x.getClass())
 			return false;
-		Book b = (Book)x;
-		return this.Id == b.Id;
+		Book b = (Book) x;
+		return this.Id == b.getId();
 	}
 
 	public List<Book> getRecommendList() {

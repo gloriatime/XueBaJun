@@ -3,9 +3,9 @@ package com.example.model.myapplication;
 import java.io.Serializable;
 import java.util.List;
 
-public class User implements Serializable {
-	private String name;
-	private String pwd;
+public class User {
+	private String name = "我好菜啊";
+	private String pwd = "123456";
 	private String grade;
 	private String phone;
 	private String college;
@@ -13,13 +13,16 @@ public class User implements Serializable {
 	private String head;
 	private boolean art,medicine,management,humanity,technology,agriculture,play;
 
-	private List<Concern> myconcernlist;
-	List<Concern>concern_me_list;
-	
+	// 每一个用户都拥有的列表
 
-	private List<CollectDocument> collected_documents;
-	private List<CollectBook> collected_books;
-	private List<CollectCourse> collected_courses;
+	// “我的关注”功能
+	private List<Concern> myconcernlist;// 我关注的人
+	List<Concern>concern_me_list;// 关注我的人
+
+	// “我的收藏”功能
+	private List<CollectDocument> collected_documents;// 我的收藏--资料
+	private List<CollectBook> collected_books;// 我的收藏--书籍
+	private List<CollectCourse> collected_courses;// 我的收藏--课程
 
 	// "关于我的"功能
 	private List<Document> myDocument;
@@ -44,11 +47,8 @@ public class User implements Serializable {
 		this.head = user.getHead();
 		this.myconcernlist = user.getMyconcernlist();
 		this.concern_me_list=user.getConcern_me_list();
-		this.collected_books = user.getCollected_books();
-		this.collected_courses=user.getCollected_courses();
-		this.collected_documents = user.getCollected_documents();
 	}
-	
+
 	public String getName() {
 		return name;
 	}
@@ -133,7 +133,7 @@ public class User implements Serializable {
 	public void setPlay(boolean play) {
 		this.play = play;
 	}
-	
+
 	public List<Concern> getConcern_me_list() {
 		return concern_me_list;
 	}
@@ -164,28 +164,23 @@ public class User implements Serializable {
 	public void setCollected_courses(List<CollectCourse> collected_courses) {
 		this.collected_courses = collected_courses;
 	}
-
 	public List<Document> getMyDocument() {
 		return myDocument;
 	}
-
 	public void setMyDocument(List<Document> myDocument) {
 		this.myDocument = myDocument;
 	}
-
 	public List<Comment> getMyComment() {
 		return myComment;
 	}
-
 	public void setMyComment(List<Comment> myComment) {
 		this.myComment = myComment;
 	}
-
 	public List<News> getMyNews() {
 		return myNews;
 	}
-
 	public void setMyNews(List<News> myNews) {
 		this.myNews = myNews;
 	}
+
 }

@@ -7,16 +7,7 @@ public class Reply {
     private int belong;
     private String Content;
 
-    public Reply(User critic, User at, String Content){
-        this.critic = critic;
-        this.at = at;
-        this.Content = Content;
-    }
-
-    public Reply(User critic, String content){
-        this.critic = critic;
-        this.Content = content;
-    }
+    // »¹ÓÐÒ»¸öteacher¡£
     public int getId() {
         return id;
     }

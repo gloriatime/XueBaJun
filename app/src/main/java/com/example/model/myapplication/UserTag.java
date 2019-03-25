@@ -2,16 +2,17 @@ package com.example.model.myapplication;
 
 import java.util.List;
 
+
 public class UserTag {
 	private String user;
 	private int tag;
 	private int times;
-	
-	// ��Ȥ�Ƽ�
+
+	// 兴趣推荐 -此处结构只作为返回前端的载体，具体实现则位于RecommendService
 	private List<Document> recommendDocumentList;
 	private List<Course> recommendCourseList;
 	private List<Book> recommendBookList;
-	
+
 	public String getUser() {
 		return user;
 	}

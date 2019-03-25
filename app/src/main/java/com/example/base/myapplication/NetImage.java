@@ -5,6 +5,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Environment;
 import android.util.Log;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
@@ -42,6 +43,25 @@ public class NetImage {
             @Override
             public void onErrorResponse(VolleyError error) {
                 imageButton.setBackgroundResource(R.drawable.ic_head_image);
+            }
+        });
+        mQueue.add(imageRequest);
+    }
+
+    // 从服务器取出图片设置封面
+    public void setCoverImage(RequestQueue mQueue, final ImageView imageView, String url){
+        ImageRequest imageRequest = new ImageRequest(
+                url,
+                new com.android.volley.Response.Listener<Bitmap>() {
+                    @Override
+                    public void onResponse(Bitmap response) {
+                        BitmapDrawable temp = new BitmapDrawable(response);
+                        imageView.setBackground(temp);
+                    }
+                }, 300, 400, Bitmap.Config.RGB_565, new com.android.volley.Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                imageView.setBackgroundResource(R.drawable.ic_head_image);
             }
         });
         mQueue.add(imageRequest);
