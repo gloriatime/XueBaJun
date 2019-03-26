@@ -150,7 +150,9 @@ public class BookMainActivity extends AppCompatActivity implements View.OnClickL
                         mLabel.setText(tag);
                     }
                     mCourse.setText(book.getAuthor());
-                    mSynopsis.setText("简介："+book.getIntro());
+                    if(book.getIntro().length() == 0)
+                    mSynopsis.setText("简介：暂无");
+                    else mSynopsis.setText("简介："+book.getIntro());
                     //获得书籍图片
                     Log.e("##","picture");
                     RequestQueue mQueue = Volley.newRequestQueue(BookMainActivity.this);
@@ -165,7 +167,8 @@ public class BookMainActivity extends AppCompatActivity implements View.OnClickL
                             }, 300, 300, Bitmap.Config.RGB_565, new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            mBookPic.setText("暂无图片");
+                            mBookPic.setText("暂无封面");
+                            mBookPic.setBackgroundColor(Color.GRAY);
                         }
                     });
                     mQueue.add(imageRequest);
