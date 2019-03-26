@@ -112,7 +112,7 @@ public class SignUp5Activity extends AppCompatActivity {
                     jsonObject.put("pwd", user.getPwd());
                     jsonObject.put("grade", user.getGrade());
                     jsonObject.put("college", user.getCollege());
-                    jsonObject.put("major", user.getHead());
+                    //jsonObject.put("major", user.getHead());
                     jsonObject.put("medicine" ,String.valueOf(user.isMedicine()));
                     jsonObject.put("technology" ,String.valueOf(user.isTechnology()));
                     jsonObject.put("art" ,String.valueOf(user.isArt()));
@@ -130,6 +130,7 @@ public class SignUp5Activity extends AppCompatActivity {
                     public void onResponse(JSONObject jsonObject) {
                         Gson gson = new DateGson().getGson();
                         User ur = gson.fromJson(jsonObject.toString(), User.class);
+                        Log.e("##","phone zhuce"+ur.getPhone());
                         if(ur != null){
                             Intent intent = new Intent(SignUp5Activity.this, MainActivity.class);
                             intent.putExtra("user", (Serializable) user);

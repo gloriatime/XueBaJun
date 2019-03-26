@@ -10,7 +10,7 @@ public class Comment {
 	private Date date;
 	private String type;
 	private int belong;
-	private String Content;
+	private String content;
 
 	// 我的评论中需要显示所评论体
 	private Book book;
@@ -24,7 +24,7 @@ public class Comment {
 	public Comment(User critic, String Content, Date date)
 	{
 		this.critic = critic;
-		this.Content = Content;
+		this.content = Content;
 		this.date = date;
 	}
 
@@ -47,10 +47,10 @@ public class Comment {
 		this.date = date;
 	}
 	public String getContent() {
-		return Content;
+		return content;
 	}
 	public void setContent(String content) {
-		Content = content;
+		this.content = content;
 	}
 	public String getType() {
 		return type;

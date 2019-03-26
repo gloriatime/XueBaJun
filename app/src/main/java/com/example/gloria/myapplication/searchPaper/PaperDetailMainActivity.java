@@ -42,6 +42,7 @@ import com.example.gloria.myapplication.adapter.ReplyAdapter;
 import com.example.model.myapplication.Book;
 import com.example.model.myapplication.Comment;
 import com.example.model.myapplication.Document;
+import com.example.model.myapplication.Professor;
 import com.example.model.myapplication.Reply;
 import com.example.model.myapplication.User;
 import com.google.gson.Gson;
@@ -49,6 +50,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -114,12 +117,74 @@ public class PaperDetailMainActivity extends AppCompatActivity implements View.O
         mUploader = (TextView) findViewById(R.id.textViewUploader);
         mComment = (TextView) findViewById(R.id.textViewComment);
         user = new User();
+        document = new Document();
         id = 0;
-        getUserAId();
+
+        //下载、收藏、分享
+        mDownload = (TextView)findViewById(R.id.textViewDownload);
+        mDownloadPic = (TextView)findViewById(R.id.textViewDownloadPic);
+        mFavorite = (TextView)findViewById(R.id.textViewFavorite);
+        mFavoritePic = (TextView)findViewById(R.id.textViewFavoritePic);
+        mShare = (TextView)findViewById(R.id.textViewShare);
+        mSharePic = (TextView)findViewById(R.id.textViewSharePic);
+        BScore = (Button)findViewById(R.id.ButtonScore);
+        //评论，初始化
+        listView = (ListView)findViewById(R.id.comment_detail);
+        comment_bt = (TextView)findViewById(R.id.textViewSay);
+        //解析回复界面
+        replyView = LayoutInflater.from(this).inflate(R.layout.comment_show_reply, null);
 
         mQueue = Volley.newRequestQueue(PaperDetailMainActivity.this);
-        document = new Document();
 
+        //获得用户和id
+        getUserAId();
+        //获得和展示文档
+        Log.e("##","开始获取document");
+        get_show_Document();
+
+        textListenerDown = new TextListenerDown();
+        textListenerFavo = new TextListenerFavo();
+        textListenerShare = new TextListenerShare();
+        //下载
+        mDownload.setOnClickListener(textListenerDown);
+        mDownloadPic.setOnClickListener(textListenerDown);
+        //收藏
+        mFavorite.setOnClickListener(textListenerFavo);
+        mFavoritePic.setOnClickListener(textListenerFavo);
+        //分享
+        mShare.setOnClickListener(textListenerShare);
+        mSharePic.setOnClickListener(textListenerShare);
+        BScore.setOnClickListener(this);
+
+        //展示已存在的commentList
+        Log.e("##", "0初始评论0"+document.getCommentList());
+        if(document.getComment()!=0) {
+            Log.e("##", "COMMENT_NUMBER"+document.getComment());
+            commentList = document.getCommentList();
+            Log.e("##","commentList"+commentList);
+            adapter = new CommentAdapter(PaperDetailMainActivity.this, commentList);
+            listView.setAdapter(adapter);
+        }
+        /**写评论*/
+        comment_bt.setOnClickListener(this);
+        //查看回复
+        ShowReply();
+        //更新显示的评论数
+        //UpdateCommentNumber();
+    }
+
+    private void getUserAId(){
+        Intent intent = getIntent();
+        user = (User) intent.getSerializableExtra("user");
+        //String ID = intent.getStringExtra("document_id");
+        //id = Integer.parseInt(ID);
+        id = intent.getIntExtra("document_id",0);
+       // Log.e("##","跳转后ID："+ID);
+        Log.e("##","跳转后Id："+intent.getIntExtra("document_id",0));
+    }
+
+    private void get_show_Document(){
+        Log.e("##","3,2,1");
         // 与服务器交互
         String url = "http://47.100.226.176:8080/XueBaJun/GetDocument";
 
@@ -142,6 +207,7 @@ public class PaperDetailMainActivity extends AppCompatActivity implements View.O
                     mName.setText(document.getName());
                     //获得书籍标签
                     Log.e("##","显示标签");
+                    Log.e("##","taglist长度"+document.getTagList().size());
                     if(document.getTagList().size()!=0) {
                         String tag = "";
                         int n = document.getTagList().size();
@@ -173,69 +239,23 @@ public class PaperDetailMainActivity extends AppCompatActivity implements View.O
                     mUploader.setText(src);
                     String scc = "评论"+document.getComment();
                     mComment.setText(scc);
+                    Log.e("##","document"+document.getComment());
+                    Log.e("##","document"+document.getCommentList().size());
+                    commentList = document.getCommentList();
+                    Log.e("##","commentList"+commentList.get(0).getCritic().getPhone());
+                    adapter = new CommentAdapter(PaperDetailMainActivity.this, commentList);
+                    listView.setAdapter(adapter);
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-
+                 Log.e("##","不会吧！！！");
             }
         });
         mQueue.add(jsonObjectRequest);
-
-
-        //下载、收藏、分享
-        mDownload = (TextView)findViewById(R.id.textViewDownload);
-        mDownloadPic = (TextView)findViewById(R.id.textViewDownloadPic);
-        mFavorite = (TextView)findViewById(R.id.textViewFavorite);
-        mFavoritePic = (TextView)findViewById(R.id.textViewFavoritePic);
-        mShare = (TextView)findViewById(R.id.textViewShare);
-        mSharePic = (TextView)findViewById(R.id.textViewSharePic);
-        BScore = (Button)findViewById(R.id.ButtonScore);
-        textListenerDown = new TextListenerDown();
-        textListenerFavo = new TextListenerFavo();
-        textListenerShare = new TextListenerShare();
-        //下载
-        mDownload.setOnClickListener(textListenerDown);
-        mDownloadPic.setOnClickListener(textListenerDown);
-        //收藏
-        mFavorite.setOnClickListener(textListenerFavo);
-        mFavoritePic.setOnClickListener(textListenerFavo);
-        //分享
-        mShare.setOnClickListener(textListenerShare);
-        mSharePic.setOnClickListener(textListenerShare);
-        BScore.setOnClickListener(this);
-        /**
-         * 评论
-         */
-        //初始化
-        listView = (ListView)findViewById(R.id.comment_detail);
-        comment_bt = (TextView)findViewById(R.id.textViewSay);
-        //解析回复界面
-        replyView = LayoutInflater.from(this).inflate(R.layout.comment_show_reply, null);
-        /***
-         * 评论数据
-         */
-        if(document.getComment()!=0) {
-            adapter = new CommentAdapter(PaperDetailMainActivity.this, commentList);
-            listView.setAdapter(adapter);
-        }
-        /**写评论*/
-        comment_bt.setOnClickListener(this);
-        //查看回复
-        ShowReply();
-        //更新显示的评论数
-        UpdateCommentNumber();
-    }
-
-    private void getUserAId(){
-        Intent intent = getIntent();
-        user = (User) intent.getSerializableExtra("user");
-        //String ID = intent.getStringExtra("document_id");
-        //id = Integer.parseInt(ID);
-        id = intent.getIntExtra("document_id",0);
-       // Log.e("##","跳转后ID："+ID);
-        Log.e("##","跳转后Id："+intent.getIntExtra("document_id",0));
+        //Log.e("##","获取后document_comment"+document.getCommentList().size());
+        Log.e("##","获取后document_n"+document.getComment());
     }
 
     //下载
@@ -344,11 +364,39 @@ public class PaperDetailMainActivity extends AppCompatActivity implements View.O
                                 mScore.setText(et.getText().toString()+"分");
                                 int sum = document.getNumber()+1;
                                 float sc = (document.getScore()+  Float.valueOf(et.getText().toString()).floatValue())/sum;
-                                String res = String.format("{0.0}",sc)+"分";
+                                BigDecimal bg = new BigDecimal(sc);
+                                float f1 = bg.setScale(1, BigDecimal.ROUND_HALF_UP).floatValue();
+                                String res = "当前评分"+f1+"分";
                                 mScore.setText(res);
                                 /****
                                  * 提交分数
                                  */
+                                Log.e("##","最后计算的分数"+sc);
+                                String url = "http://47.100.226.176:8080/XueBaJun/ScoreDocument";
+                                org.json.JSONObject jsonObject = new org.json.JSONObject();
+                                try {
+                                    jsonObject.put("score", sc);
+                                    jsonObject.put("id", document.getId());
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                Log.e("##", "score document_id"+jsonObject);
+
+                                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, jsonObject, new Response.Listener<org.json.JSONObject>() {
+
+                                    public void onResponse(JSONObject jsonObject) {
+                                        Gson gson = new DateGson().getGson();
+                                        Document d = gson.fromJson(jsonObject.toString(), Document.class);
+                                        Log.e("##","上传数据库之后的分数"+d.getScore()+" "+d.getId());
+                                    }
+
+                                }, new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError volleyError) {
+
+                                    }
+                                });
+                                mQueue.add(jsonObjectRequest);
                             }
                         }).setNegativeButton("取消",null).show();
                 break;
@@ -405,6 +453,7 @@ public class PaperDetailMainActivity extends AppCompatActivity implements View.O
                      * 从其他页传来的当前用户的姓名
                      * ******************/
                     Comment detailBean = new Comment(user, commentContent, now);
+                    detailBean.setBelong(document.getId());
                     if(document.getComment()==0){
                         detailBean.setReplyList(null);
                         commentList.add(detailBean);
@@ -419,7 +468,7 @@ public class PaperDetailMainActivity extends AppCompatActivity implements View.O
                     }
                     mComment.setText("评论"+document.getComment());
                     /*上传到服务器*/
-                    SendCommentToServer(detailBean,now);
+                    SendCommentToServer(detailBean);
                     Toast.makeText(PaperDetailMainActivity.this, "评论成功",Toast.LENGTH_SHORT).show();
                 }
                 else{
@@ -506,35 +555,47 @@ public class PaperDetailMainActivity extends AppCompatActivity implements View.O
         dialog.show();
     }
 
-    private void SendCommentToServer(Comment comment, Date date){
-        String url = "http://47.100.226.176:8080/XueBaJun/addComment";
+    private void SendCommentToServer(Comment comment){
+        Log.e("##", "Content="+comment.getContent());
+        Log.e("##","critic="+comment.getCritic().getName());
+        String url = "http://47.100.226.176:8080/XueBaJun/AddComment";
         //发送数据
-        org.json.JSONObject jsonObject = new org.json.JSONObject();
+        org.json.JSONObject jsonObject ;
 
-        try {
-            jsonObject.put("Content", comment);
-            jsonObject.put("critic", user);
-            jsonObject.put("date", date);
-            jsonObject.put("type", "document");
+        //jsonObject.put("Content", comment);
+        //jsonObject.put("critic", user);
+        //jsonObject.put("date", date);
+        // jsonObject.put("type", "document");
 
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        HashMap<String,String> u = new HashMap<>();
+        u.put("phone",user.getPhone());
+        Map<String, Object> map = new HashMap<>();
+        map.put("critic",u);
+        map.put("type", "document");
+        map.put("content", comment.getContent());
+        map.put("belong",comment.getBelong());
+        //map.put("date",comment.getDate());
+        jsonObject = new JSONObject(map);
+
         Log.e("##","发送 "+jsonObject.toString());
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, jsonObject, new Response.Listener<JSONObject>() {
             public void onResponse(JSONObject jsonObject) {
+                Log.e("##","评论返回 ");
+                UpdateCommentNumber();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
+                Log.e("##","评论返回cuowu ");
+                UpdateCommentNumber();
             }
         });
         mQueue.add(jsonObjectRequest);
     }
 
     private void SendReplyToSever(Reply reply){
-        String url = "http://47.100.226.176:8080/XueBaJun/addReply";
+        String url = "http://47.100.226.176:8080/XueBaJun/AddReply";
         //发送数据
         org.json.JSONObject jsonObject = new org.json.JSONObject();
 
@@ -558,11 +619,13 @@ public class PaperDetailMainActivity extends AppCompatActivity implements View.O
     }
 
     private void UpdateCommentNumber(){
+        Log.e("##","最后的最后1"+document.getComment());
         String url = "http://47.100.226.176:8080/XueBaJun/GetDocument";
 
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("id", id);
+            jsonObject.put("id", 26);
+            jsonObject.put("applicant",user.getPhone());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -570,6 +633,7 @@ public class PaperDetailMainActivity extends AppCompatActivity implements View.O
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, jsonObject, new Response.Listener<JSONObject>() {
 
             public void onResponse(JSONObject jsonObject) {
+                Log.e("##","最后的最后2"+document.getComment());
                 Gson gson = new DateGson().getGson();
                 document = gson.fromJson(jsonObject.toString(), Document.class);
                 if (document != null) {
@@ -584,6 +648,8 @@ public class PaperDetailMainActivity extends AppCompatActivity implements View.O
             }
         });
         mQueue.add(jsonObjectRequest);
+        adapter = new CommentAdapter(PaperDetailMainActivity.this, document.getCommentList());
+        listView.setAdapter(adapter);
         Log.e("##","最后的最后"+document.getComment());
     }
 }
