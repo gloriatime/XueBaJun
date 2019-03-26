@@ -38,6 +38,7 @@ import com.example.base.myapplication.ListItemViewHolder;
 import com.example.base.myapplication.ListViewForMainPage;
 import com.example.base.myapplication.UnfinishDialog;
 import com.example.gloria.myapplication.Recommend.Reco_book;
+import com.example.gloria.myapplication.Recommend.Reco_course;
 import com.example.gloria.myapplication.SignIn.SignInActivity;
 import com.example.gloria.myapplication.bookDetail.BookMainActivity;
 import com.example.gloria.myapplication.manage.AboutMeActivity;
@@ -252,7 +253,7 @@ public class MainActivity extends AppCompatActivity {
         course_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, Reco_book.class);
+                Intent intent = new Intent(MainActivity.this, Reco_course.class);
                 intent.putExtra("user",(Serializable) user);
                 startActivity(intent);
             }
