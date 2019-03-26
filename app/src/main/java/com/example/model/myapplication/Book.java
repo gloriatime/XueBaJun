@@ -149,7 +149,7 @@ public class Book {
 		this.recommendList = recommendList;
 	}
 
-	public List<Book> getTopTwentyList() {
+	public List<Book>  getTopTwentyList() {
 		return topTwentyList;
 	}
 
