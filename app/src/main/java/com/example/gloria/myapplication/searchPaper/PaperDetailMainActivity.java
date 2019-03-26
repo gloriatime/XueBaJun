@@ -232,8 +232,9 @@ public class PaperDetailMainActivity extends AppCompatActivity implements View.O
                     mComment.setText(scc);
                     Log.e("##","document"+document.getComment());
                     Log.e("##","document"+document.getCommentList().size());
-                    commentList = document.getCommentList();
-                    if(commentList != null) {
+
+                    if(document.getCommentList() != null) {
+                        commentList = document.getCommentList();
                         Log.e("##", "commentList" + commentList.get(0).getCritic().getPhone());
                         adapter = new CommentAdapter(PaperDetailMainActivity.this, commentList);
                         listView.setAdapter(adapter);

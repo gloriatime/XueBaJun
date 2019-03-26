@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.gloria.myapplication.paper.BookMainActivity"
+    tools:context="com.example.gloria.myapplication.bookDetail.BookMainActivity"
     android:orientation="vertical">
 
     <TextView
@@ -26,10 +26,9 @@
         android:layout_marginBottom="@dimen/small_margin">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="240dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_margin="@dimen/activity_horizontal_margin"
             android:background="@drawable/layout_background">
 
             <TextView
