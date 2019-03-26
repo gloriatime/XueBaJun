@@ -40,22 +40,24 @@
         </activity>
         <activity android:name=".paper.DataMainActivity">
         </activity>
-        <activity android:name=".MainActivity"></activity>
-        <activity android:name=".SignIn.SignUp1Activity"></activity>
-        <activity android:name=".SignIn.SignUp2Activity"></activity>
-        <activity android:name=".SignIn.SignUp3Activity"></activity>
-        <activity android:name=".SignIn.SignUp4Activity"></activity>
-        <activity android:name=".SignIn.SignUp5Activity"></activity>
-        <activity android:name=".searchPaper.PaperDetailMainActivity"></activity>
-        <activity android:name=".bookDetail.BookMainActivity"></activity>
-        <activity android:name=".showInfo.activity_T_pingfen"></activity>
-        <activity android:name=".showInfo.Activity_Top20_book"></activity>
-        <activity android:name=".showInfo.Activity_Top20_course"></activity>
-        <activity android:name=".showInfo.CourseDetailActivity"></activity>
-        <activity android:name=".showInfo.PingFenActivity"></activity>
-        <activity android:name=".showInfo.TeacherDetailActivity"></activity>
-        <activity android:name=".Recommend.Reco_book"></activity>
-        <activity android:name=".Recommend.Reco_course"></activity>
+        <activity android:name=".MainActivity" />
+        <activity android:name=".SignIn.SignUp1Activity" />
+        <activity android:name=".SignIn.SignUp2Activity" />
+        <activity android:name=".SignIn.SignUp3Activity" />
+        <activity android:name=".SignIn.SignUp4Activity" />
+        <activity android:name=".SignIn.SignUp5Activity" />
+        <activity android:name=".searchPaper.PaperDetailMainActivity" />
+        <activity android:name=".bookDetail.BookMainActivity" />
+        <activity android:name=".showInfo.activity_T_pingfen" />
+        <activity android:name=".showInfo.Activity_Top20_book" />
+        <activity android:name=".showInfo.Activity_Top20_course" />
+        <activity android:name=".showInfo.CourseDetailActivity" />
+        <activity android:name=".showInfo.PingFenActivity" />
+        <activity android:name=".showInfo.TeacherDetailActivity" />
+        <activity android:name=".Recommend.Reco_book" />
+        <activity android:name=".Recommend.Reco_course" />
+        <activity android:name=".manage.AddTagActivity">
+        </activity>
     </application>
 
 </manifest>
