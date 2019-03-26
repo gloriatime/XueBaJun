@@ -156,15 +156,6 @@ public class PaperDetailMainActivity extends AppCompatActivity implements View.O
         mSharePic.setOnClickListener(textListenerShare);
         BScore.setOnClickListener(this);
 
-        //展示已存在的commentList
-        Log.e("##", "0初始评论0"+document.getCommentList());
-        if(document.getComment()!=0) {
-            Log.e("##", "COMMENT_NUMBER"+document.getComment());
-            commentList = document.getCommentList();
-            Log.e("##","commentList"+commentList);
-            adapter = new CommentAdapter(PaperDetailMainActivity.this, commentList);
-            listView.setAdapter(adapter);
-        }
         /**写评论*/
         comment_bt.setOnClickListener(this);
         //查看回复
@@ -242,9 +233,11 @@ public class PaperDetailMainActivity extends AppCompatActivity implements View.O
                     Log.e("##","document"+document.getComment());
                     Log.e("##","document"+document.getCommentList().size());
                     commentList = document.getCommentList();
-                    Log.e("##","commentList"+commentList.get(0).getCritic().getPhone());
-                    adapter = new CommentAdapter(PaperDetailMainActivity.this, commentList);
-                    listView.setAdapter(adapter);
+                    if(commentList != null) {
+                        Log.e("##", "commentList" + commentList.get(0).getCritic().getPhone());
+                        adapter = new CommentAdapter(PaperDetailMainActivity.this, commentList);
+                        listView.setAdapter(adapter);
+                    }
                 }
             }
         }, new Response.ErrorListener() {
@@ -254,8 +247,6 @@ public class PaperDetailMainActivity extends AppCompatActivity implements View.O
             }
         });
         mQueue.add(jsonObjectRequest);
-        //Log.e("##","获取后document_comment"+document.getCommentList().size());
-        Log.e("##","获取后document_n"+document.getComment());
     }
 
     //下载
@@ -334,13 +325,37 @@ public class PaperDetailMainActivity extends AppCompatActivity implements View.O
                         //展示回复界面
                         //Log.e("##","展示回复界面");
                         //Log.e("##","position="+position);
-                        if(document.getCommentList().get(position).getReplyList() == null) {
-                            Log.e("##","firstreply");
-                            addFirstReply(position);
+                        //获得该评论的回复
+                        String url = "http://47.100.226.176:8080/XueBaJun/GetComment";
+
+                        JSONObject jsonObject = new JSONObject();
+                        try {
+                            jsonObject.put("id", commentList.get(position).getId());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-                        else {
-                            showReplyDetail(position);
-                        }
+
+                        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, jsonObject, new Response.Listener<JSONObject>() {
+
+                            public void onResponse(JSONObject jsonObject) {
+                                Gson gson = new DateGson().getGson();
+                                Comment ct = gson.fromJson(jsonObject.toString(), Comment.class);
+                                Log.e("##","评论是否有回复"+ct.getReplyList().size());
+                                if(ct.getReplyList().size() == 0) {
+                                    Log.e("##","firstreply");
+                                    addFirstReply(position);
+                                }
+                                else {
+                                    replyList = ct.getReplyList();
+                                    showReplyDetail(position);
+                                }
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError volleyError) {
+                            }
+                        });
+                        mQueue.add(jsonObjectRequest);
                     }
                 });
             }
@@ -411,7 +426,6 @@ public class PaperDetailMainActivity extends AppCompatActivity implements View.O
         /*****
          * 通过position获得当前评论的回复
          */
-        replyList = document.getCommentList().get(position).getReplyList();
         Radapter = new ReplyAdapter(replyView.getContext(), replyList);
         ListView replyListView = (ListView)replyView.findViewById(R.id.reply_list);
         replyListView.setAdapter(Radapter);
@@ -502,6 +516,8 @@ public class PaperDetailMainActivity extends AppCompatActivity implements View.O
                      * 从其他页传来的当前用户的姓名
                      * ******************/
                     Reply detailBean = new Reply(user,replyList.get(p).getCritic(), commentContent);
+                    detailBean.setBelong(commentList.get(p).getId());
+                    detailBean.setAt(replyList.get(p).getCritic());
                     //Reply detailBean = new Reply(user, "回复 " + document.getUp_user() + "：" + commentContent);
                     Radapter.addTheCommentData(detailBean);
                     SendReplyToSever(detailBean);
@@ -538,6 +554,8 @@ public class PaperDetailMainActivity extends AppCompatActivity implements View.O
                      * ******************/
                     //Log.e("##","第一条回复");
                     Reply detailBean = new Reply(user, commentContent);
+                    detailBean.setBelong(commentList.get(p).getId());
+                    detailBean.setAt(commentList.get(p).getCritic());
                     //Log.e("##","第一条回复加入list");
                     replyList.add(detailBean);
                     //Log.e("##","第一条回复加入成功");
@@ -562,11 +580,6 @@ public class PaperDetailMainActivity extends AppCompatActivity implements View.O
         //发送数据
         org.json.JSONObject jsonObject ;
 
-        //jsonObject.put("Content", comment);
-        //jsonObject.put("critic", user);
-        //jsonObject.put("date", date);
-        // jsonObject.put("type", "document");
-
         HashMap<String,String> u = new HashMap<>();
         u.put("phone",user.getPhone());
         Map<String, Object> map = new HashMap<>();
@@ -574,7 +587,6 @@ public class PaperDetailMainActivity extends AppCompatActivity implements View.O
         map.put("type", "document");
         map.put("content", comment.getContent());
         map.put("belong",comment.getBelong());
-        //map.put("date",comment.getDate());
         jsonObject = new JSONObject(map);
 
         Log.e("##","发送 "+jsonObject.toString());
@@ -597,22 +609,29 @@ public class PaperDetailMainActivity extends AppCompatActivity implements View.O
     private void SendReplyToSever(Reply reply){
         String url = "http://47.100.226.176:8080/XueBaJun/AddReply";
         //发送数据
-        org.json.JSONObject jsonObject = new org.json.JSONObject();
+        //发送数据
+        org.json.JSONObject jsonObject ;
 
-        try {
-            jsonObject.put("reply", reply);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        HashMap<String,String> u = new HashMap<>();
+        u.put("phone",user.getPhone());
+        HashMap<String, String> a = new HashMap<>();
+        a.put("phone", reply.getAt().getPhone());
+        Map<String, Object> map = new HashMap<>();
+        map.put("critic",u);
+        map.put("at", a);
+        map.put("content", reply.getContent());
+        map.put("belong",reply.getBelong());
+        jsonObject = new JSONObject(map);
         Log.e("##","发送 "+jsonObject.toString());
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, jsonObject, new Response.Listener<JSONObject>() {
             public void onResponse(JSONObject jsonObject) {
+                Log.e("##","回复上传成功");
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
+                Log.e("##","回复上传失败");
             }
         });
         mQueue.add(jsonObjectRequest);

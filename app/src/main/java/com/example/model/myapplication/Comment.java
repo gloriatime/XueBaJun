@@ -7,7 +7,7 @@ import java.util.List;
 public class Comment {
 	private int id;
 	private User critic;
-	private Date date;
+	private Date date = new Date();
 	private String type;
 	private int belong;
 	private String content;
