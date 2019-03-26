@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -39,45 +40,45 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Activity_Top20_book  extends AppCompatActivity {
-    private ListView list_re_C;
-    private RecommandAdapter mAdapter;
+    private ListView list_re_B;
+    List<String> str;//存放ListView数据
     //以上为列表内容
     private Book book;
     RequestQueue mQueue;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_top20);
-        getBook();
         //设置可能喜欢列表
         init();
-        setListView();
+        getBook();
+        //  setListView();
     }
+
     private void init() {
-        list_re_C = (ListView)findViewById(R.id.ListView_like);
+        list_re_B = (ListView) findViewById(R.id.ListView_like);
+        str = new ArrayList<>();
         mQueue = Volley.newRequestQueue(Activity_Top20_book.this);
     }
+
     //从后台请求一本书籍
     private void getBook() {
         // 与服务器交互
-        String url = "http://47.100.226.176:8080/XueBaJun/GetBook";
+        String url = "http://47.100.226.176:8080/XueBaJun/GetTopTwentyBook";
         JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put("id",1);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url,jsonObject,new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, jsonObject, new Response.Listener<JSONObject>() {
 
             public void onResponse(JSONObject jsonObject) {
                 Gson gson = new DateGson().getGson();
                 Book tempuser = gson.fromJson(jsonObject.toString(), Book.class);
-                // 签到成功，更新user的积分值并修改UI显示
+
                 book = tempuser;//从后台请求第一个course成功
 
-                if(tempuser != null) {
-                    Log.e("##getSuccess##", "Id"+tempuser.getName()+ "\n");
+                for (Book b : book.getTopTwentyList()) {
+                    str.add(b.getName());
                 }
+                setListView();
             }
         }, new Response.ErrorListener() {
             @Override
@@ -90,10 +91,10 @@ public class Activity_Top20_book  extends AppCompatActivity {
 
     private void setListView()//设置列表的点击事件
     {
-        mAdapter = new RecommandAdapter(this);//得到自定义的RecommandAdapter对象
-        list_re_C.setAdapter(mAdapter);//为ListView绑定Adapter
+        list_re_B.setAdapter(new ArrayAdapter<>(this,
+                android.R.layout.simple_list_item_1, str));
         /*为lsit添加点击事件*/
-        list_re_C.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        list_re_B.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Log.e("##", "你点击了ListView条目" + i);//在LogCat中输出信息
@@ -102,12 +103,15 @@ public class Activity_Top20_book  extends AppCompatActivity {
                 intent.setClass(Activity_Top20_book.this, BookMainActivity.class);
                 Bundle bundle = new Bundle();
                 List<Book> bookList = book.getRecommendList();
-                bundle.putString("bookone",bookList.get(i).getName());
+                Book showbook = bookList.get(i);
+                bundle.putString("bookone", showbook.getName());
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
     }
+}
+    /*
     //设置数据的显示显示数据
     private ArrayList<HashMap<String ,Object>> getData(){
         ArrayList<HashMap<String ,Object>> listItem = new ArrayList<>();
@@ -170,3 +174,4 @@ public class Activity_Top20_book  extends AppCompatActivity {
         }
     }
 }
+*/

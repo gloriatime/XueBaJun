@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,7 +17,6 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,46 +43,36 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Reco_book extends AppCompatActivity {
-    private ListView list_re_C;
+    private ListView list_re_B;
     private RecommandAdapter mAdapter;
-    // private final ArrayList<Course> data = new ArrayList<>();
     //以上为列表内容
     private TextView morebook;
-    private TextView T_C_one;
-    private TextView T_C_two;
-    private TextView T_C_three;
+    private TextView B_one;
+    private TextView B_two;
+    private TextView B_three;
     private Book book;
     RequestQueue mQueue;
     //列表按钮
-    private Button latest,maylike;
+    private Button latest, maylike;
     //搜索框
     private SearchView searchView;
     private ListView listView;
     private final String[] strings = {"数据结构","C++","JAVA"};
-
-    User user;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_rec_course);
-
-
-        getUser();
-        mQueue = Volley.newRequestQueue(Reco_book.this);
-        getBook();
-        //设置可能喜欢列表
+        setContentView(R.layout.activity_rec_book);
         init();
+        getBook();
+        setPage();
+        //设置可能喜欢列表
         setListView();
-        //setOnclick();
         //设置搜索框
-        initsearch();
+        setSearch();
         setOnclickFun();
     }
 
-    private void initsearch() {
-        listView = (ListView)findViewById(R.id.lv);
-        searchView = (SearchView)findViewById(R.id.searchEdit);
+    private void setSearch()  {
         //设置适配器
         listView.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_dropdown_item_1line,strings));
         //listView启动过滤
@@ -112,39 +102,30 @@ public class Reco_book extends AppCompatActivity {
     }
 
     private void init() {
-        user = new User();
+        morebook = (TextView)findViewById(R.id.morebook);
         latest =(Button) findViewById(R.id.latest);
         maylike =(Button) findViewById(R.id.likebook);
-        //latest.setBackgroundColor(getResources().getColor(R.color.white));
-        //maylike.setBackgroundColor(getResources().getColor(R.color.blue));
-        morebook = (TextView) findViewById(R.id.morebook);
-        morebook.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Reco_book.this, Activity_Top20_book.class);
-                intent.putExtra("user",user);
-                startActivity(intent);
-            }
-        });
-        List<Book> Blist = book.getRecommendList();
-        T_C_one = (TextView)findViewById(R.id.T_C_one);
-        String a = "1."+Blist.get(0).getName()+"------"+Blist.get(0).getName();
-        T_C_one.setText(a);
-        T_C_two = (TextView)findViewById(R.id.T_C_two);
-        String b = "2."+Blist.get(1).getName()+"------"+Blist.get(1).getName();
-        T_C_two.setText(b);
-        T_C_three = (TextView)findViewById(R.id.T_C_three);
-        String c = "3."+Blist.get(2).getName()+"------"+Blist.get(2).getName();
-        T_C_three.setText(c);
-        list_re_C = (ListView)findViewById(R.id.ListView_like);
+        latest.setBackgroundColor(getResources().getColor(R.color.white));
+        maylike.setBackgroundColor(getResources().getColor(R.color.blue));
+        //List<Book> Blist = book.getRecommendList();
+        B_one = (TextView)findViewById(R.id.B_one);
+        B_two = (TextView)findViewById(R.id.B_two);
+        B_three = (TextView)findViewById(R.id.B_three);
+       // String a = "1."+Blist.get(0).getName()+"------"+Blist.get(0).getName();
+        //T_C_one.setText(a);
+        //String b = "2."+Blist.get(1).getName()+"------"+Blist.get(1).getName();
+        //T_C_two.setText(b);
+      //  String c = "3."+Blist.get(2).getName()+"------"+Blist.get(2).getName();
+       // T_C_three.setText(c);
+        list_re_B = (ListView)findViewById(R.id.ListView_like_book);
         //开始设置搜索框
-        //  searchView = (SearchView) findViewById(R.id.searchEdit);
+        searchView = (SearchView) findViewById(R.id.searchEditBook);
+        listView = (ListView)findViewById(R.id.lvb);
+        book = new Book();
+        mQueue = Volley.newRequestQueue(Reco_book.this);
     }
-
-    private void getUser(){
-
-        Intent intent = getIntent();
-        user = (User) intent.getSerializableExtra("user");
+    private void setPage() {
+        morebook.setOnClickListener(new moreb());
     }
 
     private void getBook() {
@@ -152,18 +133,14 @@ public class Reco_book extends AppCompatActivity {
         String url = "http://47.100.226.176:8080/XueBaJun/GetRecommendListOfBookPage";
 
         JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put("phone",user.getPhone());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url,jsonObject,new Response.Listener<JSONObject>() {
 
             public void onResponse(JSONObject jsonObject) {
                 Gson gson = new DateGson().getGson();
                 Book tempuser = gson.fromJson(jsonObject.toString(), Book.class);
-
-                book = tempuser;
+                // 签到成功，更新user的积分值并修改UI显示
+                book = tempuser;//从后台请求第一个course成功
 
                 if(tempuser != null) {
                     Log.e("##getSuccess##", "Id"+tempuser.getName()+ "\n");
@@ -178,20 +155,20 @@ public class Reco_book extends AppCompatActivity {
         mQueue.add(jsonObjectRequest);
     }
     //为更多课程添加点击事件
-    /*class moreb implements View.OnClickListener {
+    class moreb implements View.OnClickListener {
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(Reco_book.this, Activity_Top20_book.class);
             startActivity(intent);
         }
-    }*/
+    }
 
     private void setListView()//设置列表的点击事件
     {
         mAdapter = new RecommandAdapter(this);//得到自定义的RecommandAdapter对象
-        list_re_C.setAdapter(mAdapter);//为ListView绑定Adapter
+        list_re_B.setAdapter(mAdapter);//为ListView绑定Adapter
         /*为lsit添加点击事件*/
-        list_re_C.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        list_re_B.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Log.e("##", "你点击了ListView条目" + i);//在LogCat中输出信息
@@ -200,21 +177,24 @@ public class Reco_book extends AppCompatActivity {
                 intent.setClass(Reco_book.this, BookMainActivity.class);
                 Bundle bundle = new Bundle();
                 List<Book> bookList = book.getRecommendList();
-                bundle.putString("bookone",bookList.get(i).getName());
+                Book showbook = bookList.get(i);
+                bundle.putString("bookone",showbook.getName());
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
 
-
     }
     //设置数据的显示显示数据
     private ArrayList<HashMap<String ,Object>> getData(){
         ArrayList<HashMap<String ,Object>> listItem = new ArrayList<>();
-        List<Book> Blist = book.getRecommendList();
+        List<Book> Blist = new ArrayList<>();
+            Blist = book.getRecommendList();
         Log.e("##", "----------------开始为listItem添加内容----------");//在LogCat中输出信息
+       if(Blist ==null) return listItem;
         for(int i = 0; i <  Blist.size(); i++){
             HashMap<String, Object> map = new HashMap<>();
+            //设置封面
             map.put("bookcover",Blist.get(i).getCover());
             map.put("bname",Blist.get(i).getName());
             map.put("author",Blist.get(i).getAuthor());
@@ -232,7 +212,7 @@ public class Reco_book extends AppCompatActivity {
         @Override
         public int getCount()
         {
-            return book.getRecommendList().size();
+            return getData().size();
         }
         @Override
         public Object getItem(int position)

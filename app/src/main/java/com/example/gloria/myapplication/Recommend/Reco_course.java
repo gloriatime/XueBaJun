@@ -55,7 +55,6 @@ import java.util.Map;
 public class Reco_course extends AppCompatActivity {
     private ListView list_re_C;
     private RecommandAdapter mAdapter;
-   // private final ArrayList<Course> data = new ArrayList<>();
     //以上为列表内容
     private TextView morecourse;
     private TextView T_C_one;
@@ -122,7 +121,6 @@ public class Reco_course extends AppCompatActivity {
 
         list_re_C = (ListView)findViewById(R.id.ListView_like);
         //开始设置搜索框
-      //  searchView = (SearchView) findViewById(R.id.searchEdit);
         listView = (ListView)findViewById(R.id.lv);
         searchView = (SearchView)findViewById(R.id.searchEdit);
 
