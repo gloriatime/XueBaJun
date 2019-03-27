@@ -94,6 +94,17 @@
 
         </LinearLayout>
 
+        <!--<LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginStart="@dimen/activity_vertical_margin">
+            <TextView
+                android:id="@+id/tag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="标 签：点击为文档添加标签"/>
+        </LinearLayout>-->
 
             <ListView
                 android:id="@+id/list"

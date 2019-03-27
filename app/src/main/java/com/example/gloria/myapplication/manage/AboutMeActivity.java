@@ -135,6 +135,7 @@ public class AboutMeActivity extends AppCompatActivity {
                 Log.e("##","跳转前Id："+comments.get(arg2).getBelong());
                 Log.e("##","资料搜索跳转详情");
                 startActivity(intent);
+
             }
         });
     }
@@ -485,6 +486,35 @@ public class AboutMeActivity extends AppCompatActivity {
         inputDialog.show();
     }
 
+    private void showChangeDocumentDialog(final int position){
+        // 弹出包含修改删除两种选项的对话框
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setTitle("我要？")//设置对话框的标题
+                .setPositiveButton("直接删除", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        showDeleteDocumentAlterDialog(position);
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .setNeutralButton("修改文件标签", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // 跳转
+                        Intent intent = new Intent(AboutMeActivity.this, AddTagActivity.class);
+                        intent.putExtra("user",(Serializable) user);
+                        intent.putExtra("document",uploaded.get(position));
+                        startActivity(intent);
+                    }
+                })
+                .create();
+        dialog.show();
+    }
     private void showDeleteDocumentAlterDialog(final int position) {
         AlertDialog dialog = new AlertDialog.Builder(this)
                 .setTitle("确认要删除"+getData(UPLOADED).get(position).get("name").toString()+"么？")//设置对话框的标题
@@ -695,7 +725,8 @@ public class AboutMeActivity extends AppCompatActivity {
                         // 根据listContent的不同分别使用不同的dialog
                         switch (listContent){
                             case UPLOADED:{
-                                showDeleteDocumentAlterDialog(position);
+                                showChangeDocumentDialog(position);
+                                //showDeleteDocumentAlterDialog(position);
                                 break;
                             }
                             case COMMENT:{

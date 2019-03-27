@@ -29,12 +29,14 @@ import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.base.myapplication.DateGson;
 import com.example.base.myapplication.ListItemViewHolder;
 import com.example.gloria.myapplication.R;
 import com.example.gloria.okhttp3helper.http.OkHttpUtil;
 import com.example.gloria.okhttp3helper.http.ProgressListener;
 import com.example.model.myapplication.CollectDocument;
 import com.example.model.myapplication.Document;
+import com.example.model.myapplication.Tag;
 import com.example.model.myapplication.User;
 import com.google.gson.Gson;
 import com.leon.lfilepickerlibrary.LFilePicker;
@@ -42,6 +44,7 @@ import com.leon.lfilepickerlibrary.LFilePicker;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.json.JSONException;
+import org.w3c.dom.DocumentType;
 
 import java.io.File;
 import java.io.IOException;
@@ -60,6 +63,7 @@ public class UploadFileActivity extends AppCompatActivity {
 
     Button upload_button;
     TextView document_button_1,document_button_2,document_button_3,document_button_4;// 上传进度也通过此控件显示
+    //TextView tag;
     String path;// 需要上传的文档路径
     int item;// 需要更改显示的item，在显示选择文件时用到
     File[] fileList;
@@ -122,6 +126,7 @@ public class UploadFileActivity extends AppCompatActivity {
         document_button_3 = (TextView) findViewById(R.id.document_button_3);
         document_button_4 = (TextView) findViewById(R.id.document_button_4);
         upload_button = (Button) findViewById(R.id.up_button);
+        //tag = (TextView) findViewById(R.id.tag);
         list= (ListView) findViewById(R.id.list);
         mQueue = Volley.newRequestQueue(this);
         fileList = new File[4];// 对应UI中文档1-4
@@ -132,6 +137,12 @@ public class UploadFileActivity extends AppCompatActivity {
 
     private void setClickFun(){
 
+        /*tag.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });*/
         upload_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -280,13 +291,15 @@ public class UploadFileActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        // 与服务器交互得到我收藏的资料列表
+        // 与服务器交互
         String url = "http://47.100.226.176:8080/XueBaJun/AddDocument";
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, jsonObject, new com.android.volley.Response.Listener<org.json.JSONObject>() {
 
             public void onResponse(org.json.JSONObject jsonObject) {
                 Log.e("##", "document插入数据库已返回");
+                Gson gson = new DateGson().getGson();
+                Document temp = gson.fromJson(jsonObject.toString(), Document.class);
                 // 返回后清除数据
                 documents[i] = null;
             }
