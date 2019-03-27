@@ -1,9 +1,10 @@
 package com.example.model.myapplication;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Course {
-	private int Id;
+public class Course implements Serializable {
+	private int id;
 	private String name;
 	private String term;
 	private String intro;
@@ -34,10 +35,10 @@ public class Course {
 	private List<Course> topTwentyList;
 
 	public int getId() {
-		return Id;
+		return id;
 	}
 	public void setId(int id) {
-		Id = id;
+		this.id = id;
 	}
 	public String getName() {
 		return name;
@@ -85,14 +86,14 @@ public class Course {
 	// 重写相同判别法，过滤推荐列表中的相同元素
 	@Override
 	public int hashCode() {
-		return Id;
+		return id;
 	}
 	@Override
 	public boolean equals(Object x){
 		if(this.getClass() != x.getClass())
 			return false;
 		Course c = (Course)x;
-		return this.Id == c.Id;
+		return this.id == c.id;
 	}
 	public List<Course> getRecommendList() {
 		return recommendList;

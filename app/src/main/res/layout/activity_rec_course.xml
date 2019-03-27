@@ -18,8 +18,9 @@
     <ListView
         android:id="@+id/lv"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_below="@id/searchEdit">
+        android:layout_height="210dp"
+        android:layout_below="@id/searchEdit"
+        android:background="@color/whiteSmoke">
     </ListView>
 
     <!--hot小图标-->
@@ -75,7 +76,7 @@
         android:layout_alignParentEnd="true"
         android:textColor="@color/red"
         android:layout_marginEnd="20dp"
-        android:layout_marginTop="5dp"/>
+        android:layout_marginTop="15dp"/>
     <!--like小图标-->
     <ImageView
         android:id="@+id/LikeImage"
@@ -83,7 +84,7 @@
         android:layout_height="30dp"
         android:contentDescription="@string/maylike"
         android:src="@drawable/like"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="25dp"
         android:layout_below="@id/morecourse"
         android:layout_marginStart="10dp"
         />

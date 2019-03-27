@@ -57,7 +57,7 @@ public class Reco_book extends AppCompatActivity {
     //搜索框
     private SearchView searchView;
     private ListView listView;
-    private final String[] strings = {"数据结构","C++","JAVA"};
+    private final String[] strings = {"数据结构","C++","JAVA","操作系统"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,8 +105,8 @@ public class Reco_book extends AppCompatActivity {
         morebook = (TextView)findViewById(R.id.morebook);
         latest =(Button) findViewById(R.id.latest);
         maylike =(Button) findViewById(R.id.likebook);
-        latest.setBackgroundColor(getResources().getColor(R.color.white));
-        maylike.setBackgroundColor(getResources().getColor(R.color.blue));
+        //latest.setBackgroundColor(getResources().getColor(R.color.white));
+       // maylike.setBackgroundColor(getResources().getColor(R.color.blue));
         //List<Book> Blist = book.getRecommendList();
         B_one = (TextView)findViewById(R.id.B_one);
         B_two = (TextView)findViewById(R.id.B_two);

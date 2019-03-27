@@ -46,7 +46,8 @@
     <string name="hot">热度</string>
     <string name="hotcourse">热门排行Top20</string>
     <string name="hotbook">热门书籍Top20</string>
-
+    <string name="writecomment">写评论</string>
+    <string name="commentnum">评论0</string>
     <string name="re_courseone">推荐课程1</string>
     <string name="name">名称：表演素质艺术</string>
     <string name="category">类别：文素</string>

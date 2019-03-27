@@ -65,7 +65,7 @@ public class Reco_course extends AppCompatActivity {
     //搜索框
     private SearchView searchView;
     private ListView listView;
-    private final String[] strings = {"数据结构","C++","JAVA"};
+    private final String[] strings = {"数据结构","C++","JAVA","操作系统"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
