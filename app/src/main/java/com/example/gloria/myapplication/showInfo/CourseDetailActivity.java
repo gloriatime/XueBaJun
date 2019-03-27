@@ -109,6 +109,7 @@ public class CourseDetailActivity extends AppCompatActivity implements View.OnCl
     private void getPassInfo() {
         Intent intent = getIntent();
         user = (User) intent.getSerializableExtra("user");
+        //Log.e("##","user长度"+user.get)
         id = intent.getIntExtra("course_id",0);
     }
 

@@ -14,6 +14,10 @@
     android:layout_marginStart="10dp"
     android:layout_marginEnd="10dp">
     <!-- 课程名 -->
+    <RelativeLayout
+        android:id="@+id/theone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
     <TextView
         android:id="@+id/one"
         android:layout_width="wrap_content"
@@ -26,14 +30,21 @@
         android:id="@+id/course_name_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@id/one" />
+        android:layout_toEndOf="@id/one"
+        android:layout_centerVertical="true"/>
+      </RelativeLayout>
     <!-- 优选学期 -->
+    <RelativeLayout
+        android:id="@+id/thetwo"
+        android:layout_below="@id/theone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
     <TextView
         android:id="@+id/four"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/prefersemester"
-        android:layout_below="@id/one"
+        android:layout_centerVertical="true"
         android:layout_marginTop="5dp"
         android:layout_marginStart="10dp"
         android:textSize="20dp"/>
@@ -42,7 +53,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toEndOf="@id/four"
-        android:layout_alignTop="@id/four"/>
+        android:layout_centerVertical="true"/>
+    </RelativeLayout>
     <!-- 开课时间
     <TextView
         android:id="@+id/five"
@@ -62,7 +74,7 @@
         android:id="@+id/twentyone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/four">
+        android:layout_below="@id/thetwo">
     <TextView
         android:id="@+id/six"
         android:layout_width="wrap_content"
@@ -106,12 +118,16 @@
          android:layout_alignTop="@id/six"
          android:layout_marginStart="10dp" />
     </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/thethree"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/twentyone">
     <TextView
         android:id="@+id/eight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/setscore"
-        android:layout_below="@id/twentyone"
         android:layout_marginTop="5dp"
         android:layout_marginStart="10dp"
         android:textSize="20dp"/>
@@ -120,8 +136,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toEndOf="@id/eight"
-        android:layout_alignTop="@id/eight"
+        android:layout_centerVertical="true"
         android:textColor="@color/red"/>
+    </RelativeLayout>
     <Button
         android:id="@+id/givescore"
         android:layout_width="60dp"
@@ -130,7 +147,7 @@
         android:textSize="@dimen/common"
         android:text="@string/setSC"
         android:textColor="@color/white"
-        android:layout_below="@id/eight"
+        android:layout_below="@id/thethree"
         android:layout_marginTop="5dp"
         android:layout_marginStart="10dp"/>
 </RelativeLayout>
@@ -166,7 +183,7 @@
             android:layout_marginTop="10dp"/>
         <Button
             android:id="@+id/textbbook"
-            android:layout_width="120dp"
+            android:layout_width="150dp"
             android:layout_height="25dp"
             android:background="@drawable/biankuang_bt"
             android:layout_toEndOf="@id/ten"
@@ -177,7 +194,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/ten"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginTop="10dp"
+            android:textSize="20dp"
+            android:layout_marginStart="10dp"/>
     </RelativeLayout>
     </RelativeLayout>
     <!--给评论预留的-->
