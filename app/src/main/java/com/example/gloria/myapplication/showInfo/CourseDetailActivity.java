@@ -188,7 +188,6 @@ public class CourseDetailActivity extends AppCompatActivity implements View.OnCl
                 if(course.getCommentList() != null) {
                     Log.e("##","长度22 "+course.getCommentList().size());
                     commentList = course.getCommentList();
-                    // Log.e("##", "commentList" + commentList.get(0).getCritic().getPhone());
                     adapter = new CommentAdapter(CourseDetailActivity.this, commentList);
                     listView.setAdapter(adapter);
                 }

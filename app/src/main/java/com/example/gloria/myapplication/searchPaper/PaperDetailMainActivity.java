@@ -181,7 +181,7 @@ public class PaperDetailMainActivity extends AppCompatActivity implements View.O
 
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("id", 26);
+            jsonObject.put("id", id);
             jsonObject.put("applicant",user.getPhone());
         } catch (JSONException e) {
             e.printStackTrace();
@@ -235,7 +235,7 @@ public class PaperDetailMainActivity extends AppCompatActivity implements View.O
 
                     if(document.getCommentList() != null) {
                         commentList = document.getCommentList();
-                        Log.e("##", "commentList" + commentList.get(0).getCritic().getPhone());
+                        //Log.e("##", "commentList" + commentList.get(0).getCritic().getPhone());
                         adapter = new CommentAdapter(PaperDetailMainActivity.this, commentList);
                         listView.setAdapter(adapter);
                     }
