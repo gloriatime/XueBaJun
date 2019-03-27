@@ -1,10 +1,11 @@
 package com.example.model.myapplication;
 
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class Document {
+public class Document implements Serializable {
 	private int id;
 	private String name = "没名字";
 	private String author = "佚名";

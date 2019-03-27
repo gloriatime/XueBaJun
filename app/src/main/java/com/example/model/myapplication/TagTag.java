@@ -1,15 +1,15 @@
 package com.example.model.myapplication;
 
 public class TagTag {
-	private int Id;
+	private int id;
 	private int tag;
 	private int belong;
 	private String type;
 	public int getId() {
-		return Id;
+		return id;
 	}
 	public void setId(int id) {
-		Id = id;
+		this.id = id;
 	}
 	public int getTag() {
 		return tag;

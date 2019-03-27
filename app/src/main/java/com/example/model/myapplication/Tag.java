@@ -3,7 +3,7 @@ package com.example.model.myapplication;
 import java.util.List;
 
 public class Tag {
-	private int Id;
+	private int id;
 	private String name;
 	private String type;
 	private int times;// 被引用次数
@@ -11,10 +11,10 @@ public class Tag {
 	private List<Tag> tagList;// 模糊查询结果列表
 
 	public int getId() {
-		return Id;
+		return id;
 	}
 	public void setId(int id) {
-		Id = id;
+		this.id = id;
 	}
 	public String getName() {
 		return name;
