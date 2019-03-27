@@ -54,5 +54,6 @@
     <string name="teacherwho">教师：XXX</string>
     <string name="thelatest">最新上架</string>
     <string name="youmaylikebook">可能喜欢</string>
-    <string name="formorebook">查看更多</string>
+   <string name="formorebook">查看更多</string>
+    <string name="rememberpsw">记住密码</string>
 </resources>
