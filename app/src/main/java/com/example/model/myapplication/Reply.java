@@ -5,17 +5,17 @@ public class Reply {
     private User critic;
     private User at;
     private int belong;
-    private String Content;
+    private String content;
 
     public Reply(User critic, User at, String Content){
         this.critic = critic;
         this.at = at;
-        this.Content = Content;
+        this.content = Content;
     }
 
     public Reply(User critic, String Content){
         this.critic = critic;
-        this.Content = Content;
+        this.content = Content;
     }
     // »¹ÓÐÒ»¸öteacher¡£
     public int getId() {
@@ -31,10 +31,10 @@ public class Reply {
         this.critic = critic;
     }
     public String getContent() {
-        return Content;
+        return content;
     }
     public void setContent(String content) {
-        Content = content;
+        this.content = content;
     }
     public int getBelong() {
         return belong;

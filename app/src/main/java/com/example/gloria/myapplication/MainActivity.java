@@ -469,6 +469,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, BookMainActivity.class);
                 intent.putExtra("user", (Serializable) user);
                 intent.putExtra("book_id", books.get(arg2).getId());
+                Log.e("##","推荐book跳转前id"+books.get(arg2).getId());
                 startActivity(intent);
             }
         });
