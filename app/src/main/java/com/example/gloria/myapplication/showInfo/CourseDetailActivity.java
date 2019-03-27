@@ -1,5 +1,6 @@
 package com.example.gloria.myapplication.showInfo;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -30,6 +31,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.base.myapplication.DateGson;
 import com.example.gloria.myapplication.R;
 import com.example.gloria.myapplication.adapter.CommentAdapter;
@@ -87,19 +89,13 @@ public class CourseDetailActivity extends AppCompatActivity implements View.OnCl
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
         setContentView(R.layout.course_detail);
-
         listView = (ListView)findViewById(R.id.comment_detail);
         comment_bt = (TextView)findViewById(R.id.textViewSay);
         mComment = (TextView)findViewById(R.id.textViewComment);
-
-        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,R.layout.course_title);
         getPassInfo();
-        getCourse();
         init();
-        SetButton();
-
+        getCourse();
         //评论回复
         //解析回复界面
         replyView = LayoutInflater.from(this).inflate(R.layout.comment_show_reply, null);
@@ -174,25 +170,21 @@ public class CourseDetailActivity extends AppCompatActivity implements View.OnCl
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
         // 与服务器交互得到我收藏的资料列表
-        String url = "http://47.100.226.176:8080/XueBaJun/GetCoures";
+        String url = "http://47.100.226.176:8080/XueBaJun/GetCourse";
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, jsonObject, new Response.Listener<org.json.JSONObject>() {
 
             public void onResponse(org.json.JSONObject jsonObject) {
+                Log.e("##","course返回了 "+jsonObject.toString());
                  course = new Gson().fromJson(jsonObject.toString(), Course.class);
-                Log.e("##", jsonObject.toString());
-                Log.e("##","comment_id"+course.getComment());
-                //Log.e("##","长度11 "+book.getCommentList().size());
                 if(course.getCommentList() != null) {
-                    Log.e("##","长度22 "+course.getCommentList().size());
                     commentList = course.getCommentList();
-                    // Log.e("##", "commentList" + commentList.get(0).getCritic().getPhone());
                     adapter = new CommentAdapter(CourseDetailActivity.this, commentList);
                     listView.setAdapter(adapter);
                 }
-
+                sec_init();
+                SetButton();
             }
         }, new Response.ErrorListener() {
             @Override
@@ -202,30 +194,36 @@ public class CourseDetailActivity extends AppCompatActivity implements View.OnCl
         });
         mQueue.add(jsonObjectRequest);
     }
-    private void init() {
-        course_name_text = (TextView)findViewById(R.id.course_name_text);
+    private void sec_init() {
         course_name_text.setText(course.getName());
-        course_prefersemester = (TextView)findViewById(R.id.course_prefersemester);
         course_prefersemester.setText(course.getTerm());
-        //course_ctime = (TextView)findViewById(R.id.course_ctime);
-       // course_ctime.setText(course.getCtime());
-        setscore = (TextView)findViewById(R.id.setscore);
         setscore.setText(String.valueOf(course.getScore()));
-        textbbook = (TextView)findViewById(R.id.textbbook);
         Book book = course.getBook();
-        bookimage = (ImageView) findViewById(R.id.bookimage);
-        SetBookImg();
-        textbbook.setText(book.getName());
-        introducebook = (TextView)findViewById(R.id.introducebook);
+        if(book!=null){
+            SetBookImg();
+            textbbook.setText(book.getName());
+        }else {
+            bookimage.setBackgroundResource(R.drawable.bookimgsample);
+        }
         introducebook.setText(course.getIntro());
-        teacher_one = (Button)findViewById(R.id.teacher_one);
-        teacher_two = (Button)findViewById(R.id.teacher_two);
-        teacher_three = (Button)findViewById(R.id.teacher_three);
-        givescore = (Button)findViewById(R.id.givescore);
         teacher_one.setOnClickListener(new tone());
         teacher_two.setOnClickListener(new ttwo());
         teacher_three.setOnClickListener(new tthree());
         givescore.setOnClickListener(new gscore());
+    }
+
+    private void init() {
+        course_name_text = (TextView)findViewById(R.id.course_name_text);
+        course_prefersemester = (TextView)findViewById(R.id.course_prefersemester);
+        setscore = (TextView)findViewById(R.id.setscore);
+        textbbook = (TextView)findViewById(R.id.textbbook);
+        bookimage = (ImageView) findViewById(R.id.bookimage);
+        introducebook = (TextView)findViewById(R.id.introducebook);
+        teacher_one = (Button)findViewById(R.id.teacher_one);
+        teacher_two = (Button)findViewById(R.id.teacher_two);
+        teacher_three = (Button)findViewById(R.id.teacher_three);
+        givescore = (Button)findViewById(R.id.givescore);
+        mQueue = Volley.newRequestQueue(CourseDetailActivity.this);
     }
     class gscore implements OnClickListener
     {
@@ -242,12 +240,7 @@ public class CourseDetailActivity extends AppCompatActivity implements View.OnCl
         public void onClick(View v) {
         Intent intent = new Intent();
         intent.setClass(CourseDetailActivity.this,TeacherDetailActivity.class);
-        Bundle bundle = new Bundle();
-            List<ProfessorCourse> teacherList = course.getProfessorCourseList();
-            Professor teacherone = teacherList.get(0).getProfessor();
-            bundle.putString("teacherone",teacherone.getName());
-        intent.putExtras(bundle);
-        intent.putExtra("user",user);
+        intent.putExtra("professor",course.getProfessorCourseList().get(0).getProfessor());
         startActivity(intent);
         }
     }
@@ -257,11 +250,7 @@ public class CourseDetailActivity extends AppCompatActivity implements View.OnCl
         public void onClick(View v) {
             Intent intent = new Intent();
             intent.setClass(CourseDetailActivity.this,TeacherDetailActivity.class);
-            Bundle bundle = new Bundle();
-            List<ProfessorCourse> teacherList = course.getProfessorCourseList();
-            Professor teachertwo = teacherList.get(1).getProfessor();
-            bundle.putString("teachertwo",teachertwo.getName());
-            intent.putExtras(bundle);
+            intent.putExtra("professor",course.getProfessorCourseList().get(1).getProfessor());
             startActivity(intent);
         }
     }
@@ -271,32 +260,32 @@ public class CourseDetailActivity extends AppCompatActivity implements View.OnCl
         public void onClick(View v) {
             Intent intent = new Intent();
             intent.setClass(CourseDetailActivity.this,TeacherDetailActivity.class);
-            Bundle bundle = new Bundle();
-            List<ProfessorCourse> teacherList = course.getProfessorCourseList();
-            Professor teacherthree = teacherList.get(2).getProfessor();
-            bundle.putString("teacherthree",teacherthree.getName());
-            intent.putExtras(bundle);
+            intent.putExtra("professor",course.getProfessorCourseList().get(2).getProfessor());
             startActivity(intent);
         }
     }
     private void SetBookImg(){
         // 请求图书对应头像，如果没有，就使用默认图片
         Book book = course.getBook();
-        ImageRequest imageRequest = new ImageRequest(
-                "http://47.100.226.176:8080/XueBaJun/book_image/"+book.getCover()+".jpg",
-                new Response.Listener<Bitmap>() {
-                    @Override
-                    public void onResponse(Bitmap response) {
-                        BitmapDrawable temp = new BitmapDrawable(response);
-                        bookimage.setBackground(temp);
-                    }
-                }, 300, 300, Bitmap.Config.RGB_565, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                bookimage.setBackgroundResource(R.drawable.bookimgsample);
-            }
-        });
-        mQueue.add(imageRequest);
+        if(book.getCover()==null)
+            bookimage.setBackgroundResource(R.drawable.bookimgsample);
+        else {
+            ImageRequest imageRequest = new ImageRequest(
+                    "http://47.100.226.176:8080/XueBaJun/book_image/" + book.getCover() + ".jpg",
+                    new Response.Listener<Bitmap>() {
+                        @Override
+                        public void onResponse(Bitmap response) {
+                            BitmapDrawable temp = new BitmapDrawable(response);
+                            bookimage.setBackground(temp);
+                        }
+                    }, 300, 400, Bitmap.Config.RGB_565, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    bookimage.setBackgroundResource(R.drawable.bookimgsample);
+                }
+            });
+            mQueue.add(imageRequest);
+        }
     }
 
     //评论回复

@@ -738,10 +738,10 @@ public class MainActivity extends AppCompatActivity {
 
         ArrayList<HashMap<String, Object>> listItem = new ArrayList<>();
 
-        Log.e("##", "----------------开始为listItem添加内容----------");//在LogCat中输出信息
+        //Log.e("##", "----------------开始为listItem添加内容----------");//在LogCat中输出信息
 
         if(listContent == DOCUMENT){
-            Log.e("##", "此时doc列表为" +documents.size());//在LogCat中输出信息
+            //Log.e("##", "此时doc列表为" +documents.size());//在LogCat中输出信息
             for (int i = 0; i < documents.size(); i++) {
                 HashMap<String, Object> map = new HashMap<>();
                 map.put("text_1", documents.get(i).getName());
@@ -750,7 +750,7 @@ public class MainActivity extends AppCompatActivity {
                 listItem.add(map);
             }
         }else if(listContent == BOOK){
-            Log.e("##", "此时book列表为" +books.size());//在LogCat中输出信息
+            //Log.e("##", "此时book列表为" +books.size());//在LogCat中输出信息
             for (int i = 0; i < books.size(); i++) {
                 HashMap<String, Object> map = new HashMap<>();
                 map.put("text_1", books.get(i).getName());
@@ -761,7 +761,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         }else if(listContent == COURSE){
-            Log.e("##", "此时course列表为"+courses.size() );//在LogCat中输出信息
+            //Log.e("##", "此时course列表为"+courses.size() );//在LogCat中输出信息
             for (int i = 0; i < courses.size(); i++) {
                 HashMap<String, Object> map = new HashMap<>();
                 map.put("text_1", courses.get(i).getName());

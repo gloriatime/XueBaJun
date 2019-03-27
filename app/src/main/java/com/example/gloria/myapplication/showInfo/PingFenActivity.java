@@ -23,6 +23,7 @@ import com.example.gloria.myapplication.manage.MyCollectActivity;
 import com.example.model.myapplication.CollectDocument;
 import com.example.model.myapplication.Course;
 import com.example.model.myapplication.Document;
+import com.example.model.myapplication.Professor;
 import com.example.model.myapplication.User;
 import com.google.gson.Gson;
 
@@ -33,6 +34,8 @@ import java.util.List;
 public class PingFenActivity extends AppCompatActivity {
     Button btn;
     EditText editText;
+
+    Professor professor;
     //private Course course;
     RequestQueue mQueue;
     int id;
@@ -55,6 +58,9 @@ public class PingFenActivity extends AppCompatActivity {
         id = intent.getIntExtra("pingfen_id",0);
         //id = 6;
         Log.e("##", "评分详情id："+id);
+        professor = (Professor) intent.getSerializableExtra("professor");
+
+
     }
     class btnok implements OnClickListener{
         @Override
