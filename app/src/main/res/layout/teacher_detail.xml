@@ -39,6 +39,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_toEndOf="@id/fourty"
                 android:textSize="@dimen/common"
+                android:textColor="@color/red"
                 />
             <Button
                 android:id="@+id/score"
@@ -214,7 +215,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/five">
         <ListView
-            android:id="@+id/teacher_comment"
+            android:id="@+id/comment_detail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             ></ListView>

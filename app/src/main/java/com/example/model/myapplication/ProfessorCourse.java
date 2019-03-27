@@ -1,6 +1,8 @@
 package com.example.model.myapplication;
 
-public class ProfessorCourse {
+import java.io.Serializable;
+
+public class ProfessorCourse implements Serializable {
 
     private Professor professor;
     private Course course;

@@ -32,6 +32,7 @@ import com.example.base.myapplication.DateGson;
 import com.example.gloria.myapplication.R;
 import com.example.gloria.myapplication.adapter.CommentAdapter;
 import com.example.gloria.myapplication.adapter.ReplyAdapter;
+import com.example.gloria.myapplication.search.SearchResultActivity;
 import com.example.model.myapplication.Comment;
 import com.example.model.myapplication.Course;
 import com.example.model.myapplication.Professor;
@@ -62,6 +63,7 @@ public class TeacherDetailActivity extends AppCompatActivity implements View.OnC
     private Button coursefour;
     private Button course5,course6;
     private Button score;
+    TextView seescore;
 
     //评论回复定义
     private ListView listView;
@@ -75,6 +77,8 @@ public class TeacherDetailActivity extends AppCompatActivity implements View.OnC
     View replyView;
     User user = new User();
     int id = 0;
+
+    List<ProfessorCourse> professorCourse;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -102,13 +106,83 @@ public class TeacherDetailActivity extends AppCompatActivity implements View.OnC
         user = (User) intent.getSerializableExtra("user");
         professor = (Professor) intent.getSerializableExtra("professor");
         id = professor.getId();
+        Log.e("##","professor 得到Id "+id);
     }
     private void sec_init() {
         peopleintro.setText(professor.getIntro());
         researchin.setText(professor.getField());
         score.setOnClickListener(new gscore());
+        seescore.setText(" "+professor.getScore());
+        setCourseButton();
+        //courseone.setText(professor.getProfessorCourseList().get(0).getCourse().getName());
         SetProfessorImg();
+
     }
+
+    private void jump(int i){
+        Intent intent = new Intent(TeacherDetailActivity.this, CourseDetailActivity.class);
+        intent.putExtra("user",(Serializable) user);
+        intent.putExtra("course_id",professorCourse.get(i).getCourse().getId());
+        startActivity(intent);
+    }
+
+    private void setCourseButton() {
+        courseone.setText(professorCourse.get(0).getCourse().getName());
+        courseone.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                jump(0);
+            }
+        });
+        int i = professorCourse.size();
+        if((--i)>0){
+            coursetwo.setText(professorCourse.get(1).getCourse().getName());
+            coursetwo.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                   jump(1);
+                }
+            });
+        }
+        if((--i)>0){
+            coursethree.setText(professorCourse.get(2).getCourse().getName());
+            coursethree.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    jump(2);
+                }
+            });
+        }
+        if((--i)>0){
+            coursefour.setText(professorCourse.get(3).getCourse().getName());
+            coursefour.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    jump(3);
+                }
+            });
+        }
+        if((--i)>0){
+            course5.setText(professorCourse.get(4).getCourse().getName());
+            course5.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    jump(4);
+                }
+            });
+        }
+        if((--i)>0){
+            course6.setText(professorCourse.get(5).getCourse().getName());
+            course6.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    jump(5);
+                }
+            });
+        }
+    }
+
+
     private void  init() {
         professorimage = (ImageView) findViewById(R.id.teacherimage);
         courseone = (Button) findViewById(R.id.courseone);
@@ -120,55 +194,19 @@ public class TeacherDetailActivity extends AppCompatActivity implements View.OnC
         score = (Button) findViewById(R.id.score);
         course5 = (Button) findViewById(R.id.coursefive);
         course6 = (Button) findViewById(R.id.coursesix);
+        seescore = (TextView) findViewById(R.id.seescore);
     }
     class gscore implements OnClickListener
     {
         @Override
         public void onClick(View V) {
-            Intent intent = new Intent(TeacherDetailActivity.this,activity_T_pingfen.class);
+            Intent intent = new Intent(TeacherDetailActivity.this,PingFenActivity.class);
             intent.putExtra("professor",(Serializable) professor);
+            intent.putExtra("user",user);
             startActivity(intent);
         }
     }
-    private void SetButtonAndText() {
-        List<ProfessorCourse> courseList = professor.getProfessorCourseList();
-        int tnum = courseList.size();
-        if(tnum>=4)
-        {
-         courseone.setVisibility(Button.VISIBLE);
-         coursetwo.setVisibility(Button.VISIBLE);
-         coursethree.setVisibility(Button.VISIBLE);
-         coursefour.setVisibility(Button.VISIBLE);
-        }
-        else if(tnum == 3)
-        {
-            courseone.setVisibility(Button.VISIBLE);
-            coursetwo.setVisibility(Button.VISIBLE);
-            coursethree.setVisibility(Button.VISIBLE);
-            coursefour.setVisibility(Button.GONE);
-        }
-        else if(tnum ==2)
-        {
-            courseone.setVisibility(Button.VISIBLE);
-            coursetwo.setVisibility(Button.VISIBLE);
-            coursethree.setVisibility(Button.GONE);
-            coursefour.setVisibility(Button.GONE);
-        }
-        else if(tnum == 1)
-        {
-            courseone.setVisibility(Button.VISIBLE);
-            coursetwo.setVisibility(Button.GONE);
-            coursethree.setVisibility(Button.GONE);
-            coursefour.setVisibility(Button.GONE);
-        }
-        else if(tnum==0)
-        {
-            courseone.setVisibility(Button.GONE);
-            coursetwo.setVisibility(Button.GONE);
-            coursethree.setVisibility(Button.GONE);
-            coursefour.setVisibility(Button.GONE);
-        }
-    }
+
     private void getProfessor(){
 
         org.json.JSONObject jsonObject = new org.json.JSONObject();
@@ -184,13 +222,14 @@ public class TeacherDetailActivity extends AppCompatActivity implements View.OnC
 
             public void onResponse(org.json.JSONObject jsonObject) {
                 professor = new Gson().fromJson(jsonObject.toString(), Professor.class);
+                Log.e("##","professo返回 "+jsonObject.toString());
+                professorCourse = professor.getProfessorCourseList();
                 if(professor.getCommentList() != null) {
                     commentList = professor.getCommentList();
                     adapter = new CommentAdapter(TeacherDetailActivity.this, commentList);
                     listView.setAdapter(adapter);
                 }
                 sec_init();
-                SetButtonAndText();
             }
         }, new Response.ErrorListener() {
             @Override

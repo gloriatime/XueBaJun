@@ -28,13 +28,17 @@ import com.example.model.myapplication.User;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.List;
 
 public class PingFenActivity extends AppCompatActivity {
     Button btn;
     EditText editText;
 
+    User user;
     Professor professor;
     //private Course course;
     RequestQueue mQueue;
@@ -54,45 +58,53 @@ public class PingFenActivity extends AppCompatActivity {
     }
     private void getPassInfo() {
         Intent intent = getIntent();
-        Log.e("##", "课程id：");
-        id = intent.getIntExtra("pingfen_id",0);
-        //id = 6;
+
+        user = (User)intent.getSerializableExtra("user");
         Log.e("##", "评分详情id："+id);
         professor = (Professor) intent.getSerializableExtra("professor");
-
 
     }
     class btnok implements OnClickListener{
         @Override
         public void onClick(View v) {
             v.setBackgroundColor(Color.parseColor("#FFFFFF"));
-        String score = editText.toString();
+          String score = editText.toString();
        // course.changeScore(score);
         // 与服务器交互
 
+            int sum = professor.getNumber()+1;
+            float sc = (professor.getScore()+  Float.valueOf(score).floatValue())/sum;
+            BigDecimal bg = new BigDecimal(sc);
+            float f1 = bg.setScale(1, BigDecimal.ROUND_HALF_UP).floatValue();
+            String res = "当前评分"+f1+"分";
+            //mScore.setText(res);
+            /****
+             * 提交分数
+             */
+            Log.e("##","最后计算的分数"+sc);
+            String url = "http://47.100.226.176:8080/XueBaJun/ScoreProfessor";
             org.json.JSONObject jsonObject = new org.json.JSONObject();
             try {
-                jsonObject.put("score", score);
-                jsonObject.put("Id", idc);
+                jsonObject.put("score", sc);
+                jsonObject.put("id", professor.getId());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
-            // 与服务器交互得到我收藏的资料列表
-            String url = "http://47.100.226.176:8080/XueBaJun/Score";
+            Log.e("##", "score document_id"+jsonObject);
 
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, jsonObject, new Response.Listener<org.json.JSONObject>() {
 
-                public void onResponse(org.json.JSONObject jsonObject) {
-
+                public void onResponse(JSONObject jsonObject) {
                     Gson gson = new DateGson().getGson();
-
-                    Course temp = gson.fromJson(jsonObject.toString(), Course.class);
-
-                    temp.getScore();
+                    Professor d = gson.fromJson(jsonObject.toString(), Professor.class);
+                    Log.e("##","上传数据库之后的分数"+d.getScore()+" "+d.getId());
+                    Intent intent = new Intent(PingFenActivity.this, TeacherDetailActivity.class);
+                    intent.putExtra("user",(Serializable) user);
+                    intent.putExtra("professor",d);
+                    startActivity(intent);
                 }
 
-            }, new ErrorListener() {
+            }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError volleyError) {
 
