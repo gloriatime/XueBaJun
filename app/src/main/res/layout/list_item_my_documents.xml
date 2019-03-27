@@ -3,7 +3,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/info_bar_height"
+    android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:background="@color/white"
     android:padding="@dimen/common">
@@ -19,14 +19,14 @@
     <!-- 为按钮设置右对齐所需要的布局（按钮单独设置右对齐无效） -->
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="end|center_vertical">
         <Button
             android:id="@+id/button"
-            android:layout_width="80dp"
-            android:layout_height="40dp"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
             android:background="@drawable/bg_fillet_red"
-            android:text="删除文件"
+            android:text="修"
             android:textColor="@color/white"
             />
     </RelativeLayout>
