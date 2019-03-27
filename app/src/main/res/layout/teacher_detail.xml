@@ -171,6 +171,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/writecomment"
+            android:layout_marginStart="10dp"
             android:textSize="20sp"/>
         <TextView
             android:id="@+id/seven"
@@ -178,6 +179,18 @@
             android:layout_height="wrap_content"
             android:text="@string/commentnum"
             android:layout_alignParentEnd="true"
+            android:layout_marginEnd="10dp"
             android:textSize="20sp"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/eight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/five">
+        <ListView
+            android:id="@+id/teacher_comment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            ></ListView>
     </RelativeLayout>
 </RelativeLayout>
