@@ -40,6 +40,7 @@ public class PingFenActivity extends AppCompatActivity {
 
     User user;
     Professor professor;
+    Course course;
     //private Course course;
     RequestQueue mQueue;
     int id;
@@ -48,7 +49,8 @@ public class PingFenActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pingfen_detail);
-        getPassInfo();
+        getPassInfo();//professor
+        getCourse();//course
         btn = (Button)findViewById(R.id.okbtn);
         editText = (EditText)findViewById(R.id.editText) ;
         btn.setOnClickListener(new btnok());
@@ -64,54 +66,105 @@ public class PingFenActivity extends AppCompatActivity {
         professor = (Professor) intent.getSerializableExtra("professor");
 
     }
+    private void getCourse() {
+        Intent intent = getIntent();
+
+        user = (User)intent.getSerializableExtra("user");
+        Log.e("##", "评分详情id："+id);
+        course = (Course) intent.getSerializableExtra("course");
+
+    }
     class btnok implements OnClickListener{
         @Override
         public void onClick(View v) {
             v.setBackgroundColor(Color.parseColor("#FFFFFF"));
-          String score = editText.toString();
+          String score = editText.getText().toString();
        // course.changeScore(score);
         // 与服务器交互
 
-            int sum = professor.getNumber()+1;
-            float sc = (professor.getScore()+  Float.valueOf(score).floatValue())/sum;
-            BigDecimal bg = new BigDecimal(sc);
-            float f1 = bg.setScale(1, BigDecimal.ROUND_HALF_UP).floatValue();
-            String res = "当前评分"+f1+"分";
-            //mScore.setText(res);
-            /****
-             * 提交分数
-             */
-            Log.e("##","最后计算的分数"+sc);
-            String url = "http://47.100.226.176:8080/XueBaJun/ScoreProfessor";
-            org.json.JSONObject jsonObject = new org.json.JSONObject();
-            try {
-                jsonObject.put("score", sc);
-                jsonObject.put("id", professor.getId());
-            } catch (JSONException e) {
-                e.printStackTrace();
+            if(professor != null) {
+                int sum = professor.getNumber()+1;
+                float sc = (professor.getScore()+  Float.valueOf(score).floatValue())/sum;
+                BigDecimal bg = new BigDecimal(sc);
+                float f1 = bg.setScale(1, BigDecimal.ROUND_HALF_UP).floatValue();
+                String res = "当前评分"+f1+"分";
+                //mScore.setText(res);
+                /****
+                 * 提交分数
+                 */
+                Log.e("##","最后计算的分数"+sc);
+                String url = "http://47.100.226.176:8080/XueBaJun/ScoreProfessor";
+                org.json.JSONObject jsonObject = new org.json.JSONObject();
+                try {
+                    jsonObject.put("score", sc);
+                    jsonObject.put("id", professor.getId());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Log.e("##", "score document_id" + jsonObject);
+
+                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, jsonObject, new Response.Listener<org.json.JSONObject>() {
+
+                    public void onResponse(JSONObject jsonObject) {
+                        Gson gson = new DateGson().getGson();
+                        Professor d = gson.fromJson(jsonObject.toString(), Professor.class);
+                        Log.e("##", "上传数据库之后的分数" + d.getScore() + " " + d.getId());
+                        Intent intent = new Intent(PingFenActivity.this, TeacherDetailActivity.class);
+                        intent.putExtra("user", (Serializable) user);
+                        intent.putExtra("professor", d);
+                        startActivity(intent);
+                    }
+
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+
+                    }
+                });
+                mQueue.add(jsonObjectRequest);
             }
-            Log.e("##", "score document_id"+jsonObject);
 
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, jsonObject, new Response.Listener<org.json.JSONObject>() {
-
-                public void onResponse(JSONObject jsonObject) {
-                    Gson gson = new DateGson().getGson();
-                    Professor d = gson.fromJson(jsonObject.toString(), Professor.class);
-                    Log.e("##","上传数据库之后的分数"+d.getScore()+" "+d.getId());
-                    Intent intent = new Intent(PingFenActivity.this, TeacherDetailActivity.class);
-                    intent.putExtra("user",(Serializable) user);
-                    intent.putExtra("professor",d);
-                    startActivity(intent);
+            if(course != null) {
+                int sum = course.getNumber()+1;
+                float sc = (course.getScore()+  Float.valueOf(score).floatValue())/sum;
+                BigDecimal bg = new BigDecimal(sc);
+                float f1 = bg.setScale(1, BigDecimal.ROUND_HALF_UP).floatValue();
+                String res = "当前评分"+f1+"分";
+                //mScore.setText(res);
+                /****
+                 * 提交分数
+                 */
+                Log.e("##","最后计算的分数"+sc);
+                String url = "http://47.100.226.176:8080/XueBaJun/ScoreCourse";
+                org.json.JSONObject jsonObject = new org.json.JSONObject();
+                try {
+                    jsonObject.put("score", sc);
+                    jsonObject.put("id", course.getId());
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
+                Log.e("##", "score document_id" + jsonObject);
 
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError volleyError) {
+                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, jsonObject, new Response.Listener<org.json.JSONObject>() {
 
-                }
-            });
-            mQueue.add(jsonObjectRequest);
+                    public void onResponse(JSONObject jsonObject) {
+                        Gson gson = new DateGson().getGson();
+                        Course d = gson.fromJson(jsonObject.toString(), Course.class);
+                        Log.e("##", "上传数据库之后的分数" + d.getScore() + " " + d.getId());
+                        Intent intent = new Intent(PingFenActivity.this, TeacherDetailActivity.class);
+                        intent.putExtra("user", (Serializable) user);
+                        intent.putExtra("course", d);
+                        startActivity(intent);
+                    }
 
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+
+                    }
+                });
+                mQueue.add(jsonObjectRequest);
+            }
         }
     }
 

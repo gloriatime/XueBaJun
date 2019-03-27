@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class Comment {
+public class Comment implements Serializable{
 	private int id;
 	private User critic;
 	private Date date = new Date();

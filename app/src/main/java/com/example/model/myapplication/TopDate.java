@@ -1,11 +1,12 @@
 package com.example.model.myapplication;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
 // 使用所在周的数据作为决定Top排行的标准
-public class TopDate {
+public class TopDate implements Serializable {
     private Date now = new Date();
     private Date begin;
     private Date end ;

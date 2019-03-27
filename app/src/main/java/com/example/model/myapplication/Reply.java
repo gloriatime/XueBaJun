@@ -1,6 +1,8 @@
 package com.example.model.myapplication;
 
-public class Reply {
+import java.io.Serializable;
+
+public class Reply implements Serializable {
     private int id;
     private User critic;
     private User at;

@@ -1,6 +1,8 @@
 package com.example.model.myapplication;
 
-public class TagTag {
+import java.io.Serializable;
+
+public class TagTag implements Serializable {
 	private int id;
 	private int tag;
 	private int belong;

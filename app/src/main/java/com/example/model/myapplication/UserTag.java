@@ -1,9 +1,10 @@
 package com.example.model.myapplication;
 
+import java.io.Serializable;
 import java.util.List;
 
 
-public class UserTag {
+public class UserTag implements Serializable {
 	private String user;
 	private int tag;
 	private int times;

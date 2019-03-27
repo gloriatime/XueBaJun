@@ -109,7 +109,7 @@ public class CourseDetailActivity extends AppCompatActivity implements View.OnCl
     private void getPassInfo() {
         Intent intent = getIntent();
         user = (User) intent.getSerializableExtra("user");
-        //Log.e("##","user长度"+user.get)
+        Log.e("##","user长度"+user.getPhone());
         id = intent.getIntExtra("course_id",0);
     }
 
@@ -232,6 +232,7 @@ public class CourseDetailActivity extends AppCompatActivity implements View.OnCl
         public void onClick(View V) {
             Intent intent = new Intent(CourseDetailActivity.this,PingFenActivity.class);
             intent.putExtra("course", (Serializable) course);
+            intent.putExtra("user",user);
             startActivity(intent);
         }
     }
@@ -241,6 +242,7 @@ public class CourseDetailActivity extends AppCompatActivity implements View.OnCl
         public void onClick(View v) {
         Intent intent = new Intent();
         intent.setClass(CourseDetailActivity.this,TeacherDetailActivity.class);
+        intent.putExtra("user",user);
         intent.putExtra("professor",course.getProfessorCourseList().get(0).getProfessor());
         startActivity(intent);
         }
@@ -251,6 +253,7 @@ public class CourseDetailActivity extends AppCompatActivity implements View.OnCl
         public void onClick(View v) {
             Intent intent = new Intent();
             intent.setClass(CourseDetailActivity.this,TeacherDetailActivity.class);
+            intent.putExtra("user",user);
             intent.putExtra("professor",course.getProfessorCourseList().get(1).getProfessor());
             startActivity(intent);
         }
@@ -261,6 +264,7 @@ public class CourseDetailActivity extends AppCompatActivity implements View.OnCl
         public void onClick(View v) {
             Intent intent = new Intent();
             intent.setClass(CourseDetailActivity.this,TeacherDetailActivity.class);
+            intent.putExtra("user",user);
             intent.putExtra("professor",course.getProfessorCourseList().get(2).getProfessor());
             startActivity(intent);
         }

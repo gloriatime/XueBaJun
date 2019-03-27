@@ -122,6 +122,7 @@ public class TeacherDetailActivity extends AppCompatActivity implements View.OnC
     private void jump(int i){
         Intent intent = new Intent(TeacherDetailActivity.this, CourseDetailActivity.class);
         intent.putExtra("user",(Serializable) user);
+        Log.e("##","跳转前user"+user.getPhone());
         intent.putExtra("course_id",professorCourse.get(i).getCourse().getId());
         startActivity(intent);
     }

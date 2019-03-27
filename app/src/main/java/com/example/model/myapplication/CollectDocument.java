@@ -1,6 +1,8 @@
 package com.example.model.myapplication;
 
-public class CollectDocument {
+import java.io.Serializable;
+
+public class CollectDocument implements Serializable {
 	private User user;
 	private Document document;
 	public User getUser() {

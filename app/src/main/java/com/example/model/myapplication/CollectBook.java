@@ -1,6 +1,8 @@
 package com.example.model.myapplication;
 
-public class CollectBook {
+import java.io.Serializable;
+
+public class CollectBook implements Serializable {
 	private User user;
 	private Book book;
 	public User getUser() {
