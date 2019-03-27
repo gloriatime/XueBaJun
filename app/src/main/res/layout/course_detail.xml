@@ -176,6 +176,50 @@
         android:layout_height="wrap_content"
         android:background="@drawable/biankuang"
         android:layout_below="@id/bookimage">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textViewSay"
+                android:layout_width="60dp"
+                android:layout_height="30dp"
+                android:layout_weight="0"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/comment_start_shape"
+                android:gravity="center"
+                android:text="写评论"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/textViewComment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:text="comments"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:layout_marginRight="29dp"
+                    android:layout_marginEnd="29dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true" />
+            </RelativeLayout>
+
+        </LinearLayout>
+        <ListView
+            android:id="@+id/comment_detail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        </LinearLayout>
+
     </RelativeLayout>
 </RelativeLayout>
 

@@ -115,6 +115,9 @@ public class BookMainActivity extends AppCompatActivity implements View.OnClickL
         user = new User();
         id = 0;
 
+        listView = (ListView)findViewById(R.id.comment_detail);
+        comment_bt = (TextView)findViewById(R.id.textViewSay);
+
         getUserAId();
 
         Log.e("##","id0="+id);
@@ -220,9 +223,6 @@ public class BookMainActivity extends AppCompatActivity implements View.OnClickL
         mSharePic.setOnClickListener(textListenerShare);
         BScore.setOnClickListener(this);
 
-        //初始化
-        listView = (ListView)findViewById(R.id.comment_detail);
-        comment_bt = (TextView)findViewById(R.id.textViewSay);
         //解析回复界面
         replyView = LayoutInflater.from(this).inflate(R.layout.comment_show_reply, null);
 
