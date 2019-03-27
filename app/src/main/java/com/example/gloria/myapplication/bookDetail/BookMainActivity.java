@@ -182,7 +182,7 @@ public class BookMainActivity extends AppCompatActivity implements View.OnClickL
                     if(book.getCommentList() != null) {
                         Log.e("##","长度22 "+book.getCommentList().size());
                         commentList = book.getCommentList();
-                        Log.e("##", "commentList" + commentList.get(0).getCritic().getPhone());
+                       // Log.e("##", "commentList" + commentList.get(0).getCritic().getPhone());
                         adapter = new CommentAdapter(BookMainActivity.this, commentList);
                         listView.setAdapter(adapter);
                     }
