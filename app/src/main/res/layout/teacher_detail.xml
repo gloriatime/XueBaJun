@@ -19,19 +19,38 @@
                 android:layout_width="90dp"
                 android:layout_height="120dp"
                 android:contentDescription="@string/teacherimg"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="10dp"
+               />
+            <TextView
+                android:id="@+id/fourty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/teacherimage"
+                android:text="@string/setscore"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="10dp"
+                android:textSize="@dimen/common"
+                />
+            <TextView
+                android:id="@+id/seescore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/teacherimage"
+                android:layout_marginTop="10dp"
+                android:layout_toEndOf="@id/fourty"
+                android:textSize="@dimen/common"
+                />
             <Button
                 android:id="@+id/score"
                 android:layout_width="60dp"
                 android:layout_height="20dp"
                 android:textSize="15sp"
                 android:textColor="@color/white"
-                android:layout_below="@id/teacherimage"
+                android:layout_below="@id/fourty"
                 android:background="@drawable/biankuang_pf"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:layout_marginStart="15dp"
                 android:text="@string/setSC">
-
             </Button>
         </RelativeLayout>
         <!--教师所教授课程-->
