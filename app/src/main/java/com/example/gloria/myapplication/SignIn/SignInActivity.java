@@ -56,6 +56,7 @@ public class SignInActivity extends AppCompatActivity {
         log_in = (Button) findViewById(R.id.button);
         sign_up = (Button) findViewById(R.id.button2);
         cbRemember=(CheckBox) findViewById(R.id.cbRemember);
+        cbRemember.setChecked(true);
         passwd.setTransformationMethod(new PasswordTransformationMethod());
 
         user = new User();
