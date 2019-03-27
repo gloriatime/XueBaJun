@@ -37,8 +37,10 @@ import com.example.base.myapplication.DateGson;
 import com.example.gloria.myapplication.R;
 import com.example.gloria.myapplication.adapter.CommentAdapter;
 import com.example.gloria.myapplication.adapter.ReplyAdapter;
+import com.example.gloria.myapplication.searchPaper.PaperDetailMainActivity;
 import com.example.model.myapplication.Book;
 import com.example.model.myapplication.Comment;
+import com.example.model.myapplication.Document;
 import com.example.model.myapplication.Reply;
 import com.example.model.myapplication.Tag;
 import com.example.model.myapplication.User;
@@ -47,6 +49,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -77,7 +80,7 @@ public class BookMainActivity extends AppCompatActivity implements View.OnClickL
     private TextListenerShare textListenerShare;
 
     private ListView listView;
-    private List<Comment> commentList = new ArrayList<Comment>();
+    private List<Comment> commentList = new ArrayList<>();
     private BottomSheetDialog dialog;
     private TextView comment_bt;
     CommentAdapter adapter;
@@ -113,6 +116,7 @@ public class BookMainActivity extends AppCompatActivity implements View.OnClickL
         id = 0;
 
         getUserAId();
+
         Log.e("##","id0="+id);
         // 与服务器交互
         String url = "http://47.100.226.176:8080/XueBaJun/GetBook";
@@ -146,7 +150,9 @@ public class BookMainActivity extends AppCompatActivity implements View.OnClickL
                         mLabel.setText(tag);
                     }
                     mCourse.setText(book.getAuthor());
-                    mSynopsis.setText("简介："+book.getIntro());
+                    if(book.getIntro().length() == 0)
+                    mSynopsis.setText("简介：暂无");
+                    else mSynopsis.setText("简介："+book.getIntro());
                     //获得书籍图片
                     Log.e("##","picture");
                     RequestQueue mQueue = Volley.newRequestQueue(BookMainActivity.this);
@@ -161,7 +167,8 @@ public class BookMainActivity extends AppCompatActivity implements View.OnClickL
                             }, 300, 300, Bitmap.Config.RGB_565, new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            mBookPic.setText("暂无图片");
+                            mBookPic.setText("暂无封面");
+                            mBookPic.setBackgroundColor(Color.GRAY);
                         }
                     });
                     mQueue.add(imageRequest);
@@ -170,12 +177,22 @@ public class BookMainActivity extends AppCompatActivity implements View.OnClickL
                     mScore.setText(str);
                     String scc = "评论"+book.getComment();
                     mComment.setText(scc);
+                    Log.e("##","comment_id"+book.getComment());
+                    //Log.e("##","长度11 "+book.getCommentList().size());
+                    if(book.getCommentList() != null) {
+                        Log.e("##","长度22 "+book.getCommentList().size());
+                        commentList = book.getCommentList();
+                       // Log.e("##", "commentList" + commentList.get(0).getCritic().getPhone());
+                        adapter = new CommentAdapter(BookMainActivity.this, commentList);
+                        listView.setAdapter(adapter);
+                    }
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-
+                Log.e("##","error enter");
+                Log.e("##","detail_error: "+volleyError);
             }
         });
         mQueue.add(jsonObjectRequest);
@@ -208,31 +225,20 @@ public class BookMainActivity extends AppCompatActivity implements View.OnClickL
         comment_bt = (TextView)findViewById(R.id.textViewSay);
         //解析回复界面
         replyView = LayoutInflater.from(this).inflate(R.layout.comment_show_reply, null);
-        /***
-         * 评论数据
-         */
-        if(book.getComment()!=0) {
-            adapter = new CommentAdapter(BookMainActivity.this, commentList);
-            listView.setAdapter(adapter);
-        }
+
         /**写评论*/
         comment_bt.setOnClickListener(this);
         //查看回复
         ShowReply();
-        /**更新显示的“评论数”*/
-        UpdateCommentNumber();
+        //**更新显示的“评论数”*/
+        //UpdateCommentNumber();
     }
 
     private void getUserAId(){
-        Log.e("##","已进入book");
         Intent intent = getIntent();
         user = (User) intent.getSerializableExtra("user");
-        Log.e("##", "user"+user.getPhone());
-        //String ID = intent.getStringExtra("book_id");
-        //Log.e("##", "string_id"+ID);
-        //id = Integer.parseInt(ID);
-        //Log.e("##","id"+id);
         id = intent.getIntExtra("book_id",0);
+        Log.e("##","跳转后Id："+intent.getIntExtra("book_id", 0));
     }
     //下载
     class TextListenerDown implements View.OnClickListener {
@@ -310,13 +316,37 @@ public class BookMainActivity extends AppCompatActivity implements View.OnClickL
                         //展示回复界面
                         //Log.e("##","展示回复界面");
                         //Log.e("##","position="+position);
-                        if(book.getCommentList().get(position).getReplyList() == null) {
-                            Log.e("##","firstreply");
-                            addFirstReply(position);
+                        //获得该评论的回复
+                        String url = "http://47.100.226.176:8080/XueBaJun/GetComment";
+
+                        JSONObject jsonObject = new JSONObject();
+                        try {
+                            jsonObject.put("id", commentList.get(position).getId());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-                        else {
-                            showReplyDetail(position);
-                        }
+
+                        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, jsonObject, new Response.Listener<JSONObject>() {
+
+                            public void onResponse(JSONObject jsonObject) {
+                                Gson gson = new DateGson().getGson();
+                                Comment ct = gson.fromJson(jsonObject.toString(), Comment.class);
+                                Log.e("##","评论是否有回复"+ct.getReplyList().size());
+                                if(ct.getReplyList().size() == 0) {
+                                    Log.e("##","firstreply");
+                                    addFirstReply(position);
+                                }
+                                else {
+                                    replyList = ct.getReplyList();
+                                    showReplyDetail(position);
+                                }
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError volleyError) {
+                            }
+                        });
+                        mQueue.add(jsonObjectRequest);
                     }
                 });
             }
@@ -338,6 +368,41 @@ public class BookMainActivity extends AppCompatActivity implements View.OnClickL
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 //按下确定键后的事件
                                 mScore.setText(et.getText().toString()+"分");
+                                int sum = book.getNumber()+1;
+                                float sc = (book.getScore()+  Float.valueOf(et.getText().toString()).floatValue())/sum;
+                                BigDecimal bg = new BigDecimal(sc);
+                                float f1 = bg.setScale(1, BigDecimal.ROUND_HALF_UP).floatValue();
+                                String res = "当前评分"+f1+"分";
+                                mScore.setText(res);
+                                /****
+                                 * 提交分数
+                                 */
+                                Log.e("##","最后计算的分数"+sc);
+                                String url = "http://47.100.226.176:8080/XueBaJun/ScoreBook";
+                                org.json.JSONObject jsonObject = new org.json.JSONObject();
+                                try {
+                                    jsonObject.put("score", sc);
+                                    jsonObject.put("id", book.getId());
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                Log.e("##", "score book_id"+jsonObject);
+
+                                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, jsonObject, new Response.Listener<org.json.JSONObject>() {
+
+                                    public void onResponse(JSONObject jsonObject) {
+                                        Gson gson = new DateGson().getGson();
+                                        Book d = gson.fromJson(jsonObject.toString(), Book.class);
+                                        Log.e("##","上传数据库之后的分数"+d.getScore()+" "+d.getId());
+                                    }
+
+                                }, new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError volleyError) {
+
+                                    }
+                                });
+                                mQueue.add(jsonObjectRequest);
                             }
                         }).setNegativeButton("取消",null).show();
                 break;
@@ -352,7 +417,6 @@ public class BookMainActivity extends AppCompatActivity implements View.OnClickL
         /*****
          * 通过position获得当前评论的回复
          */
-        replyList = book.getCommentList().get(position).getReplyList();
         Radapter = new ReplyAdapter(replyView.getContext(), replyList);
         ListView replyListView = (ListView)replyView.findViewById(R.id.reply_list);
         replyListView.setAdapter(Radapter);
@@ -394,7 +458,9 @@ public class BookMainActivity extends AppCompatActivity implements View.OnClickL
                      * 从其他页传来的当前用户的姓名
                      * ******************/
                     Comment detailBean = new Comment(user, commentContent, now);
-                    if(book.getComment()==0){
+                    Log.e("##","评论内容"+detailBean.getContent());
+                    detailBean.setBelong(book.getId());
+                    if(book.getCommentList()==null){
                         detailBean.setReplyList(null);
                         commentList.add(detailBean);
                         adapter = new CommentAdapter(BookMainActivity.this, commentList);
@@ -442,6 +508,8 @@ public class BookMainActivity extends AppCompatActivity implements View.OnClickL
                      * 从其他页传来的当前用户的姓名
                      * ******************/
                     Reply detailBean = new Reply(user,  replyList.get(p).getCritic(), commentContent);
+                    detailBean.setBelong(commentList.get(p).getId());
+                    detailBean.setAt(replyList.get(p).getCritic());
                     Radapter.addTheCommentData(detailBean);
                     SendReplyToSever(detailBean);
                     Toast.makeText(BookMainActivity.this, "评论成功", Toast.LENGTH_SHORT).show();
@@ -477,6 +545,8 @@ public class BookMainActivity extends AppCompatActivity implements View.OnClickL
                      * ******************/
                     //Log.e("##","第一条回复");
                     Reply detailBean = new Reply(user, commentContent);
+                    detailBean.setBelong(commentList.get(p).getId());
+                    detailBean.setAt(commentList.get(p).getCritic());
                     //Log.e("##","第一条回复加入list");
                     replyList.add(detailBean);
                     //Log.e("##","第一条回复加入成功");
@@ -495,48 +565,64 @@ public class BookMainActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void SendCommentToServer(Comment comment){
-        String url = "http://47.100.226.176:8080/XueBaJun/addComment";
+        Log.e("##", "Content="+comment.getContent());
+        Log.e("##","critic="+comment.getCritic().getName());
+        String url = "http://47.100.226.176:8080/XueBaJun/AddComment";
         //发送数据
-        org.json.JSONObject jsonObject = new org.json.JSONObject();
+        org.json.JSONObject jsonObject ;
 
-        try {
-            jsonObject.put("comment", comment);
+        HashMap<String,String> u = new HashMap<>();
+        u.put("phone",user.getPhone());
+        Map<String, Object> map = new HashMap<>();
+        map.put("critic",u);
+        map.put("type", "book");
+        map.put("content", comment.getContent());
+        map.put("belong",comment.getBelong());
+        jsonObject = new JSONObject(map);
 
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
         Log.e("##","发送 "+jsonObject.toString());
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, jsonObject, new Response.Listener<JSONObject>() {
             public void onResponse(JSONObject jsonObject) {
+                Log.e("##","评论返回 ");
+                UpdateCommentNumber();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
+                Log.e("##","评论返回cuowu ");
+                UpdateCommentNumber();
             }
         });
         mQueue.add(jsonObjectRequest);
     }
 
     private void SendReplyToSever(Reply reply){
-        String url = "http://47.100.226.176:8080/XueBaJun/addReply";
+        String url = "http://47.100.226.176:8080/XueBaJun/AddReply";
         //发送数据
-        org.json.JSONObject jsonObject = new org.json.JSONObject();
+        //发送数据
+        org.json.JSONObject jsonObject ;
 
-        try {
-            jsonObject.put("reply", reply);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        HashMap<String,String> u = new HashMap<>();
+        u.put("phone",user.getPhone());
+        HashMap<String, String> a = new HashMap<>();
+        a.put("phone", reply.getAt().getPhone());
+        Map<String, Object> map = new HashMap<>();
+        map.put("critic",u);
+        map.put("at", a);
+        map.put("content", reply.getContent());
+        map.put("belong",reply.getBelong());
+        jsonObject = new JSONObject(map);
         Log.e("##","发送 "+jsonObject.toString());
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, jsonObject, new Response.Listener<JSONObject>() {
             public void onResponse(JSONObject jsonObject) {
+                Log.e("##","回复上传成功");
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
+                Log.e("##","回复上传失败");
             }
         });
         mQueue.add(jsonObjectRequest);

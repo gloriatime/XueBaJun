@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
     <!--搜索框-->
     <android.support.v7.widget.SearchView
-        android:id="@+id/searchEdit"
+        android:id="@+id/searchEditBook"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_search_selector"
@@ -16,10 +16,11 @@
     </android.support.v7.widget.SearchView>
     <!--第一个列表，展示搜索项-->
     <ListView
-        android:id="@+id/lv"
+        android:id="@+id/lvb"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_below="@id/searchEdit">
+        android:layout_height="210dp"
+        android:layout_below="@id/searchEditBook"
+        android:background="@color/whiteSmoke">
     </ListView>
 
     <!--hot小图标-->
@@ -30,7 +31,7 @@
         android:contentDescription="@string/hot"
         android:src="@drawable/hot"
         android:layout_marginTop="20dp"
-        android:layout_below="@id/searchEdit"
+        android:layout_below="@id/searchEditBook"
         android:layout_marginStart="10dp"
         />
     <TextView
@@ -45,24 +46,24 @@
         android:textColor="@color/black"/>
     <!--热一课程-->
     <TextView
-        android:id="@+id/T_C_one"
-        android:layout_width="wrap_content"
+        android:id="@+id/B_one"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/one"
         android:layout_marginTop="10dp"/>
     <!--热一课程-->
     <TextView
-        android:id="@+id/T_C_two"
+        android:id="@+id/B_two"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/T_C_one"
+        android:layout_below="@id/B_one"
         android:layout_marginTop="10dp"/>
     <!--热一课程-->
     <TextView
-        android:id="@+id/T_C_three"
+        android:id="@+id/B_three"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/T_C_two"
+        android:layout_below="@id/B_two"
         android:layout_marginTop="10dp"/>
 
     <!--设置可点击的textView-->
@@ -71,7 +72,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/formorebook"
-        android:layout_below="@id/T_C_three"
+        android:layout_below="@id/B_three"
         android:layout_alignParentEnd="true"
         android:textColor="@color/red"
         android:layout_marginEnd="20dp"
@@ -84,7 +85,7 @@
        android:layout_below="@id/morebook"
        android:gravity="center"
        android:layout_centerInParent="true"
-       android:layout_marginTop="10dp"
+       android:layout_marginTop="30dp"
        >
        <Button
            android:id="@+id/latest"
@@ -100,7 +101,7 @@
            android:layout_width="100dp"
            android:layout_height="30dp"
            android:layout_alignTop="@id/latest"
-           android:background="@drawable/bg_button_list"
+           android:background="@drawable/bg_button_list_blue"
            android:drawableStart="@drawable/likebook"
            android:paddingStart="5dp"
            android:paddingEnd="5dp"
@@ -118,7 +119,7 @@
         android:layout_marginEnd="10dp">
 
         <ListView
-            android:id="@+id/ListView_like"
+            android:id="@+id/ListView_like_book"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp">

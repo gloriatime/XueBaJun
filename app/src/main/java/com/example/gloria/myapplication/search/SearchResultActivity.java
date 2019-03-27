@@ -202,7 +202,8 @@ public class SearchResultActivity extends AppCompatActivity {
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                         Intent intent = new Intent(SearchResultActivity.this, BookMainActivity.class);
                         intent.putExtra("user",(Serializable) user);
-                        intent.putExtra("book_id",""+book_list.get(i).getId());
+                        intent.putExtra("book_id", book_list.get(i).getId());
+                        Log.e("##","跳转前Id："+book_list.get(i).getId());
                         startActivity(intent);
                     }
                 });
@@ -213,7 +214,7 @@ public class SearchResultActivity extends AppCompatActivity {
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                         Intent intent = new Intent(SearchResultActivity.this, CourseDetailActivity.class);
                         intent.putExtra("user",(Serializable) user);
-                        intent.putExtra("course_id",""+course_list.get(i).getId());
+                        intent.putExtra("course_id",course_list.get(i).getId());
                         startActivity(intent);
                     }
                 });

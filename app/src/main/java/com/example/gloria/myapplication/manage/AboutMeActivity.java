@@ -29,6 +29,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.base.myapplication.DateGson;
 import com.example.base.myapplication.ListItemViewHolder;
 import com.example.gloria.myapplication.R;
+import com.example.gloria.myapplication.searchPaper.PaperDetailMainActivity;
 import com.example.model.myapplication.Book;
 import com.example.model.myapplication.CollectDocument;
 import com.example.model.myapplication.Comment;
@@ -46,6 +47,7 @@ import com.leon.lfilepickerlibrary.utils.Constant;
 
 import org.json.JSONException;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -127,6 +129,12 @@ public class AboutMeActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                 Log.e("##", "你点击了ListView条目" + arg2);//在LogCat中输出信息
                 // ---------------------------跳转到对应的信息展示界面，目前先空着--------------------------------------
+                Intent intent = new Intent(AboutMeActivity.this, PaperDetailMainActivity.class);
+                intent.putExtra("user", (Serializable) user);
+                intent.putExtra("document_id",comments.get(arg2).getBelong());
+                Log.e("##","跳转前Id："+comments.get(arg2).getBelong());
+                Log.e("##","资料搜索跳转详情");
+                startActivity(intent);
             }
         });
     }
@@ -699,6 +707,23 @@ public class AboutMeActivity extends AppCompatActivity {
                                 break;
                             }
                         }
+                    }
+                });
+            }
+
+            // 为content添加点击事件
+            if(holder.content!=null){
+                holder.content.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        Log.e("##", "准备跳转" + position);
+                        Intent intent = new Intent(AboutMeActivity.this, PaperDetailMainActivity.class);
+                        intent.putExtra("user", (Serializable) user);
+                        intent.putExtra("document_id",comments.get(position).getBelong());
+                        Log.e("##","跳转前Id："+comments.get(position).getBelong());
+                        Log.e("##","资料搜索跳转详情");
+                        startActivity(intent);
                     }
                 });
             }
