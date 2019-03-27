@@ -1,304 +1,182 @@
 package com.example.gloria.myapplication.showInfo;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
+import com.example.base.myapplication.DateGson;
 import com.example.gloria.myapplication.R;
+import com.example.gloria.myapplication.adapter.CommentAdapter;
+import com.example.gloria.myapplication.adapter.ReplyAdapter;
+import com.example.model.myapplication.Comment;
 import com.example.model.myapplication.Course;
 import com.example.model.myapplication.Professor;
 import com.example.model.myapplication.ProfessorCourse;
+import com.example.model.myapplication.Reply;
 import com.example.model.myapplication.User;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class TeacherDetailActivity extends AppCompatActivity {
+public class TeacherDetailActivity extends AppCompatActivity implements View.OnClickListener{
     private Professor professor;
+    private ImageView professorimage;
+    private RequestQueue mQueue;
     private TextView peopleintro;
     private TextView researchin;
     private Button courseone;
     private Button coursetwo;
     private Button coursethree;
     private Button coursefour;
-    private Button coursefive;
-    private Button coursesix;
     private Button score;
-    private RequestQueue mQueue;
-    private ImageView professorimage;
-    private ImageView notexist;
-    User user;
-    int id;
+
+    //评论回复定义
+    private ListView listView;
+    private TextView mComment;
+    private List<Comment> commentList = new ArrayList<>();
+    private BottomSheetDialog dialog;
+    private TextView comment_bt;
+    CommentAdapter adapter;
+    ReplyAdapter Radapter;
+    List<Reply> replyList = new ArrayList<Reply>();
+    View replyView;
+    User user = new User();
+    int id = 0;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.teacher_detail);
-        getPassInfo();
-        init();
+
+        listView = (ListView)findViewById(R.id.comment_detail);
+        comment_bt = (TextView)findViewById(R.id.textViewSay);
+        mComment = (TextView)findViewById(R.id.textViewComment);
+
         getProfessor();
+        SetProfessorImg();
+        init();
+        SetButtonAndText();
 
+        //评论回复
+        //解析回复界面
+        replyView = LayoutInflater.from(this).inflate(R.layout.comment_show_reply, null);
+
+        /**写评论*/
+        comment_bt.setOnClickListener(this);
+        //查看回复
+        ShowReply();
     }
-    private void getPassInfo() {
-        Intent intent = getIntent();
-        user = (User) intent.getSerializableExtra("user");
-        id = intent.getIntExtra("professor_id",0);
-        //id = 6;
-        Log.e("##", "教师详情id："+id);
-    }
-    private void SetButton() {
-        List<ProfessorCourse> courseList = professor.getProfessorCourseList();
-        if (courseList != null) {
-            int tnum = courseList.size();
-            if (tnum == 6) {
-                courseone.setVisibility(Button.VISIBLE);
-                courseone.setText(courseList.get(0).getCourse().getName());
-                coursetwo.setVisibility(Button.VISIBLE);
-                coursetwo.setText(courseList.get(1).getCourse().getName());
-                coursethree.setVisibility(Button.VISIBLE);
-                coursethree.setText(courseList.get(2).getCourse().getName());
-                coursefour.setVisibility(Button.VISIBLE);
-                coursefour.setText(courseList.get(3).getCourse().getName());
-                coursefive.setVisibility(Button.VISIBLE);
-                coursefive.setText(courseList.get(4).getCourse().getName());
-                coursesix.setVisibility(Button.VISIBLE);
-                coursesix.setText(courseList.get(5).getCourse().getName());
-            } else if (tnum == 5) {
-                courseone.setVisibility(Button.VISIBLE);
-                courseone.setText(courseList.get(0).getCourse().getName());
-                coursetwo.setVisibility(Button.VISIBLE);
-                coursetwo.setText(courseList.get(1).getCourse().getName());
-                coursethree.setVisibility(Button.VISIBLE);
-                coursethree.setText(courseList.get(2).getCourse().getName());
-                coursefour.setVisibility(Button.VISIBLE);
-                coursefour.setText(courseList.get(3).getCourse().getName());
-                coursefive.setVisibility(Button.VISIBLE);
-                coursefive.setText(courseList.get(4).getCourse().getName());
-                coursesix.setVisibility(Button.GONE);
-            } else if (tnum == 4) {
-                courseone.setVisibility(Button.VISIBLE);
-                courseone.setText(courseList.get(0).getCourse().getName());
-                coursetwo.setVisibility(Button.VISIBLE);
-                coursetwo.setText(courseList.get(1).getCourse().getName());
-                coursethree.setVisibility(Button.VISIBLE);
-                coursethree.setText(courseList.get(2).getCourse().getName());
-                coursefour.setVisibility(Button.VISIBLE);
-                coursefour.setText(courseList.get(3).getCourse().getName());
-                coursefive.setVisibility(Button.GONE);
-                coursesix.setVisibility(Button.GONE);
-            } else if (tnum == 3) {
-                courseone.setVisibility(Button.VISIBLE);
-                courseone.setText(courseList.get(0).getCourse().getName());
-                coursetwo.setVisibility(Button.VISIBLE);
-                coursetwo.setText(courseList.get(1).getCourse().getName());
-                coursethree.setVisibility(Button.VISIBLE);
-                coursethree.setText(courseList.get(2).getCourse().getName());
-                coursefour.setVisibility(Button.GONE);
-                coursefive.setVisibility(Button.GONE);
-                coursesix.setVisibility(Button.GONE);
-            } else if (tnum == 2) {
-                courseone.setVisibility(Button.VISIBLE);
-                courseone.setText(courseList.get(0).getCourse().getName());
-                coursetwo.setVisibility(Button.VISIBLE);
-                coursetwo.setText(courseList.get(1).getCourse().getName());
-                coursethree.setVisibility(Button.GONE);
-                coursefour.setVisibility(Button.GONE);
-                coursefive.setVisibility(Button.GONE);
-                coursesix.setVisibility(Button.GONE);
-            } else if (tnum == 1) {
-                courseone.setVisibility(Button.VISIBLE);
-                courseone.setText(courseList.get(0).getCourse().getName());
-                coursetwo.setVisibility(Button.GONE);
-                coursethree.setVisibility(Button.GONE);
-                coursefour.setVisibility(Button.GONE);
-                coursefive.setVisibility(Button.GONE);
-                coursesix.setVisibility(Button.GONE);
-            }
-        }
-        else{
-                courseone.setVisibility(Button.GONE);
-                coursetwo.setVisibility(Button.GONE);
-                coursethree.setVisibility(Button.GONE);
-                coursefour.setVisibility(Button.GONE);
-                coursefive.setVisibility(Button.GONE);
-                coursesix.setVisibility(Button.GONE);
-        }
-    }
-    private void getProfessor(){
-
-        org.json.JSONObject jsonObject = new org.json.JSONObject();
-        try {
-            jsonObject.put("id", id);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        // 与服务器交互得到我收藏的资料列表
-        String url = "http://47.100.226.176:8080/XueBaJun/GetProfessor";
-
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, jsonObject, new Response.Listener<org.json.JSONObject>() {
-
-            public void onResponse(org.json.JSONObject jsonObject) {
-                professor = new Gson().fromJson(jsonObject.toString(), Professor.class);
-                Log.e("##", "教师详情："+jsonObject.toString());
-                sec_init();
-                SetButton();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-
-            }
-        });
-        mQueue.add(jsonObjectRequest);
-    }
-    private void sec_init() {
-       // if(professor.getIntro()==null)
-        peopleintro.setText("暂无介绍");
-      //  else
-            //peopleintro.setText(professor.getIntro());
-       // if(professor.getField()!=null)
-     //   researchin.setText(professor.getField());
-       // else
-            researchin.setText("信息尚未完善，敬请期待");
-        score.setOnClickListener(new gscore());
-        courseone.setOnClickListener(new courseone());
-        coursetwo.setOnClickListener(new coursetwo());
-        coursethree.setOnClickListener(new coursethree());
-        coursefour.setOnClickListener(new coursefour());
-        coursefive.setOnClickListener(new coursefive());
-        coursesix.setOnClickListener(new coursesix());
-        //if(professor.getPic()==null)
-        professorimage.setBackgroundResource(R.drawable.bookimgsample);
-       // else
-       // SetProfessorImg();
-    }
-    @SuppressLint("ResourceType")
     private void  init(){
-        notexist = (ImageView)findViewById(R.drawable.bookimgsample) ;
-        professorimage = (ImageView) findViewById(R.id.teacherimage);
-        courseone = (Button)findViewById(R.id.courseone);
-        coursetwo = (Button)findViewById(R.id.coursetwo);
-        coursethree = (Button)findViewById(R.id.coursethree);
-        coursefour = (Button)findViewById(R.id.coursefour);
-        coursefive = (Button)findViewById(R.id.coursefive) ;
-        coursesix = (Button)findViewById(R.id.coursesix);
-        peopleintro = (TextView)findViewById(R.id.peopleintro);
-        researchin = (TextView)findViewById(R.id.researchin);
-        score = (Button)findViewById(R.id.score);
-        mQueue = Volley.newRequestQueue(TeacherDetailActivity.this);
+        professorimage = (ImageView)findViewById(R.id.teacherimage)   ;
+     courseone = (Button)findViewById(R.id.courseone);
+     coursetwo = (Button)findViewById(R.id.coursetwo);
+     coursethree = (Button)findViewById(R.id.coursethree);
+     coursefour = (Button)findViewById(R.id.coursefour);
+     peopleintro = (TextView)findViewById(R.id.peopleintro);
+     peopleintro.setText(professor.getIntro());
+     researchin = (TextView)findViewById(R.id.researchin);
+     researchin.setText(professor.getField());
+     score = (Button)findViewById(R.id.score);
+     score.setOnClickListener(new gscore());
     }
     class gscore implements OnClickListener
     {
         @Override
         public void onClick(View V) {
             Intent intent = new Intent(TeacherDetailActivity.this,activity_T_pingfen.class);
-            intent.putExtra("professor",  professor.getId());
-            Log.e("##", "这是评分的呢的");
+            intent.putExtra("professor", (Serializable) professor);
             startActivity(intent);
+        }
+    }
+    private void SetButtonAndText() {
+        List<ProfessorCourse> courseList = professor.getProfessorCourseList();
+        int tnum = courseList.size();
+        if(tnum>=4)
+        {
+         courseone.setVisibility(Button.VISIBLE);
+         coursetwo.setVisibility(Button.VISIBLE);
+         coursethree.setVisibility(Button.VISIBLE);
+         coursefour.setVisibility(Button.VISIBLE);
+        }
+        else if(tnum == 3)
+        {
+            courseone.setVisibility(Button.VISIBLE);
+            coursetwo.setVisibility(Button.VISIBLE);
+            coursethree.setVisibility(Button.VISIBLE);
+            coursefour.setVisibility(Button.GONE);
+        }
+        else if(tnum ==2)
+        {
+            courseone.setVisibility(Button.VISIBLE);
+            coursetwo.setVisibility(Button.VISIBLE);
+            coursethree.setVisibility(Button.GONE);
+            coursefour.setVisibility(Button.GONE);
+        }
+        else if(tnum == 1)
+        {
+            courseone.setVisibility(Button.VISIBLE);
+            coursetwo.setVisibility(Button.GONE);
+            coursethree.setVisibility(Button.GONE);
+            coursefour.setVisibility(Button.GONE);
+        }
+        else if(tnum==0)
+        {
+            courseone.setVisibility(Button.GONE);
+            coursetwo.setVisibility(Button.GONE);
+            coursethree.setVisibility(Button.GONE);
+            coursefour.setVisibility(Button.GONE);
         }
     }
 
-    class courseone implements OnClickListener
-    {
-        @Override
-        public void onClick(View v) {
-            Intent intent = new Intent();
-            intent.setClass(TeacherDetailActivity.this,CourseDetailActivity.class);
-            Bundle bundle = new Bundle();
-            List<ProfessorCourse> courseList = professor.getProfessorCourseList();
-            bundle.putString("courseone",courseList.get(0).getCourse().getName());
-            intent.putExtras(bundle);
-            startActivity(intent);
+    private void getProfessor(){
+        Intent intent = getIntent();
+        professor = (Professor) intent.getSerializableExtra("Professor");
+        user = (User)intent.getSerializableExtra("user");
+
+        id = professor.getId();
+
+        if(professor.getCommentList() != null) {
+            Log.e("##","长度22 "+professor.getCommentList().size());
+            commentList = professor.getCommentList();
+            // Log.e("##", "commentList" + commentList.get(0).getCritic().getPhone());
+            adapter = new CommentAdapter(TeacherDetailActivity.this, commentList);
+            listView.setAdapter(adapter);
         }
     }
-    class coursetwo implements OnClickListener
-    {
-        @Override
-        public void onClick(View v) {
-            Intent intent = new Intent();
-            intent.setClass(TeacherDetailActivity.this,CourseDetailActivity.class);
-            Bundle bundle = new Bundle();
-            List<ProfessorCourse> courseList = professor.getProfessorCourseList();
-            bundle.putString("coursetwo",courseList.get(1).getCourse().getName());
-            startActivity(intent);
-        }
-    }
-    class coursethree implements OnClickListener
-    {
-        @Override
-        public void onClick(View v) {
-            Intent intent = new Intent();
-            intent.setClass(TeacherDetailActivity.this,CourseDetailActivity.class);
-            Bundle bundle = new Bundle();
-            List<ProfessorCourse> courseList = professor.getProfessorCourseList();
-            bundle.putString("coursethree",courseList.get(2).getCourse().getName());
-            intent.putExtras(bundle);
-            startActivity(intent);
-        }
-    }
-    class coursefour implements OnClickListener
-    {
-        @Override
-        public void onClick(View v) {
-            Intent intent = new Intent();
-            intent.setClass(TeacherDetailActivity.this,CourseDetailActivity.class);
-            Bundle bundle = new Bundle();
-            List<ProfessorCourse> courseList = professor.getProfessorCourseList();
-            bundle.putString("coursefour",courseList.get(3).getCourse().getName());
-            intent.putExtras(bundle);
-            startActivity(intent);
-        }
-    }
-    class coursefive implements OnClickListener
-    {
-        @Override
-        public void onClick(View v) {
-            Intent intent = new Intent();
-            intent.setClass(TeacherDetailActivity.this,CourseDetailActivity.class);
-            Bundle bundle = new Bundle();
-            List<ProfessorCourse> courseList = professor.getProfessorCourseList();
-            bundle.putString("coursefive",courseList.get(4).getCourse().getName());
-            intent.putExtras(bundle);
-            startActivity(intent);
-        }
-    }
-    class coursesix implements OnClickListener
-    {
-        @Override
-        public void onClick(View v) {
-            Intent intent = new Intent();
-            intent.setClass(TeacherDetailActivity.this,CourseDetailActivity.class);
-            Bundle bundle = new Bundle();
-            List<ProfessorCourse> courseList = professor.getProfessorCourseList();
-            bundle.putString("coursesix",courseList.get(5).getCourse().getName());
-            intent.putExtras(bundle);
-            startActivity(intent);
-        }
-    }
-    private ImageView  SetProfessorImg(){
+    private void   SetProfessorImg(){
         // 请求教师对应头像，如果没有，就使用默认图片
-        if(professor.getPic()==null)
-            return notexist;
         ImageRequest imageRequest = new ImageRequest(
                 "http://47.100.226.176:8080/XueBaJun/teacher_image/"+professor.getPic()+".jpg",
                 new Response.Listener<Bitmap>() {
@@ -314,6 +192,366 @@ public class TeacherDetailActivity extends AppCompatActivity {
             }
         });
         mQueue.add(imageRequest);
-        return null;
     }
+    class courseone implements OnClickListener
+    {
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent();
+            intent.setClass(TeacherDetailActivity.this,CourseDetailActivity.class);
+            Bundle bundle = new Bundle();
+            List<ProfessorCourse> courseList = professor.getProfessorCourseList();
+            ProfessorCourse courseone = courseList.get(0);
+            Course one = courseone.getCourse();
+            bundle.putString("courseone",one.getName());
+            intent.putExtras(bundle);
+            startActivity(intent);
+        }
+    }
+    class coursetwo implements OnClickListener
+    {
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent();
+            intent.setClass(TeacherDetailActivity.this,CourseDetailActivity.class);
+            Bundle bundle = new Bundle();
+            List<ProfessorCourse> courseList = professor.getProfessorCourseList();
+            ProfessorCourse coursetwo = courseList.get(1);
+            Course two = coursetwo.getCourse();
+            bundle.putString("coursetwo",two.getName());
+            startActivity(intent);
+        }
+    }
+    class coursethree implements OnClickListener
+    {
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent();
+            intent.setClass(TeacherDetailActivity.this,CourseDetailActivity.class);
+            Bundle bundle = new Bundle();
+            List<ProfessorCourse> courseList = professor.getProfessorCourseList();
+            ProfessorCourse coursethree = courseList.get(2);
+            Course three = coursethree.getCourse();
+            bundle.putString("coursethree",three.getName());
+            intent.putExtras(bundle);
+            startActivity(intent);
+        }
+    }
+    class coursefour implements OnClickListener
+    {
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent();
+            intent.setClass(TeacherDetailActivity.this,CourseDetailActivity.class);
+            Bundle bundle = new Bundle();
+            List<ProfessorCourse> courseList = professor.getProfessorCourseList();
+            ProfessorCourse coursefour = courseList.get(3);
+            Course four = coursefour.getCourse();
+            bundle.putString("coursefour",four.getName());
+            intent.putExtras(bundle);
+            startActivity(intent);
+        }
+    }
+
+    //评论回复
+    //评论界面的监听
+    private void ShowReply(){
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                TextView view_reply = (TextView)findViewById(R.id.comment_item_reply);
+                view_reply.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //展示回复界面
+                        //Log.e("##","展示回复界面");
+                        //Log.e("##","position="+position);
+                        //获得该评论的回复
+                        String url = "http://47.100.226.176:8080/XueBaJun/GetComment";
+
+                        JSONObject jsonObject = new JSONObject();
+                        try {
+                            jsonObject.put("id", commentList.get(position).getId());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, jsonObject, new Response.Listener<JSONObject>() {
+
+                            public void onResponse(JSONObject jsonObject) {
+                                Gson gson = new DateGson().getGson();
+                                Comment ct = gson.fromJson(jsonObject.toString(), Comment.class);
+                                Log.e("##","评论是否有回复"+ct.getReplyList().size());
+                                if(ct.getReplyList().size() == 0) {
+                                    Log.e("##","firstreply");
+                                    addFirstReply(position);
+                                }
+                                else {
+                                    replyList = ct.getReplyList();
+                                    showReplyDetail(position);
+                                }
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError volleyError) {
+                            }
+                        });
+                        mQueue.add(jsonObjectRequest);
+                    }
+                });
+            }
+        });
+    }
+    @Override
+    public void onClick(View view) {
+        showCommentDialog();
+        ShowReply();
+    }
+
+    //回复界面
+    private void showReplyDetail(int position) {
+        dialog = new BottomSheetDialog(this);
+        /*****
+         * 通过position获得当前评论的回复
+         */
+        Radapter = new ReplyAdapter(replyView.getContext(), replyList);
+        ListView replyListView = (ListView)replyView.findViewById(R.id.reply_list);
+        replyListView.setAdapter(Radapter);
+        dialog.setContentView(replyView);
+        /***********
+         * 监听回复
+         */
+        replyListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, final int p, long id) {
+                showReplyDialog(p);
+            }
+        });
+        dialog.dismiss();
+        dialog.show();
+    }
+
+    //弹出评论框并添加评论
+    private void showCommentDialog() {
+        dialog = new BottomSheetDialog(this);
+        //解析编辑发送界面
+        View commentView = LayoutInflater.from(this).inflate(R.layout.comment_dialog_layout, null);
+        final EditText commentText = (EditText)commentView.findViewById(R.id.dialog_comment_et);
+        final Button bt_comment = (Button) commentView.findViewById(R.id.dialog_comment_bt);
+        dialog.setContentView(commentView);
+        View parent = (View)commentView.getParent();
+        BottomSheetBehavior behavior = BottomSheetBehavior.from(parent);
+        commentView.measure(0,0);
+        behavior.setPeekHeight(commentView.getMeasuredHeight());
+
+        bt_comment.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                String commentContent = commentText.getText().toString().trim();
+                if(!TextUtils.isEmpty(commentContent)){
+                    dialog.dismiss();
+                    Date now = new Date();
+                    /**************
+                     * 从其他页传来的当前用户的姓名
+                     * ******************/
+                    Comment detailBean = new Comment(user, commentContent, now);
+                    Log.e("##","评论内容"+detailBean.getContent());
+                    detailBean.setBelong(professor.getId());
+                    if(professor.getCommentList()==null){
+                        detailBean.setReplyList(null);
+                        commentList.add(detailBean);
+                        adapter = new CommentAdapter(TeacherDetailActivity.this, commentList);
+                        listView.setAdapter(adapter);
+                        //添加到该文档评论中
+                        professor.setCommentList(commentList);
+                        professor.setNumber(professor.getComment()+1);
+                    }
+                    else {
+                        adapter.addTheCommentData(detailBean);
+                    }
+                    mComment.setText("评论"+professor.getComment());
+                    /*上传到服务器*/
+                    SendCommentToServer(detailBean);
+                    Toast.makeText(TeacherDetailActivity.this, "评论成功",Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Toast.makeText(TeacherDetailActivity.this, "评论不能为空",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        dialog.show();
+    }
+    //弹出回复框并添加回复
+    private void showReplyDialog(final int p) {
+        dialog = new BottomSheetDialog(this);
+        //解析编辑发送界面
+        Log.e("##","replydialog");
+        View commentView = LayoutInflater.from(this).inflate(R.layout.comment_dialog_layout, null);
+        final EditText commentText = (EditText)commentView.findViewById(R.id.dialog_comment_et);
+        final Button bt_comment = (Button) commentView.findViewById(R.id.dialog_comment_bt);
+        dialog.setContentView(commentView);
+        View parent = (View)commentView.getParent();
+        BottomSheetBehavior behavior = BottomSheetBehavior.from(parent);
+        commentView.measure(0,0);
+        behavior.setPeekHeight(commentView.getMeasuredHeight());
+
+        bt_comment.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                String commentContent = commentText.getText().toString().trim();
+                if (!TextUtils.isEmpty(commentContent)) {
+                    dialog.dismiss();
+                    /**************
+                     * 从其他页传来的当前用户的姓名
+                     * ******************/
+                    Reply detailBean = new Reply(user,  replyList.get(p).getCritic(), commentContent);
+                    detailBean.setBelong(commentList.get(p).getId());
+                    detailBean.setAt(replyList.get(p).getCritic());
+                    Radapter.addTheCommentData(detailBean);
+                    SendReplyToSever(detailBean);
+                    Toast.makeText(TeacherDetailActivity.this, "评论成功", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(TeacherDetailActivity.this, "评论不能为空", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        dialog.show();
+    }
+    //弹出回复框并添加回复
+    private void addFirstReply(final int p) {
+        dialog = new BottomSheetDialog(this);
+        //解析编辑发送界面
+        Log.e("##","11replydialog");
+        View commentView = LayoutInflater.from(this).inflate(R.layout.comment_dialog_layout, null);
+        final EditText commentText = (EditText)commentView.findViewById(R.id.dialog_comment_et);
+        final Button bt_comment = (Button) commentView.findViewById(R.id.dialog_comment_bt);
+        dialog.setContentView(commentView);
+        commentText.setHint("请输入您的回复.....");
+        View parent = (View)commentView.getParent();
+        BottomSheetBehavior behavior = BottomSheetBehavior.from(parent);
+        commentView.measure(0,0);
+        behavior.setPeekHeight(commentView.getMeasuredHeight());
+        bt_comment.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                String commentContent = commentText.getText().toString().trim();
+                if(!TextUtils.isEmpty(commentContent)){
+                    dialog.dismiss();
+                    /**************
+                     * 从其他页传来的当前用户的姓名
+                     * ******************/
+                    //Log.e("##","第一条回复");
+                    Reply detailBean = new Reply(user, commentContent);
+                    detailBean.setBelong(commentList.get(p).getId());
+                    detailBean.setAt(commentList.get(p).getCritic());
+                    //Log.e("##","第一条回复加入list");
+                    replyList.add(detailBean);
+                    //Log.e("##","第一条回复加入成功");
+                    Radapter = new ReplyAdapter(replyView.getContext(),replyList);
+                    //Log.e("##","设置第一条评论的回复第一条回复");
+                    commentList.get(p).setReplyList(replyList);
+                    SendReplyToSever(detailBean);
+                    Toast.makeText(TeacherDetailActivity.this, "评论成功",Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Toast.makeText(TeacherDetailActivity.this, "评论不能为空",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        dialog.show();
+    }
+
+    private void SendCommentToServer(Comment comment){
+        Log.e("##", "Content="+comment.getContent());
+        Log.e("##","critic="+comment.getCritic().getName());
+        String url = "http://47.100.226.176:8080/XueBaJun/AddComment";
+        //发送数据
+        org.json.JSONObject jsonObject ;
+
+        HashMap<String,String> u = new HashMap<>();
+        u.put("phone",user.getPhone());
+        Map<String, Object> map = new HashMap<>();
+        map.put("critic",u);
+        map.put("type", "book");
+        map.put("content", comment.getContent());
+        map.put("belong",comment.getBelong());
+        jsonObject = new JSONObject(map);
+
+        Log.e("##","发送 "+jsonObject.toString());
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, jsonObject, new Response.Listener<JSONObject>() {
+            public void onResponse(JSONObject jsonObject) {
+                Log.e("##","评论返回 ");
+                UpdateCommentNumber();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Log.e("##","评论返回cuowu ");
+                UpdateCommentNumber();
+            }
+        });
+        mQueue.add(jsonObjectRequest);
+    }
+
+    private void SendReplyToSever(Reply reply){
+        String url = "http://47.100.226.176:8080/XueBaJun/AddReply";
+        //发送数据
+        //发送数据
+        org.json.JSONObject jsonObject ;
+
+        HashMap<String,String> u = new HashMap<>();
+        u.put("phone",user.getPhone());
+        HashMap<String, String> a = new HashMap<>();
+        a.put("phone", reply.getAt().getPhone());
+        Map<String, Object> map = new HashMap<>();
+        map.put("critic",u);
+        map.put("at", a);
+        map.put("content", reply.getContent());
+        map.put("belong",reply.getBelong());
+        jsonObject = new JSONObject(map);
+        Log.e("##","发送 "+jsonObject.toString());
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, jsonObject, new Response.Listener<JSONObject>() {
+            public void onResponse(JSONObject jsonObject) {
+                Log.e("##","回复上传成功");
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Log.e("##","回复上传失败");
+            }
+        });
+        mQueue.add(jsonObjectRequest);
+    }
+
+    private void UpdateCommentNumber(){
+        String url = "http://47.100.226.176:8080/XueBaJun/GetProfessor";
+
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("id", id);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, jsonObject, new Response.Listener<JSONObject>() {
+
+            public void onResponse(JSONObject jsonObject) {
+                Gson gson = new DateGson().getGson();
+                professor = gson.fromJson(jsonObject.toString(), Professor.class);
+                if (professor != null) {
+                    String scc = "评论"+professor.getComment();
+                    mComment.setText(scc);
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        });
+        mQueue.add(jsonObjectRequest);
+    }
+
 }
