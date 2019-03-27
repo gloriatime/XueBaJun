@@ -2,6 +2,7 @@ package com.example.gloria.myapplication.showInfo;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -32,22 +33,33 @@ import java.util.List;
 public class PingFenActivity extends AppCompatActivity {
     Button btn;
     EditText editText;
-    private Course course;
+    //private Course course;
     RequestQueue mQueue;
+    int id;
+    int idc;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pingfen_detail);
+        getPassInfo();
         btn = (Button)findViewById(R.id.okbtn);
         editText = (EditText)findViewById(R.id.editText) ;
         btn.setOnClickListener(new btnok());
         Intent intent = getIntent();
-        course = (Course) intent.getSerializableExtra("Course");
+        idc = (int) intent.getIntExtra("course",0);
         mQueue  = Volley.newRequestQueue(PingFenActivity.this);
+    }
+    private void getPassInfo() {
+        Intent intent = getIntent();
+        Log.e("##", "课程id：");
+        id = intent.getIntExtra("pingfen_id",0);
+        //id = 6;
+        Log.e("##", "评分详情id："+id);
     }
     class btnok implements OnClickListener{
         @Override
         public void onClick(View v) {
+            v.setBackgroundColor(Color.parseColor("#FFFFFF"));
         String score = editText.toString();
        // course.changeScore(score);
         // 与服务器交互
@@ -55,7 +67,7 @@ public class PingFenActivity extends AppCompatActivity {
             org.json.JSONObject jsonObject = new org.json.JSONObject();
             try {
                 jsonObject.put("score", score);
-                jsonObject.put("Id", course.getId());
+                jsonObject.put("Id", idc);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

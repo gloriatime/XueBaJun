@@ -18,8 +18,9 @@
     <ListView
         android:id="@+id/lvb"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_below="@id/searchEditBook">
+        android:layout_height="210dp"
+        android:layout_below="@id/searchEditBook"
+        android:background="@color/whiteSmoke">
     </ListView>
 
     <!--hot小图标-->
@@ -84,7 +85,7 @@
        android:layout_below="@id/morebook"
        android:gravity="center"
        android:layout_centerInParent="true"
-       android:layout_marginTop="10dp"
+       android:layout_marginTop="30dp"
        >
        <Button
            android:id="@+id/latest"
@@ -100,7 +101,7 @@
            android:layout_width="100dp"
            android:layout_height="30dp"
            android:layout_alignTop="@id/latest"
-           android:background="@drawable/bg_button_list"
+           android:background="@drawable/bg_button_list_blue"
            android:drawableStart="@drawable/likebook"
            android:paddingStart="5dp"
            android:paddingEnd="5dp"

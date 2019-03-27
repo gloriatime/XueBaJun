@@ -2,7 +2,7 @@ package com.example.model.myapplication;
 
 import java.util.List;
 public class Professor {
-    private int Id;
+    private int id;
     private String name;
     private String intro;
     private String field;
@@ -18,10 +18,10 @@ public class Professor {
     private List<Comment> commentList;
 
     public int getId() {
-        return Id;
+        return id;
     }
     public void setId(int id) {
-        Id = id;
+        this.id = id;
     }
     public String getIntro() {
         return intro;

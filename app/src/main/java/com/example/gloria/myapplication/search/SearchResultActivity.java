@@ -213,7 +213,7 @@ public class SearchResultActivity extends AppCompatActivity {
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                         Intent intent = new Intent(SearchResultActivity.this, CourseDetailActivity.class);
                         intent.putExtra("user",(Serializable) user);
-                        intent.putExtra("course_id",""+course_list.get(i).getId());
+                        intent.putExtra("course_id",course_list.get(i).getId());
                         startActivity(intent);
                     }
                 });

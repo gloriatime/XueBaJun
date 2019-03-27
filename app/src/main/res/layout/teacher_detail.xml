@@ -3,7 +3,17 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal">
+    <RelativeLayout
+        android:id="@+id/notzero"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp">
     <!--教师照片-->
+        <RelativeLayout
+            android:id="@+id/notseczero"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true">
     <ImageView
         android:id="@+id/teacherimage"
         android:layout_width="90dp"
@@ -23,13 +33,14 @@
         android:text="@string/setSC">
 
     </Button>
+        </RelativeLayout>
     <!--教师所教授课程-->
     <RelativeLayout
         android:id="@+id/zero"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:background="@drawable/biankuang"
-        android:layout_toEndOf="@id/teacherimage"
+        android:layout_toEndOf="@id/notseczero"
         android:layout_marginTop="10dp"
         android:layout_marginStart="20dp">
         <TextView
@@ -42,7 +53,7 @@
 
         <Button
             android:id="@+id/courseone"
-            android:layout_width="120dp"
+            android:layout_width="150dp"
             android:layout_height="20dp"
             android:layout_below="@id/one"
             android:layout_marginTop="10dp"
@@ -51,7 +62,7 @@
 
         <Button
             android:id="@+id/coursetwo"
-            android:layout_width="120dp"
+            android:layout_width="150dp"
             android:layout_height="20dp"
             android:layout_below="@id/courseone"
             android:layout_marginTop="10dp"
@@ -59,7 +70,7 @@
             android:background="@drawable/biankuang_bt"/>
         <Button
             android:id="@+id/coursethree"
-            android:layout_width="120dp"
+            android:layout_width="150dp"
             android:layout_height="20dp"
             android:layout_below="@id/coursetwo"
             android:layout_marginTop="10dp"
@@ -67,20 +78,39 @@
             android:background="@drawable/biankuang_bt"/>
         <Button
             android:id="@+id/coursefour"
-            android:layout_width="120dp"
+            android:layout_width="150dp"
             android:layout_height="20dp"
             android:layout_below="@id/coursethree"
             android:layout_marginTop="10dp"
             android:layout_centerHorizontal="true"
+            android:background="@drawable/biankuang_bt"/>
+        <Button
+            android:id="@+id/coursefive"
+            android:layout_width="150dp"
+            android:layout_height="20dp"
+            android:layout_below="@id/coursefour"
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/biankuang_bt"/>
+        <Button
+            android:id="@+id/coursesix"
+            android:layout_width="150dp"
+            android:layout_height="20dp"
+            android:layout_below="@id/coursefive"
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
             android:background="@drawable/biankuang_bt" />
+    </RelativeLayout>
     </RelativeLayout>
     <!--教师简介-->
     <RelativeLayout
+        android:id="@+id/ten"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/biankuang"
         android:layout_marginTop="20dp"
-        android:layout_below="@id/teacherimage">
+        android:layout_below="@id/notzero"
+        android:layout_marginStart="20dp">
         <TextView
             android:id="@+id/three"
             android:layout_width="wrap_content"
@@ -122,11 +152,32 @@
             android:layout_marginBottom="10dp">
         </TextView>
     </RelativeLayout>
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="0.5dp"
+        android:background="#000000"
+        android:layout_below="@id/ten"
+        android:layout_marginTop="10dp"
+        />
     <!--给评论预留的-->
     <RelativeLayout
         android:id="@+id/five"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/biankuang">
+        android:layout_below="@id/ten"
+        android:layout_marginTop="20dp">
+        <TextView
+            android:id="@+id/six"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/writecomment"
+            android:textSize="20sp"/>
+        <TextView
+            android:id="@+id/seven"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/commentnum"
+            android:layout_alignParentEnd="true"
+            android:textSize="20sp"/>
     </RelativeLayout>
 </RelativeLayout>
