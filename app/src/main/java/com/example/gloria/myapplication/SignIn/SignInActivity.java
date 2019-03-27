@@ -119,7 +119,7 @@ public class SignInActivity extends AppCompatActivity {
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(SignInActivity.this, "用户不存在，请先注册", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SignInActivity.this, "输入有误，请检查并重新输入", Toast.LENGTH_SHORT).show();
                     }
                 });
                 mQueue.add(jsonObjectRequest);
