@@ -180,7 +180,7 @@ public class BookMainActivity extends AppCompatActivity implements View.OnClickL
                     Log.e("##","picture");
                     RequestQueue mQueue = Volley.newRequestQueue(BookMainActivity.this);
                     ImageRequest imageRequest = new ImageRequest(
-                            "http://47.100.226.176:8080/XueBaJun/"+book.getCover()+".jpg",
+                            "http://47.100.226.176:8080/"+book.getCover(),
                             new Response.Listener<Bitmap>() {
                                 @Override
                                 public void onResponse(Bitmap response) {
