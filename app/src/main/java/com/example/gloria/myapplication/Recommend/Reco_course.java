@@ -61,10 +61,11 @@ public class Reco_course extends AppCompatActivity {
     private TextView T_C_two;
     private TextView T_C_three;
     private Course course;
+    private int flag=0;
     RequestQueue mQueue;
     //搜索框
     private SearchView searchView;
-    private ListView listView;
+   // private ListView listView;
     private final String[] strings = {"数据结构","C++","JAVA","操作系统"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,47 +84,40 @@ public class Reco_course extends AppCompatActivity {
 
     private void setSearch() {
        //设置适配器
-        listView.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_dropdown_item_1line,strings));
+      //  listView.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_dropdown_item_1line,strings));
         //listView启动过滤
-        listView.setTextFilterEnabled(true);
+       // listView.setTextFilterEnabled(true);
         //设置一开始不显示listview
-        listView.setVisibility(View.GONE);
+      //  listView.setVisibility(View.GONE);
         searchView.setSubmitButtonEnabled(true);
         searchView.setQueryHint("请输入课程名或教师名");
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener(){
-            @Override
-            public boolean onQueryTextSubmit(String query){
-                Toast.makeText(Reco_course.this,"数据结构",Toast.LENGTH_SHORT).show();
-            return false;}
-            @Override
-            public boolean onQueryTextChange(String newText){
-                if(TextUtils.isEmpty(newText)){
-                   listView.setVisibility(View.GONE);
-                   listView.clearTextFilter();
-                }
-                else{
-                    listView.setVisibility(View.VISIBLE);
-                    listView.setFilterText(newText);
-                }
-                return true;
-            }
-        });
+    }
+    private void sec_init(int f) {
+        if (f == 0) {
+            String a = "1." + course.getTopTwentyList().get(0).getName() + "------" + course.getTopTwentyList().get(0).getName();
+            T_C_one.setText(a);
+            String b = "2." + course.getTopTwentyList().get(1).getName() + "------" + course.getTopTwentyList().get(1).getName();
+            T_C_one.setText(b);
+            String c = "3." + course.getTopTwentyList().get(2).getName() + "------" + course.getTopTwentyList().get(2).getName();
+            T_C_one.setText(c);
+        }
+        else
+        {
+            T_C_two.setText("暂无排行");
+            T_C_one.setText("暂无排行");
+            T_C_three.setText("暂无排行");
+        }
     }
 
     private void init() {
         morecourse = (TextView) findViewById(R.id.morecourse);
-
         T_C_one = (TextView)findViewById(R.id.T_C_one);
-
         T_C_two = (TextView)findViewById(R.id.T_C_two);
-
         T_C_three = (TextView)findViewById(R.id.T_C_three);
-
         list_re_C = (ListView)findViewById(R.id.ListView_like);
         //开始设置搜索框
-        listView = (ListView)findViewById(R.id.lv);
+        //listView = (ListView)findViewById(R.id.lv);
         searchView = (SearchView)findViewById(R.id.searchEdit);
-
         course = new Course();
         mQueue = Volley.newRequestQueue(Reco_course.this);
     }
@@ -149,7 +143,13 @@ public class Reco_course extends AppCompatActivity {
 
                     if(tempuser != null) {
                         Log.e("##getSuccess##", "Id"+tempuser.getName()+ "\n");
+                        sec_init(0);
                     }
+                    else
+                    {
+                        sec_init(1);
+                    }
+
                 }
             }, new Response.ErrorListener() {
                 @Override
@@ -204,10 +204,6 @@ public class Reco_course extends AppCompatActivity {
 
            map.put("coursecover",Clist.get(i).getBook().getCover());
            map.put("cname",Clist.get(i).getName());
-           //List<ProfessorCourse> professorCourselist = course.getProfessorCourseList();
-           //ProfessorCourse professorCourse = professorCourselist.get(0);
-           //Professor teacher = professorCourse.getProfessor();
-           //map.put("tname",teacher.getName());
             map.put("tname",Clist.get(i).getIntro().substring(0,20)+"...");
            listItem.add(map);
         }
