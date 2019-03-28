@@ -78,7 +78,7 @@ public class DataMainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //***跳入“资料”详情界面
                  Intent intent = new Intent(DataMainActivity.this, SearchResultActivity.class);
-                intent.putExtra("user", (Serializable) user);
+                 intent.putExtra("user", (Serializable) user);
                  intent.putExtra("type", "资料");
                  intent.putExtra("search_content",content);
                  startActivity(intent);

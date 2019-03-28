@@ -30,6 +30,7 @@ import com.example.base.myapplication.ListItemViewHolderCAndB;
 import com.example.base.myapplication.NetImage;
 import com.example.gloria.myapplication.R;
 import com.example.gloria.myapplication.bookDetail.BookMainActivity;
+import com.example.gloria.myapplication.search.SearchResultActivity;
 import com.example.gloria.myapplication.showInfo.Activity_Top20_book;
 import com.example.model.myapplication.Book;
 import com.example.model.myapplication.User;
@@ -58,10 +59,13 @@ public class Reco_book extends AppCompatActivity {
     private SearchView searchView;
     private ListView listView;
     private final String[] strings = {"数据结构","C++","JAVA","操作系统"};
+    User user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rec_book);
+        Intent intent = getIntent();
+        user = (User)intent.getSerializableExtra("user");
         init();
         getBook();
         setPage();
@@ -76,7 +80,7 @@ public class Reco_book extends AppCompatActivity {
         //设置适配器
         listView.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_dropdown_item_1line,strings));
         //listView启动过滤
-        listView.setTextFilterEnabled(true);
+        listView.setTextFilterEnabled(false);
         //设置一开始不显示listview
         listView.setVisibility(View.GONE);
         searchView.setSubmitButtonEnabled(true);
@@ -84,7 +88,12 @@ public class Reco_book extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener(){
             @Override
             public boolean onQueryTextSubmit(String query){
-                Toast.makeText(Reco_book.this,"数据结构",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(Reco_book.this,"数据结构",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(Reco_book.this, SearchResultActivity.class);
+                intent.putExtra("user", user);
+                intent.putExtra("type", "书籍");
+                intent.putExtra("search_content", searchView.getQuery());
+                startActivity(intent);
                 return false;}
             @Override
             public boolean onQueryTextChange(String newText){
