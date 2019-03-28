@@ -63,6 +63,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -403,7 +404,7 @@ public class MainActivity extends AppCompatActivity {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url,jsonObject,new Response.Listener<JSONObject>() {
 
             public void onResponse(JSONObject jsonObject) {
-                UserTag temp = new Gson().fromJson(jsonObject.toString(), UserTag.class);
+                UserTag temp = new DateGson().getGson().fromJson(jsonObject.toString(), UserTag.class);
                 // 签到成功，更新user的积分值并修改UI显示
                 if(temp != null) {
                     Log.e("##getSuccess##", "推荐列表返回"+jsonObject.toString());
@@ -745,8 +746,11 @@ public class MainActivity extends AppCompatActivity {
             for (int i = 0; i < documents.size(); i++) {
                 HashMap<String, Object> map = new HashMap<>();
                 map.put("text_1", documents.get(i).getName());
+                // 格式化上传时间
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                String date =format.format(documents.get(i).getUp_time());
                 map.put("text_2", "上传by："+documents.get(i).getUp_user());
-                map.put("text_3", "上传时间："+documents.get(i).getUp_time());
+                map.put("text_3", date);
                 listItem.add(map);
             }
         }else if(listContent == BOOK){
