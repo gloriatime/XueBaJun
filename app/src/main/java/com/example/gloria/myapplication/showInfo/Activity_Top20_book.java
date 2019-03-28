@@ -30,11 +30,13 @@ import com.example.gloria.myapplication.R;
 import com.example.gloria.myapplication.Recommend.Reco_book;
 import com.example.gloria.myapplication.bookDetail.BookMainActivity;
 import com.example.model.myapplication.Book;
+import com.example.model.myapplication.User;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -45,6 +47,7 @@ public class Activity_Top20_book  extends AppCompatActivity {
     //以上为列表内容
     private Book book;
     RequestQueue mQueue;
+    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +55,14 @@ public class Activity_Top20_book  extends AppCompatActivity {
         setContentView(R.layout.activity_top20);
         //设置可能喜欢列表
         init();
+        getUser();
         getBook();
         //  setListView();
+    }
+
+    private void getUser() {
+        Intent intent = getIntent();
+        user = (User) intent.getSerializableExtra("user");
     }
 
     private void init() {
@@ -99,13 +108,10 @@ public class Activity_Top20_book  extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Log.e("##", "你点击了ListView条目" + i);//在LogCat中输出信息
                 // ---显示点击之后的页面
-                Intent intent = new Intent();
-                intent.setClass(Activity_Top20_book.this, BookMainActivity.class);
-                Bundle bundle = new Bundle();
-                List<Book> bookList = book.getRecommendList();
-                Book showbook = bookList.get(i);
-                bundle.putString("bookone", showbook.getName());
-                intent.putExtras(bundle);
+                Intent intent = new Intent(Activity_Top20_book.this,BookMainActivity.class);
+                // 传递参数
+                intent.putExtra("user", (Serializable) user);
+                intent.putExtra("book_id",book.getTopTwentyList().get(i).getId());
                 startActivity(intent);
             }
         });

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal">
     <!--搜索框-->
     <android.support.v7.widget.SearchView
-        android:id="@+id/searchEditBook"
+        android:id="@+id/searchEdit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_search_selector"
@@ -14,14 +14,6 @@
         android:layout_marginEnd="20dp"
         android:layout_marginTop="20dp">
     </android.support.v7.widget.SearchView>
-    <!--第一个列表，展示搜索项-->
-    <ListView
-        android:id="@+id/lvb"
-        android:layout_width="match_parent"
-        android:layout_height="210dp"
-        android:layout_below="@id/searchEditBook"
-        android:background="@color/whiteSmoke">
-    </ListView>
 
     <!--hot小图标-->
     <ImageView
@@ -31,7 +23,7 @@
         android:contentDescription="@string/hot"
         android:src="@drawable/hot"
         android:layout_marginTop="20dp"
-        android:layout_below="@id/searchEditBook"
+        android:layout_below="@id/searchEdit"
         android:layout_marginStart="10dp"
         />
     <TextView
@@ -41,88 +33,88 @@
         android:layout_alignTop="@id/HotImage"
         android:layout_toEndOf="@id/HotImage"
         android:layout_marginStart="20dp"
-        android:text="@string/hotbook"
+        android:text="@string/hotcourse"
         android:textSize="20sp"
         android:textColor="@color/black"/>
-    <!--热一课程-->
-    <TextView
-        android:id="@+id/B_one"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/one"
-        android:layout_marginTop="10dp"/>
-    <!--热一课程-->
-    <TextView
-        android:id="@+id/B_two"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/B_one"
-        android:layout_marginTop="10dp"/>
-    <!--热一课程-->
-    <TextView
-        android:id="@+id/B_three"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/B_two"
-        android:layout_marginTop="10dp"/>
 
     <!--设置可点击的textView-->
     <TextView
-        android:id="@+id/morebook"
+        android:id="@+id/morecourse"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/formorebook"
-        android:layout_below="@id/B_three"
+        android:text="@string/morecourse"
+        android:layout_below="@id/T_C_three"
         android:layout_alignParentEnd="true"
         android:textColor="@color/red"
         android:layout_marginEnd="20dp"
-        android:layout_marginTop="5dp"
-       />
-   <RelativeLayout
-       android:id="@+id/six"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:layout_below="@id/morebook"
-       android:gravity="center"
-       android:layout_centerInParent="true"
-       android:layout_marginTop="30dp"
-       >
-       <Button
-           android:id="@+id/latest"
-           android:layout_width="100dp"
-           android:layout_height="30dp"
-           android:background="@drawable/bg_button_list"
-           android:drawableStart="@drawable/thelatest"
-           android:paddingStart="5dp"
-           android:paddingEnd="5dp"
-           android:text="@string/thelatest"/>
-       <Button
-           android:id="@+id/likebook"
-           android:layout_width="100dp"
-           android:layout_height="30dp"
-           android:layout_alignTop="@id/latest"
-           android:background="@drawable/bg_button_list_blue"
-           android:drawableStart="@drawable/likebook"
-           android:paddingStart="5dp"
-           android:paddingEnd="5dp"
-           android:layout_marginStart="160dp"
-           android:text="@string/youmaylikebook"/>
-   </RelativeLayout>
-    <!--书籍展示-->
-    <RelativeLayout
-        android:id="@+id/seven"
+        android:layout_marginTop="15dp"/>
+
+    <!--热一课程-->
+    <TextView
+        android:id="@+id/T_C_one"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/six"
+        android:layout_below="@id/one"
+        android:layout_marginTop="16dp"
+        android:textSize="@dimen/title"
+        android:layout_marginStart="@dimen/large"
+        android:text="热门课程"/>
+    <!--热一课程-->
+    <TextView
+        android:id="@+id/T_C_two"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/T_C_one"
+        android:layout_marginTop="10dp"
+        android:textSize="@dimen/title"
+        android:layout_marginStart="@dimen/large"
+        android:text="热门课程"/>
+    <!--热一课程-->
+    <TextView
+        android:id="@+id/T_C_three"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/T_C_two"
+        android:layout_marginTop="10dp"
+        android:textSize="@dimen/title"
+        android:layout_marginStart="@dimen/large"
+        android:text="热门课程"/>
+
+    <!--like小图标-->
+    <ImageView
+        android:id="@+id/LikeImage"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:contentDescription="@string/maylike"
+        android:src="@drawable/like"
+        android:layout_marginTop="25dp"
+        android:layout_below="@id/morecourse"
+        android:layout_marginStart="10dp"
+        />
+    <TextView
+        android:id="@+id/five"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/LikeImage"
+        android:layout_toEndOf="@id/LikeImage"
+        android:layout_marginStart="20dp"
+        android:text="@string/maylike"
+        android:textSize="20sp"
+        android:textColor="@color/black"/>
+    <!--书籍展示-->
+    <RelativeLayout
+        android:id="@+id/six"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/LikeImage"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp">
 
         <ListView
-            android:id="@+id/ListView_like_book"
+            android:id="@+id/ListView_like"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
+            android:layout_height="wrap_content">
 
         </ListView>
     </RelativeLayout>

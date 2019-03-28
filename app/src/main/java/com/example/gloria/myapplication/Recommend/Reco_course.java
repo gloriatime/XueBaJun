@@ -1,5 +1,6 @@
 package com.example.gloria.myapplication.Recommend;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -80,9 +81,6 @@ public class Reco_course extends AppCompatActivity {
         getUser();
         getCourse();
         getTop3();
-        setPage();
-       //设置可能喜欢列表
-        setListView();
         //setOnclick();
         //设置搜索框
         setSearch();
@@ -241,9 +239,15 @@ public class Reco_course extends AppCompatActivity {
     private void getCourse() {
             // 与服务器交互
 
-            String url = "http://47.100.226.176:8080/XueBaJun/GetRecommendListOfCoursePage";
+        String url = "http://47.100.226.176:8080/XueBaJun/GetRecommendListOfCoursePage";
 
-            JSONObject jsonObject = new JSONObject();
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("phone",user.getPhone());
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url,jsonObject,new Response.Listener<JSONObject>() {
 
@@ -253,9 +257,14 @@ public class Reco_course extends AppCompatActivity {
                     // 签到成功，更新user的积分值并修改UI显示
                     course = tempuser;//从后台请求第一个course成功
 
+                    setPage();
+                    //设置可能喜欢列表
+                    setListView();
                     if(tempuser != null) {
-                        Log.e("##getSuccess##", "Id"+tempuser.getName()+ "\n");
+                        Log.e("##getSuccess##", "课程推荐返回"+course.getRecommendList().size());
                     }
+
+
                 }
             }, new Response.ErrorListener() {
                 @Override
@@ -286,37 +295,43 @@ public class Reco_course extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Log.e("##", "你点击了ListView条目" + i);//在LogCat中输出信息
                 // ---显示点击之后的页面
-                Intent intent = new Intent();
-                intent.setClass(Reco_course.this, CourseDetailActivity.class);
-                Bundle bundle = new Bundle();
-                List<Course> courseList = course.getRecommendList();
-                Course showcourse = courseList.get(i);
-                bundle.putString("courseone",showcourse.getName());
-                intent.putExtras(bundle);
+                Intent intent = new Intent(Reco_course.this,CourseDetailActivity.class);
+                // 传递参数
+                intent.putExtra("user", (Serializable) user);
+                intent.putExtra("course_id",course.getRecommendList().get(i).getId());
                 startActivity(intent);
             }
         });
-
-
     }
     //设置数据的显示显示数据
     private ArrayList<HashMap<String ,Object>> getData(){
+        if(course.getRecommendList()==null)
+            Log.e("##","推荐列表是空的");
         ArrayList<HashMap<String ,Object>> listItem = new ArrayList<>();
         List<Course> Clist = new ArrayList<>();
         Clist = course.getRecommendList();
-        Log.e("##", "----------------开始为listItem添加内容----------");//在LogCat中输出信息
-        if(Clist == null) return listItem;
+         Log.e("##", "书籍的推荐列表的长度"+String.valueOf(course.getRecommendList().size()));//在LogCat中输出信息
+        if(Clist == null)
+        {
+            Log.e("##","推荐列表是空的，返回了");
+            return listItem;}
         for(int i = 0; i < Clist.size(); i++){
             HashMap<String, Object> map = new HashMap<>();
-            //--------------------------------------此处更换课程封面-------------------------------------------------
-
+            Log.e("##", "----------------添加内容**************************----------");
+            Log.e("##","这是课程的名字"+Clist.get(i).getName());
+            if(Clist.get(i).getBook()!=null)
            map.put("coursecover",Clist.get(i).getBook().getCover());
-           map.put("cname",Clist.get(i).getName());
-           //List<ProfessorCourse> professorCourselist = course.getProfessorCourseList();
-           //ProfessorCourse professorCourse = professorCourselist.get(0);
-           //Professor teacher = professorCourse.getProfessor();
-           //map.put("tname",teacher.getName());
-            map.put("tname",Clist.get(i).getIntro().substring(0,20)+"...");
+            else
+            {
+               @SuppressLint("ResourceType") ImageView cimage= (ImageView) findViewById(R.drawable.bookimgsample);
+                map.put("coursecover",cimage);}
+            map.put("cname",Clist.get(i).getName());
+            if(Clist.get(i).getIntro()!=null){
+                map.put("tname",Clist.get(i).getIntro().substring(0,20)+"...");
+            }else {
+                map.put("tname","暂无简介。");
+            }
+
            listItem.add(map);
         }
         return listItem;
@@ -349,6 +364,7 @@ public class Reco_course extends AppCompatActivity {
             Log.e("##", "getView " + position + " " + convertView);
             if(convertView == null)
             {
+                Log.e("##","空的空的空的空的空的空的空的空的空的空的");
                 convertView = mInflater.inflate(R.layout.list_maylike_course,null);
                 holder = new ListItemViewHolderCAndB();
                 holder.coursecover = (ImageView) convertView.findViewById(R.id.coursecover);
@@ -365,7 +381,11 @@ public class Reco_course extends AppCompatActivity {
             holder.tname.setText("简介："+getData().get(position).get("tname").toString());
 
             NetImage netImage = new NetImage();
-            netImage.setCoverImage(mQueue,holder.coursecover,"http://47.100.226.176:8080/"+getData().get(position).get("coursecover").toString());
+            if(getData().get(position).get("coursecover")!=null) {
+                netImage.setCoverImage(mQueue, holder.coursecover, "http://47.100.226.176:8080/" + getData().get(position).get("coursecover").toString());
+            }else {
+              holder.coursecover.setBackgroundResource(R.drawable.pic_no_data);
+            }
 
             return convertView;
         }
