@@ -33,7 +33,7 @@
                 android:id="@+id/imageViewLook"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:background="@drawable/look"
+                android:background="@drawable/ic_score"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
                 />
