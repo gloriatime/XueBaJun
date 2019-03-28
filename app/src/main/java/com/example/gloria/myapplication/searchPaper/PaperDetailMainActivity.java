@@ -38,6 +38,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.base.myapplication.BackJump;
 import com.example.base.myapplication.DateGson;
+import com.example.base.myapplication.UnfinishDialog;
 import com.example.gloria.myapplication.R;
 import com.example.gloria.myapplication.adapter.CommentAdapter;
 import com.example.gloria.myapplication.adapter.ReplyAdapter;
@@ -103,6 +104,7 @@ public class PaperDetailMainActivity extends AppCompatActivity implements View.O
     ReplyAdapter Radapter;
     List<Reply> replyList = new ArrayList<Reply>();
     View replyView;
+    String name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -228,8 +230,7 @@ public class PaperDetailMainActivity extends AppCompatActivity implements View.O
                     }
                     String str = "当前评分："+document.getScore()+"分";
                     mScore.setText(str);
-                    String src = "上传者："+document.getUp_user();
-                    mUploader.setText(src);
+                    setUpUserName();
                     String scc = "评论"+document.getComment();
                     mComment.setText(scc);
                     Log.e("##","document"+document.getComment());
@@ -252,11 +253,38 @@ public class PaperDetailMainActivity extends AppCompatActivity implements View.O
         mQueue.add(jsonObjectRequest);
     }
 
+    private void setUpUserName(){
+        String url = "http://47.100.226.176:8080/XueBaJun/GetUser";
+
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("phone", document.getUp_user());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, jsonObject, new Response.Listener<JSONObject>() {
+
+            public void onResponse(JSONObject jsonObject) {
+                Gson gson = new DateGson().getGson();
+                User upuser = gson.fromJson(jsonObject.toString(), User.class);
+                name = upuser.getName();
+                mUploader.setText("上传者："+ name);
+                Log.e("##","name"+name + "#"+upuser.getName());
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+            }
+        });
+        mQueue.add(jsonObjectRequest);
+    }
+
     //下载
     class TextListenerDown implements View.OnClickListener {
         @Override
         public void onClick(View view) {
-            final String downloadUrl = document.getUrl();
+           /* final String downloadUrl = document.getUrl();
             final Context mContext = PaperDetailMainActivity.this;
             mDownload.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -270,8 +298,12 @@ public class PaperDetailMainActivity extends AppCompatActivity implements View.O
                     //将下载任务加载到下载队列
                     downloadManager.enqueue(request);
                 }
-            });
+            });*/
+            setUnfinishDialog();
         }
+    }
+    private void setUnfinishDialog(){
+        UnfinishDialog u = new UnfinishDialog(this);
     }
     //收藏
     class TextListenerFavo implements View.OnClickListener{
