@@ -92,7 +92,8 @@ public class Reco_book extends AppCompatActivity {
                 Intent intent = new Intent(Reco_book.this, SearchResultActivity.class);
                 intent.putExtra("user", user);
                 intent.putExtra("type", "书籍");
-                intent.putExtra("search_content", searchView.getQuery());
+               // Log.e("#QuerySearch#", searchView.getQuery());
+                intent.putExtra("search_content", searchView.getQuery().toString());
                 startActivity(intent);
                 return false;}
             @Override

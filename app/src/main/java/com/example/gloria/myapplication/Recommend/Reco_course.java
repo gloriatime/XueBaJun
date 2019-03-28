@@ -197,7 +197,7 @@ public class Reco_course extends AppCompatActivity {
                 Intent intent = new Intent(Reco_course.this, SearchResultActivity.class);
                 intent.putExtra("user", user);
                 intent.putExtra("type", "课程");
-                intent.putExtra("search_content", searchView.getQuery());
+                intent.putExtra("search_content", searchView.getQuery().toString());
                 startActivity(intent);
                 return false;
             }

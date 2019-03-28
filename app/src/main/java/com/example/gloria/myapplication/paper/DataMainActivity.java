@@ -80,7 +80,7 @@ public class DataMainActivity extends AppCompatActivity {
                  Intent intent = new Intent(DataMainActivity.this, SearchResultActivity.class);
                  intent.putExtra("user", (Serializable) user);
                  intent.putExtra("type", "资料");
-                 intent.putExtra("search_content",content);
+                 intent.putExtra("search_content",search_content.getText().toString());
                  startActivity(intent);
             }
         });
