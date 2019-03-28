@@ -36,6 +36,7 @@ import com.example.base.myapplication.ListItemViewHolderCAndB;
 import com.example.base.myapplication.NetImage;
 import com.example.gloria.myapplication.MainActivity;
 import com.example.gloria.myapplication.R;
+import com.example.gloria.myapplication.search.SearchResultActivity;
 import com.example.gloria.myapplication.showInfo.Activity_Top20_course;
 import com.example.gloria.myapplication.showInfo.CourseDetailActivity;
 import com.example.model.myapplication.Book;
@@ -76,6 +77,7 @@ public class Reco_course extends AppCompatActivity {
         setContentView(R.layout.activity_rec_course);
 
         init();
+        getUser();
         getCourse();
         getTop3();
         setPage();
@@ -86,7 +88,6 @@ public class Reco_course extends AppCompatActivity {
         setSearch();
     }
 
-    User user;
     private void getUser() {
         Intent intent = getIntent();
         user = (User) intent.getSerializableExtra("user");
@@ -226,7 +227,7 @@ public class Reco_course extends AppCompatActivity {
 
         list_re_C = (ListView)findViewById(R.id.ListView_like);
         //开始设置搜索框
-        listView = (ListView)findViewById(R.id.lv);
+        //listView = (ListView)findViewById(R.id.lv);
         searchView = (SearchView)findViewById(R.id.searchEdit);
 
         course = new Course();
