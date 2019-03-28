@@ -182,12 +182,12 @@ public class Reco_course extends AppCompatActivity {
 
     private void setSearch() {
        //设置适配器
-        listView.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_dropdown_item_1line,strings));
+        //listView.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_dropdown_item_1line,strings));
         //listView启动过滤
-        listView.setTextFilterEnabled(false);
+        //listView.setTextFilterEnabled(false);
 
         //设置一开始不显示listview
-        listView.setVisibility(View.GONE);
+        //listView.setVisibility(View.GONE);
         searchView.setSubmitButtonEnabled(true);
         searchView.setQueryHint("请输入课程名或教师名");
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener(){
@@ -204,12 +204,12 @@ public class Reco_course extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String newText){
                 if(TextUtils.isEmpty(newText)){
-                   listView.setVisibility(View.GONE);
-                   listView.clearTextFilter();
+                   //listView.setVisibility(View.GONE);
+                   //listView.clearTextFilter();
                 }
                 else{
-                    listView.setVisibility(View.GONE);
-                    listView.setFilterText(newText);
+                    //listView.setVisibility(View.GONE);
+                    //listView.setFilterText(newText);
                 }
                 return true;
             }
@@ -269,7 +269,9 @@ public class Reco_course extends AppCompatActivity {
     class morec implements OnClickListener {
         @Override
         public void onClick(View v) {
-            Intent intent = new Intent(Reco_course.this, Activity_Top20_course.class);
+            Intent intent = new Intent(Reco_course.this,Activity_Top20_course.class);
+            // 传递参数
+            intent.putExtra("user", (Serializable) user);
             startActivity(intent);
         }
     }
