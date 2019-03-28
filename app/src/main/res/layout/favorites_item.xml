@@ -3,66 +3,67 @@
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-    <TextView
+    <LinearLayout
         android:id="@+id/textViewFrame"
         android:layout_width="200dp"
         android:layout_height="120dp"
-        android:background="@drawable/textview_border"/>
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical"
+        android:background="@drawable/textview_border">
 
-    <TextView
-        android:id="@+id/textViewTitle"
-        android:layout_width="120dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginRight="40dp"
-        android:gravity="center"
-        android:text="C++题库"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+        <TextView
+            android:id="@+id/textViewTitle"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_margin="@dimen/activity_vertical_margin"
+            android:layout_marginTop="30dp"
+            android:text="名字"
+            android:textSize="@dimen/common"
+            android:gravity="center"/>
 
-    <ImageView
-        android:id="@+id/imageViewLook"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginTop="60dp"
-        android:layout_marginLeft="40dp"
-        android:text=""
-        android:background="@drawable/look"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="40dp">
 
-    <TextView
-        android:id="@+id/textViewLook"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
-        android:layout_marginLeft="60dp"
-        android:text="12"
-        android:gravity="center"/>
+            <ImageView
+                android:id="@+id/imageViewLook"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/look"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                />
 
-    <ImageView
-        android:id="@+id/imageViewMessage"
-        android:layout_width="20dp"
-        android:layout_height="16dp"
-        android:layout_marginTop="62dp"
-        android:layout_marginLeft="120dp"
-        android:background="@drawable/message"
-        android:text="" />
+            <TextView
+                android:id="@+id/textViewLook"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="12"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="6"/>
 
-    <TextView
-        android:id="@+id/textViewMessage"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginTop="60dp"
-        android:layout_marginLeft="140dp"
-        android:text="3"
-        android:gravity="center" />
+            <ImageView
+                android:id="@+id/imageViewMessage"
+                android:layout_width="20dp"
+                android:layout_height="16dp"
+                android:background="@drawable/message"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"/>
 
-    <TextView
-        android:id="@+id/textViewBlank"
-        android:layout_width="200dp"
-        android:layout_height="20dp"
-        android:layout_marginTop="120dp"
-        android:text="" />
+            <TextView
+                android:id="@+id/textViewMessage"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:text="3"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="6"/>
 
+        </LinearLayout>
+
+    </LinearLayout>
 
 </RelativeLayout>

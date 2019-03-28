@@ -100,7 +100,7 @@ public class DataMainActivity extends AppCompatActivity {
 
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("user", user);
+            jsonObject.put("phone", user.getPhone());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -112,6 +112,7 @@ public class DataMainActivity extends AppCompatActivity {
                 document = gson.fromJson(jsonObject.toString(), Document.class);
                 if (document != null) {
                     recommendList = document.getRecommendList();
+                    Log.e("##","分页推荐资料列表返回"+jsonObject.toString());
                     setListView();
                 }
             }
