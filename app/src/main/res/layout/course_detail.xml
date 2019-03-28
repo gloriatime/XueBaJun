@@ -31,7 +31,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toEndOf="@id/one"
-        android:layout_centerVertical="true"/>
+        android:layout_alignBaseline="@id/one"
+        android:textSize="20dp"/>
       </RelativeLayout>
     <!-- 优选学期 -->
     <RelativeLayout
@@ -53,23 +54,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toEndOf="@id/four"
-        android:layout_centerVertical="true"/>
+        android:layout_alignBaseline="@id/four"
+        android:textSize="20dp"/>
     </RelativeLayout>
-    <!-- 开课时间
-    <TextView
-        android:id="@+id/five"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/CSuggestion"
-        android:layout_below="@id/four"
-        android:layout_marginTop="5dp"/>
-    <TextView
-        android:id="@+id/course_ctime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toEndOf="@id/five"
-        android:layout_alignTop="@id/five"/>-->
-    <!-- 任课老师 -->
     <RelativeLayout
         android:id="@+id/twentyone"
         android:layout_width="wrap_content"
@@ -85,37 +72,35 @@
         android:textSize="20dp"/>
      <Button
          android:id="@+id/teacher_one"
-         android:layout_width="120dp"
+         android:layout_width="100dp"
          android:layout_height="25dp"
          android:background="@drawable/biankuang_bt"
          android:textSize="15sp"
          android:textColor="@color/white"
          android:text="@string/teacher_one"
          android:layout_toEndOf="@id/six"
-         android:layout_alignTop="@id/six"
-         android:layout_marginStart="5dp" />
+         android:layout_marginStart="5dp"
+        />
      <Button
          android:id="@+id/teacher_two"
-         android:layout_width="120dp"
+         android:layout_width="100dp"
          android:layout_height="25dp"
          android:background="@drawable/biankuang_bt"
          android:textSize="15sp"
          android:textColor="@color/white"
          android:text="@string/teacher_two"
          android:layout_toEndOf="@id/teacher_one"
-         android:layout_alignTop="@id/six"
          android:layout_marginStart="10dp"
          />
      <Button
          android:id="@+id/teacher_three"
-         android:layout_width="120dp"
+         android:layout_width="100dp"
          android:layout_height="25dp"
          android:background="@drawable/biankuang_bt"
          android:textSize="15sp"
          android:textColor="@color/white"
          android:text="@string/teacher_three"
          android:layout_toEndOf="@id/teacher_two"
-         android:layout_alignTop="@id/six"
          android:layout_marginStart="10dp" />
     </RelativeLayout>
     <RelativeLayout
@@ -137,7 +122,8 @@
         android:layout_height="wrap_content"
         android:layout_toEndOf="@id/eight"
         android:layout_centerVertical="true"
-        android:textColor="@color/red"/>
+        android:textColor="@color/red"
+        android:layout_alignBaseline="@id/eight"/>
     </RelativeLayout>
     <Button
         android:id="@+id/givescore"
@@ -183,19 +169,29 @@
             android:layout_marginTop="10dp"/>
         <Button
             android:id="@+id/textbbook"
-            android:layout_width="150dp"
+            android:layout_width="wrap_content"
             android:layout_height="25dp"
             android:background="@drawable/biankuang_bt"
-            android:layout_toEndOf="@id/ten"
+            android:layout_below="@id/ten"
             android:layout_marginStart="10dp"
-            android:layout_alignTop="@id/ten"/>
+            android:layout_marginTop="10dp"/>
         <TextView
             android:id="@+id/introducebook"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/ten"
+            android:layout_below="@+id/textbbook"
             android:layout_marginTop="10dp"
             android:textSize="20dp"
+            android:text="@string/introducetextbook"
+            android:layout_marginStart="10dp"/>
+        <TextView
+            android:id="@+id/IntroB"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/introducebook"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:textSize="@dimen/common"
             android:layout_marginStart="10dp"/>
     </RelativeLayout>
     </RelativeLayout>

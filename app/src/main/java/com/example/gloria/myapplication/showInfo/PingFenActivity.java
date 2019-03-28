@@ -1,6 +1,8 @@
 package com.example.gloria.myapplication.showInfo;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -35,60 +37,43 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public class PingFenActivity extends AppCompatActivity {
+    public static String action ="jason.broadcast.action";
     Button btn;
     EditText editText;
-
     User user;
     Professor professor;
-    Course course;
+   // Course course;
     //private Course course;
     RequestQueue mQueue;
-    int id;
-    int idc;
+    int idp;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pingfen_detail);
         getPassInfo();//professor
-        getCourse();//course
+        //getCourse();//course
         btn = (Button)findViewById(R.id.okbtn);
         editText = (EditText)findViewById(R.id.editText) ;
         btn.setOnClickListener(new btnok());
-        Intent intent = getIntent();
-        idc = (int) intent.getIntExtra("course",0);
         mQueue  = Volley.newRequestQueue(PingFenActivity.this);
     }
     private void getPassInfo() {
         Intent intent = getIntent();
-
         user = (User)intent.getSerializableExtra("user");
-        Log.e("##", "评分详情id："+id);
         professor = (Professor) intent.getSerializableExtra("professor");
-
-    }
-    private void getCourse() {
-        Intent intent = getIntent();
-
-        user = (User)intent.getSerializableExtra("user");
-        Log.e("##", "评分详情id："+id);
-        course = (Course) intent.getSerializableExtra("course");
-
+        idp =  professor.getId();
+        Log.e("##", "评分详情id："+idp);
     }
     class btnok implements OnClickListener{
         @Override
         public void onClick(View v) {
             v.setBackgroundColor(Color.parseColor("#FFFFFF"));
           String score = editText.getText().toString();
-       // course.changeScore(score);
-        // 与服务器交互
-
             if(professor != null) {
                 int sum = professor.getNumber()+1;
-                float sc = (professor.getScore()+  Float.valueOf(score).floatValue())/sum;
+                float sc = (professor.getScore()*professor.getNumber()+  Float.valueOf(score))/sum;
                 BigDecimal bg = new BigDecimal(sc);
                 float f1 = bg.setScale(1, BigDecimal.ROUND_HALF_UP).floatValue();
-                String res = "当前评分"+f1+"分";
-                //mScore.setText(res);
                 /****
                  * 提交分数
                  */
@@ -109,10 +94,7 @@ public class PingFenActivity extends AppCompatActivity {
                         Gson gson = new DateGson().getGson();
                         Professor d = gson.fromJson(jsonObject.toString(), Professor.class);
                         Log.e("##", "上传数据库之后的分数" + d.getScore() + " " + d.getId());
-                        Intent intent = new Intent(PingFenActivity.this, TeacherDetailActivity.class);
-                        intent.putExtra("user", (Serializable) user);
-                        intent.putExtra("professor", d);
-                        startActivity(intent);
+
                     }
 
                 }, new Response.ErrorListener() {
@@ -122,9 +104,34 @@ public class PingFenActivity extends AppCompatActivity {
                     }
                 });
                 mQueue.add(jsonObjectRequest);
+                showDialog();
             }
+        }
+    }
+    private void showDialog(){
+        AlertDialog.Builder builder=new AlertDialog.Builder(this);
+        builder.setIcon(R.drawable.happy);
+        builder.setTitle("温馨提示");
+        builder.setMessage("您的分数已经提交！");
+        builder.setPositiveButton("我知道了",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Intent intent = new Intent(action);
+                        //Log.e("##","professor的分数sssssssssssss"+Float.valueOf(professor.getScore()));
+                        intent.putExtra("score", Float.valueOf(professor.getScore()));
+                        sendBroadcast(intent);
+                        //finish();
+                    }
+                });
+        AlertDialog dialog=builder.create();
+        dialog.show();
 
-            if(course != null) {
+    }
+
+
+}
+/*if(course != null) {
                 int sum = course.getNumber()+1;
                 float sc = (course.getScore()+  Float.valueOf(score).floatValue())/sum;
                 BigDecimal bg = new BigDecimal(sc);
@@ -134,7 +141,7 @@ public class PingFenActivity extends AppCompatActivity {
                 /****
                  * 提交分数
                  */
-                Log.e("##","最后计算的分数"+sc);
+              /*  Log.e("##","最后计算的分数"+sc);
                 String url = "http://47.100.226.176:8080/XueBaJun/ScoreCourse";
                 org.json.JSONObject jsonObject = new org.json.JSONObject();
                 try {
@@ -164,8 +171,4 @@ public class PingFenActivity extends AppCompatActivity {
                     }
                 });
                 mQueue.add(jsonObjectRequest);
-            }
-        }
-    }
-
-}
+            }*/

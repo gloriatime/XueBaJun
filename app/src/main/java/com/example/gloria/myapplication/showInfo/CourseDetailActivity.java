@@ -2,8 +2,11 @@ package com.example.gloria.myapplication.showInfo;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -104,6 +107,24 @@ public class CourseDetailActivity extends AppCompatActivity implements View.OnCl
         comment_bt.setOnClickListener(this);
         //查看回复
         ShowReply();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("action.refreshTeacher");
+        registerReceiver(mRefreshBroadcastReceiver, intentFilter);
+    }
+    // broadcast receiver
+    private BroadcastReceiver mRefreshBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (action.equals("action.refreshTeacher")) {
+                setscore.setText(" "+course.getScore());
+            }
+        }
+    };
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(mRefreshBroadcastReceiver);
     }
 
     private void getPassInfo() {
@@ -197,7 +218,10 @@ public class CourseDetailActivity extends AppCompatActivity implements View.OnCl
     }
     private void sec_init() {
         course_name_text.setText(course.getName());
+        if(course.getTerm()!=null)
         course_prefersemester.setText(course.getTerm());
+        else
+            course_prefersemester.setText("选课时间尚未给出");
         setscore.setText(String.valueOf(course.getScore()));
         Book book = course.getBook();
         if(book!=null){
@@ -206,18 +230,22 @@ public class CourseDetailActivity extends AppCompatActivity implements View.OnCl
         }else {
             bookimage.setBackgroundResource(R.drawable.bookimgsample);
         }
+        if(course.getIntro()!=null)
         introducebook.setText(course.getIntro());
+        else
+            introducebook.setText("暂无简介");
         teacher_one.setOnClickListener(new tone());
         teacher_two.setOnClickListener(new ttwo());
         teacher_three.setOnClickListener(new tthree());
         givescore.setOnClickListener(new gscore());
+        textbbook.setOnClickListener(new textbbook());
     }
 
     private void init() {
         course_name_text = (TextView)findViewById(R.id.course_name_text);
         course_prefersemester = (TextView)findViewById(R.id.course_prefersemester);
         setscore = (TextView)findViewById(R.id.setscore);
-        textbbook = (TextView)findViewById(R.id.textbbook);
+        textbbook = (Button)findViewById(R.id.textbbook);
         bookimage = (ImageView) findViewById(R.id.bookimage);
         introducebook = (TextView)findViewById(R.id.introducebook);
         teacher_one = (Button)findViewById(R.id.teacher_one);
@@ -230,10 +258,21 @@ public class CourseDetailActivity extends AppCompatActivity implements View.OnCl
     {
         @Override
         public void onClick(View V) {
-            Intent intent = new Intent(CourseDetailActivity.this,PingFenActivity.class);
-            intent.putExtra("course", (Serializable) course);
+            Intent intent = new Intent(CourseDetailActivity.this,activity_T_pingfen.class);
             intent.putExtra("user",user);
+            intent.putExtra("course", (Serializable) course);
             startActivity(intent);
+        }
+    }
+    class textbbook implements OnClickListener
+    {
+        @Override
+        public void onClick(View view) {
+        Intent intent = new Intent();
+        intent.setClass(CourseDetailActivity.this,BookMainActivity.class);
+        intent.putExtra("user",user);
+        intent.putExtra("book",course.getBook());
+        startActivity(intent);
         }
     }
     class tone implements OnClickListener

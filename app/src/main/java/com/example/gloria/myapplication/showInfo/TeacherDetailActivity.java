@@ -1,7 +1,10 @@
 package com.example.gloria.myapplication.showInfo;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -77,7 +80,7 @@ public class TeacherDetailActivity extends AppCompatActivity implements View.OnC
     View replyView;
     User user = new User();
     int id = 0;
-
+    String  src;
     List<ProfessorCourse> professorCourse;
 
     @Override
@@ -99,7 +102,26 @@ public class TeacherDetailActivity extends AppCompatActivity implements View.OnC
         comment_bt.setOnClickListener(this);
         //查看回复
         ShowReply();
+        IntentFilter filter = new IntentFilter(PingFenActivity.action);
+        registerReceiver(mRefreshBroadcastReceiver, filter);
+
     }
+    // broadcast receiver
+private BroadcastReceiver mRefreshBroadcastReceiver = new BroadcastReceiver() {
+          @Override
+   public void onReceive(Context context, Intent intent) {
+             // seescore.setText( intent.getExtras().getString("data"));
+              src = intent.getExtras().getString("data");
+              Log.e("##","professor的分数"+Float.valueOf(professor.getScore()));
+             // seescore.setText( src);
+       }
+   };
+    @Override
+    protected void onDestroy() {
+       super.onDestroy();
+       unregisterReceiver(mRefreshBroadcastReceiver);
+   }
+
 
     private void getPassInfo() {
         Intent intent = getIntent();
@@ -109,8 +131,14 @@ public class TeacherDetailActivity extends AppCompatActivity implements View.OnC
         Log.e("##","professor 得到Id "+id);
     }
     private void sec_init() {
+        if(professor.getIntro()!=null)
         peopleintro.setText(professor.getIntro());
+        else
+            peopleintro.setText("此项信息暂无");
+        if(professor.getField()!=null)
         researchin.setText(professor.getField());
+        else
+            researchin.setText("研究领域尚不明确");
         score.setOnClickListener(new gscore());
         seescore.setText(" "+professor.getScore());
         setCourseButton();
@@ -202,8 +230,8 @@ public class TeacherDetailActivity extends AppCompatActivity implements View.OnC
         @Override
         public void onClick(View V) {
             Intent intent = new Intent(TeacherDetailActivity.this,PingFenActivity.class);
-            intent.putExtra("professor",(Serializable) professor);
             intent.putExtra("user",user);
+            intent.putExtra("professor",(Serializable) professor);
             startActivity(intent);
         }
     }
@@ -240,23 +268,7 @@ public class TeacherDetailActivity extends AppCompatActivity implements View.OnC
         });
         mQueue.add(jsonObjectRequest);
     }
-    /*
-    private void getProfessor(){
-        Intent intent = getIntent();
-        professor = (Professor) intent.getSerializableExtra("Professor");
-        user = (User)intent.getSerializableExtra("user");
 
-        id = professor.getId();
-
-        if(professor.getCommentList() != null) {
-            Log.e("##","长度22 "+professor.getCommentList().size());
-            commentList = professor.getCommentList();
-            // Log.e("##", "commentList" + commentList.get(0).getCritic().getPhone());
-            adapter = new CommentAdapter(TeacherDetailActivity.this, commentList);
-            listView.setAdapter(adapter);
-        }
-        sec_init();
-    }*/
     private void   SetProfessorImg(){
         // 请求教师对应头像，如果没有，就使用默认图片
         if(professor.getPic()==null)
@@ -639,5 +651,4 @@ public class TeacherDetailActivity extends AppCompatActivity implements View.OnC
         });
         mQueue.add(jsonObjectRequest);
     }
-
 }
