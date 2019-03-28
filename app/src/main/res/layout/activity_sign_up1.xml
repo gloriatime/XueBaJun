@@ -36,7 +36,6 @@
         android:layout_alignStart="@+id/mail"
         android:layout_below="@+id/mail"
         android:ems="10"
-        android:inputType="textPassword"
         android:layout_alignRight="@+id/mail"
         android:layout_alignEnd="@+id/mail"
         android:hint="不得少于6位"/>
