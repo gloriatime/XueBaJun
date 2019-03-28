@@ -320,11 +320,13 @@ public class CourseDetailActivity extends AppCompatActivity implements View.OnCl
         if(book.getCover()==null)
             bookimage.setBackgroundResource(R.drawable.bookimgsample);
         else {
+            Log.e("##","课程图片请求");
             ImageRequest imageRequest = new ImageRequest(
                     "http://47.100.226.176:8080/" + book.getCover() ,
                     new Response.Listener<Bitmap>() {
                         @Override
                         public void onResponse(Bitmap response) {
+                            Log.e("##","课程图片返回");
                             BitmapDrawable temp = new BitmapDrawable(response);
                             bookimage.setBackground(temp);
                         }

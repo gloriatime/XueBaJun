@@ -253,7 +253,7 @@ private BroadcastReceiver mRefreshBroadcastReceiver = new BroadcastReceiver() {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, jsonObject, new Response.Listener<org.json.JSONObject>() {
 
             public void onResponse(org.json.JSONObject jsonObject) {
-                professor = new Gson().fromJson(jsonObject.toString(), Professor.class);
+                professor = new DateGson().getGson().fromJson(jsonObject.toString(), Professor.class);
                 Log.e("##","professo返回 "+jsonObject.toString());
                 professorCourse = professor.getProfessorCourseList();
                 mComment.setText("评论"+professor.getCommentList().size());

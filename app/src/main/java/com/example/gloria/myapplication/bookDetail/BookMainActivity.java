@@ -377,7 +377,6 @@ public class BookMainActivity extends AppCompatActivity implements View.OnClickL
                                 }
                                 else {
                                     replyList = ct.getReplyList();
-                                    linearLayout.removeView(replyView);
                                     showReplyDetail(position);
                                 }
                             }
@@ -449,7 +448,7 @@ public class BookMainActivity extends AppCompatActivity implements View.OnClickL
             case R.id.textViewCourse:
                     Intent intent = new Intent(BookMainActivity.this, CourseDetailActivity.class);
                     intent.putExtra("user",user);
-                    intent.putExtra("course", book.getCourse());
+                    intent.putExtra("course_id", book.getCourse().getId());
                     startActivity(intent);
                     break;
             default:

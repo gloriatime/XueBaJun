@@ -716,7 +716,10 @@ public class AboutMeActivity extends AppCompatActivity {
                 holder = (ListItemViewHolder)convertView.getTag();//取出ViewHolder对象
             }
 
-            holder.name.setText(getData(listContent).get(position).get("name").toString());
+            if(getData(listContent).get(position).get("name") !=null){
+                holder.name.setText(getData(listContent).get(position).get("name").toString());
+            }
+
 
             // 为Button添加点击事件
             if(holder.button!=null){
