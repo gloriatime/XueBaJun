@@ -20,6 +20,7 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -31,6 +32,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.base.myapplication.BackJump;
 import com.example.base.myapplication.DateGson;
 import com.example.gloria.myapplication.R;
 import com.example.gloria.myapplication.adapter.CommentAdapter;
@@ -91,6 +93,7 @@ public class TeacherDetailActivity extends AppCompatActivity implements View.OnC
         listView = (ListView)findViewById(R.id.comment_detail);
         comment_bt = (TextView)findViewById(R.id.textViewSay);
         mComment = (TextView)findViewById(R.id.textViewComment);
+        setBackJump();
         getPassInfo();
         init();
         getProfessor();
@@ -113,7 +116,7 @@ private BroadcastReceiver mRefreshBroadcastReceiver = new BroadcastReceiver() {
              // seescore.setText( intent.getExtras().getString("data"));
               src = intent.getExtras().getString("data");
               Log.e("##","professor的分数"+Float.valueOf(professor.getScore()));
-             // seescore.setText( src);
+              seescore.setText( src);
        }
    };
     @Override
@@ -650,5 +653,12 @@ private BroadcastReceiver mRefreshBroadcastReceiver = new BroadcastReceiver() {
             }
         });
         mQueue.add(jsonObjectRequest);
+    }
+
+    ImageButton back_button;
+    public void setBackJump(){
+        back_button= (ImageButton) findViewById(R.id.back_button);
+        BackJump bj = new BackJump();
+        bj.setBack(back_button);
     }
 }

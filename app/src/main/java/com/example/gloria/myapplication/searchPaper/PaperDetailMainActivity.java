@@ -26,6 +26,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,6 +36,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.base.myapplication.BackJump;
 import com.example.base.myapplication.DateGson;
 import com.example.gloria.myapplication.R;
 import com.example.gloria.myapplication.adapter.CommentAdapter;
@@ -106,7 +108,7 @@ public class PaperDetailMainActivity extends AppCompatActivity implements View.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_paperdetail_main);
-
+        setBackJump();
         //获取资料的相关信息
         //初始化相关控件
         mName = (TextView) findViewById(R.id.textViewTitle);
@@ -671,5 +673,12 @@ public class PaperDetailMainActivity extends AppCompatActivity implements View.O
         adapter = new CommentAdapter(PaperDetailMainActivity.this, document.getCommentList());
         listView.setAdapter(adapter);
         Log.e("##","最后的最后"+document.getComment());
+    }
+
+    ImageButton back_button;
+    public void setBackJump(){
+        back_button= (ImageButton) findViewById(R.id.back_button);
+        BackJump bj = new BackJump();
+        bj.setBack(back_button);
     }
 }

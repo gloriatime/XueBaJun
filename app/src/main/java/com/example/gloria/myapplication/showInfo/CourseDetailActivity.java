@@ -24,6 +24,7 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -35,6 +36,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.base.myapplication.BackJump;
 import com.example.base.myapplication.DateGson;
 import com.example.gloria.myapplication.R;
 import com.example.gloria.myapplication.adapter.CommentAdapter;
@@ -97,6 +99,7 @@ public class CourseDetailActivity extends AppCompatActivity implements View.OnCl
         comment_bt = (TextView)findViewById(R.id.textViewSay);
         mComment = (TextView)findViewById(R.id.textViewComment);
         getPassInfo();
+        setBackJump();
         init();
         getCourse();
         //评论回复
@@ -271,7 +274,7 @@ public class CourseDetailActivity extends AppCompatActivity implements View.OnCl
         Intent intent = new Intent();
         intent.setClass(CourseDetailActivity.this,BookMainActivity.class);
         intent.putExtra("user",user);
-        intent.putExtra("book",course.getBook());
+        intent.putExtra("book_id",course.getBook().getId());
         startActivity(intent);
         }
     }
@@ -631,6 +634,12 @@ public class CourseDetailActivity extends AppCompatActivity implements View.OnCl
             }
         });
         mQueue.add(jsonObjectRequest);
+    }
+    ImageButton back_button;
+    public void setBackJump(){
+        back_button= (ImageButton) findViewById(R.id.back_button);
+        BackJump bj = new BackJump();
+        bj.setBack(back_button);
     }
 
 }

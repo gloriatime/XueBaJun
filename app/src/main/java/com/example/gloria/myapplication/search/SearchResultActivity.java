@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -18,6 +19,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.base.myapplication.BackJump;
 import com.example.base.myapplication.DateGson;
 import com.example.base.myapplication.MyJsonArrayRequest;
 import com.example.gloria.myapplication.MainActivity;
@@ -58,6 +60,7 @@ public class SearchResultActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_result);
         init();
+        setBackJump();
         getExtra();
         getData();
     }
@@ -222,6 +225,13 @@ public class SearchResultActivity extends AppCompatActivity {
             list.setAdapter(new ArrayAdapter<>(this,
                     android.R.layout.simple_list_item_1, str));
         }
+    }
+
+    ImageButton back_button;
+    public void setBackJump(){
+        back_button= (ImageButton) findViewById(R.id.back_button);
+        BackJump bj = new BackJump();
+        bj.setBack(back_button);
     }
 
 }

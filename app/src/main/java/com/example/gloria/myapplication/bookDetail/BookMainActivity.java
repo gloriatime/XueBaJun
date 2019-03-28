@@ -1,6 +1,8 @@
 package com.example.gloria.myapplication.bookDetail;
 
+import android.app.Activity;
 import android.app.DownloadManager;
+import android.app.Instrumentation;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -18,11 +20,13 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,7 +37,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.base.myapplication.BackJump;
 import com.example.base.myapplication.DateGson;
+import com.example.gloria.myapplication.MainActivity;
 import com.example.gloria.myapplication.R;
 import com.example.gloria.myapplication.adapter.CommentAdapter;
 import com.example.gloria.myapplication.adapter.ReplyAdapter;
@@ -49,6 +55,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -110,6 +117,7 @@ public class BookMainActivity extends AppCompatActivity implements View.OnClickL
         mComment = (TextView)findViewById(R.id.textViewComment);
         mLabel = (TextView)findViewById(R.id.textViewLabel);
 
+
         mQueue = Volley.newRequestQueue(BookMainActivity.this);
         book = new Book();
         user = new User();
@@ -118,6 +126,7 @@ public class BookMainActivity extends AppCompatActivity implements View.OnClickL
         listView = (ListView)findViewById(R.id.comment_detail);
         comment_bt = (TextView)findViewById(R.id.textViewSay);
 
+        setBackJump();
         getUserAId();
 
         Log.e("##","id0="+id);
@@ -657,4 +666,12 @@ public class BookMainActivity extends AppCompatActivity implements View.OnClickL
         mQueue.add(jsonObjectRequest);
         Log.e("##","最后的最后"+book.getComment());
     }
+
+    ImageButton back_button;
+    public void setBackJump(){
+        back_button= (ImageButton) findViewById(R.id.back_button);
+        BackJump bj = new BackJump();
+        bj.setBack(back_button);
+    }
+
 }

@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -20,7 +21,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.base.myapplication.DateGson;
+import com.example.gloria.myapplication.MainActivity;
 import com.example.gloria.myapplication.R;
+import com.example.gloria.myapplication.bookDetail.BookMainActivity;
 import com.example.gloria.myapplication.manage.MyCollectActivity;
 import com.example.model.myapplication.CollectDocument;
 import com.example.model.myapplication.Course;
@@ -50,6 +53,7 @@ public class PingFenActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pingfen_detail);
+        setBackJump();
         getPassInfo();//professor
         //getCourse();//course
         btn = (Button)findViewById(R.id.okbtn);
@@ -127,6 +131,22 @@ public class PingFenActivity extends AppCompatActivity {
         AlertDialog dialog=builder.create();
         dialog.show();
 
+    }
+
+    ImageButton back_button;
+    private void setBackJump(){
+
+        back_button = (ImageButton) findViewById(R.id.back_button);
+        back_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(PingFenActivity.this, TeacherDetailActivity.class);
+                // 传递参数
+                intent.putExtra("user", (Serializable) user);
+                intent.putExtra("professor",professor);
+                startActivity(intent);
+            }
+        });
     }
 
 

@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -22,6 +23,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.base.myapplication.BackJump;
 import com.example.base.myapplication.DateGson;
 import com.example.base.myapplication.ListItemViewHolder;
 import com.example.gloria.myapplication.R;
@@ -63,6 +65,7 @@ public class MyCollectActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_collect);
         init();
+        setBackJump();
         getUser();
         setClickFun();
         // 默认显示收藏的资料列表
@@ -461,5 +464,12 @@ public class MyCollectActivity extends AppCompatActivity {
             return convertView;
         }
 
+    }
+
+    ImageButton back_button;
+    public void setBackJump(){
+        back_button= (ImageButton) findViewById(R.id.back_button);
+        BackJump bj = new BackJump();
+        bj.setBack(back_button);
     }
 }

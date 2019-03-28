@@ -26,6 +26,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.base.myapplication.BackJump;
 import com.example.base.myapplication.NetImage;
 import com.example.base.myapplication.ScreenSizeUtil;
 import com.example.gloria.myapplication.MainActivity;
@@ -430,4 +431,5 @@ public class ChangeInfoActivity extends AppCompatActivity {
         });
         mQueue.add(jsonObjectRequest);
     }
+
 }
