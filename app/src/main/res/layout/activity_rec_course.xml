@@ -14,14 +14,6 @@
             android:layout_marginEnd="20dp"
             android:layout_marginTop="20dp">
         </android.support.v7.widget.SearchView>
-      <!--第一个列表，展示搜索项-->
-    <ListView
-        android:id="@+id/lv"
-        android:layout_width="match_parent"
-        android:layout_height="210dp"
-        android:layout_below="@id/searchEdit"
-        android:background="@color/whiteSmoke">
-    </ListView>
 
     <!--hot小图标-->
     <ImageView
@@ -44,27 +36,6 @@
         android:text="@string/hotcourse"
         android:textSize="20sp"
         android:textColor="@color/black"/>
-    <!--热一课程-->
-    <TextView
-        android:id="@+id/T_C_one"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/one"
-        android:layout_marginTop="10dp"/>
-    <!--热一课程-->
-    <TextView
-        android:id="@+id/T_C_two"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/T_C_one"
-        android:layout_marginTop="10dp"/>
-    <!--热一课程-->
-    <TextView
-        android:id="@+id/T_C_three"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/T_C_two"
-        android:layout_marginTop="10dp"/>
 
     <!--设置可点击的textView-->
     <TextView
@@ -77,6 +48,38 @@
         android:textColor="@color/red"
         android:layout_marginEnd="20dp"
         android:layout_marginTop="15dp"/>
+
+    <!--热一课程-->
+    <TextView
+        android:id="@+id/T_C_one"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/one"
+        android:layout_marginTop="16dp"
+        android:textSize="@dimen/title"
+        android:layout_marginStart="@dimen/large"
+        android:text="热门课程"/>
+    <!--热一课程-->
+    <TextView
+        android:id="@+id/T_C_two"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/T_C_one"
+        android:layout_marginTop="10dp"
+        android:textSize="@dimen/title"
+        android:layout_marginStart="@dimen/large"
+        android:text="热门课程"/>
+    <!--热一课程-->
+    <TextView
+        android:id="@+id/T_C_three"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/T_C_two"
+        android:layout_marginTop="10dp"
+        android:textSize="@dimen/title"
+        android:layout_marginStart="@dimen/large"
+        android:text="热门课程"/>
+
     <!--like小图标-->
     <ImageView
         android:id="@+id/LikeImage"

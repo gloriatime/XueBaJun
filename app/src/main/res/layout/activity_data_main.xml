@@ -64,17 +64,17 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginBottom="5dp"
-            android:background="@drawable/favorite" />
+            android:background="@drawable/favorite"
+            android:layout_gravity="center_vertical"/>
 
         <TextView
             android:id="@+id/textViewFavoriteL"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
             android:text="你可能喜欢"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:gravity="center_vertical"/>
     </LinearLayout>
 
     <LinearLayout

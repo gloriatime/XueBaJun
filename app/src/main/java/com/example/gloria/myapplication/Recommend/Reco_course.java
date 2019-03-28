@@ -34,8 +34,8 @@ import com.example.base.myapplication.DateGson;
 import com.example.base.myapplication.ListItemViewHolder;
 import com.example.base.myapplication.ListItemViewHolderCAndB;
 import com.example.base.myapplication.NetImage;
+import com.example.gloria.myapplication.MainActivity;
 import com.example.gloria.myapplication.R;
-import com.example.gloria.myapplication.search.SearchResultActivity;
 import com.example.gloria.myapplication.showInfo.Activity_Top20_course;
 import com.example.gloria.myapplication.showInfo.CourseDetailActivity;
 import com.example.model.myapplication.Book;
@@ -49,6 +49,7 @@ import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -74,16 +75,108 @@ public class Reco_course extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rec_course);
 
-        Intent intent = getIntent();
-        user = (User)intent.getSerializableExtra("user");
         init();
         getCourse();
+        getTop3();
         setPage();
        //设置可能喜欢列表
         setListView();
         //setOnclick();
         //设置搜索框
         setSearch();
+    }
+
+    User user;
+    private void getUser() {
+        Intent intent = getIntent();
+        user = (User) intent.getSerializableExtra("user");
+    }
+
+    List<Course> courseTopList;
+    private void getTop3() {
+        // 与服务器交互
+        String url = "http://47.100.226.176:8080/XueBaJun/GetTopTwentyCourse";
+
+        JSONObject jsonObject = new JSONObject();
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url,jsonObject,new Response.Listener<JSONObject>() {
+
+            public void onResponse(JSONObject jsonObject) {
+                Gson gson = new DateGson().getGson();
+                Course tempuser = gson.fromJson(jsonObject.toString(), Course.class);
+
+                course = tempuser;//从后台请求第一个course成功
+
+                courseTopList = course.getTopTwentyList();
+                if(courseTopList == null){
+                    T_C_one.setText("暂无");
+                    T_C_two.setText("暂无");
+                    T_C_three.setText("暂无");
+
+                }else if(courseTopList.size() == 1){
+                    T_C_one.setText(courseTopList.get(0).getName());
+                    T_C_two.setText("暂无");
+                    T_C_three.setText("暂无");
+
+                }else if(courseTopList.size() == 2){
+                    T_C_one.setText(courseTopList.get(0).getName());
+                    T_C_two.setText(courseTopList.get(1).getName());
+                    T_C_three.setText("暂无");
+
+                }else if(courseTopList.size() == 3){
+                    T_C_one.setText(courseTopList.get(0).getName());
+                    T_C_two.setText(courseTopList.get(1).getName());
+                    T_C_three.setText(courseTopList.get(2).getName());
+
+                }
+
+                T_C_one.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(courseTopList.size()>=1){
+                            Intent intent = new Intent(Reco_course.this,CourseDetailActivity.class);
+                            // 传递参数
+                            intent.putExtra("user", (Serializable) user);
+                            intent.putExtra("course_id",courseTopList.get(0).getId());
+                            startActivity(intent);
+                        }
+                    }
+                });
+
+                T_C_two.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(courseTopList.size()>=2){
+                            Intent intent = new Intent(Reco_course.this,CourseDetailActivity.class);
+                            // 传递参数
+                            intent.putExtra("user", (Serializable) user);
+                            intent.putExtra("course_id",courseTopList.get(1).getId());
+                            startActivity(intent);
+                        }
+                    }
+                });
+
+                T_C_three.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(courseTopList.size()>=3){
+                            Intent intent = new Intent(Reco_course.this,CourseDetailActivity.class);
+                            // 传递参数
+                            intent.putExtra("user", (Serializable) user);
+                            intent.putExtra("course_id",courseTopList.get(3).getId());
+                            startActivity(intent);
+                        }
+                    }
+                });
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        });
+        mQueue.add(jsonObjectRequest);
     }
 
     private void setSearch() {
