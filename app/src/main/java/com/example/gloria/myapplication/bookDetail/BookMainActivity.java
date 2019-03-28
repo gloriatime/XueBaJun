@@ -167,7 +167,12 @@ public class BookMainActivity extends AppCompatActivity implements View.OnClickL
                         }
                         mLabel.setText(tag);
                     }
-                    mCourse.setText(book.getCourse().getName());
+                    if(book.getCourse() != null) {
+                        mCourse.setText(book.getCourse().getName());
+                    }
+                    else{
+                        mCourse.setText("暂无相关课程");
+                    }
                     if(book.getIntro().length() == 0)
                     mSynopsis.setText("简介：暂无");
                     else mSynopsis.setText("简介："+book.getIntro());
