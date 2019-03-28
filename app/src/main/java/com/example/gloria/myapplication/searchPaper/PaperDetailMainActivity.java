@@ -282,6 +282,7 @@ public class PaperDetailMainActivity extends AppCompatActivity implements View.O
             HashMap<String,String> d = new HashMap<>();
             u.put("phone",document.getUp_user());
             d.put("id", String.valueOf(document.getId()));
+            d.put("applicant",user.getPhone());
             Log.e("##","发送id "+String.valueOf(document.getId())+document.getUp_user());
             Map<String, Object> map = new HashMap<>();
             map.put("user",u);

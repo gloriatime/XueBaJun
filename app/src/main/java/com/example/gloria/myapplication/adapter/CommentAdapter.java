@@ -89,6 +89,7 @@ public class CommentAdapter extends BaseAdapter{
         commentHolder.tv_reply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
             }
         });
 

@@ -27,6 +27,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,6 +40,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.base.myapplication.BackJump;
 import com.example.base.myapplication.DateGson;
+import com.example.base.myapplication.UnfinishDialog;
 import com.example.gloria.myapplication.MainActivity;
 import com.example.gloria.myapplication.R;
 import com.example.gloria.myapplication.adapter.CommentAdapter;
@@ -97,10 +99,10 @@ public class BookMainActivity extends AppCompatActivity implements View.OnClickL
     List<Reply> replyList = new ArrayList<Reply>();
     View replyView;
 
+    LinearLayout linearLayout;
     RequestQueue mQueue;
     Book book;
     User user;
-    CollectBook collectBook = new CollectBook();
     int id;
 
     @Override
@@ -120,6 +122,7 @@ public class BookMainActivity extends AppCompatActivity implements View.OnClickL
         mComment = (TextView)findViewById(R.id.textViewComment);
         mLabel = (TextView)findViewById(R.id.textViewLabel);
 
+        linearLayout = (LinearLayout)findViewById(R.id.linearlayout);
 
         mQueue = Volley.newRequestQueue(BookMainActivity.this);
         book = new Book();
@@ -258,7 +261,7 @@ public class BookMainActivity extends AppCompatActivity implements View.OnClickL
     class TextListenerDown implements View.OnClickListener {
         @Override
         public void onClick(View view) {
-            final String downloadUrl = book.getCover();
+            /*final String downloadUrl = book.getCover();
             final Context mContext = BookMainActivity.this;
             mDownload.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -272,8 +275,13 @@ public class BookMainActivity extends AppCompatActivity implements View.OnClickL
                     //将下载任务加载到下载队列
                     downloadManager.enqueue(request);
                 }
-            });
+            });*/
+            setUnfinishDialog();
         }
+    }
+
+    private void setUnfinishDialog(){
+        UnfinishDialog u = new UnfinishDialog(this);
     }
     //收藏
     class TextListenerFavo implements View.OnClickListener{
@@ -284,6 +292,7 @@ public class BookMainActivity extends AppCompatActivity implements View.OnClickL
             HashMap<String,String> d = new HashMap<>();
             u.put("phone",user.getPhone());
             d.put("id", String.valueOf(book.getId()));
+            d.put("applicant",user.getPhone());
             Log.e("##","发送id "+String.valueOf(book.getId())+book.getName());
             Map<String, Object> map = new HashMap<>();
             map.put("user",u);
@@ -333,7 +342,7 @@ public class BookMainActivity extends AppCompatActivity implements View.OnClickL
     private void ShowReply(){
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+            public void onItemClick(AdapterView<?> parent, final View view, final int position, long id) {
                 TextView view_reply = (TextView)findViewById(R.id.comment_item_reply);
                 view_reply.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -363,6 +372,7 @@ public class BookMainActivity extends AppCompatActivity implements View.OnClickL
                                 }
                                 else {
                                     replyList = ct.getReplyList();
+                                    linearLayout.removeView(replyView);
                                     showReplyDetail(position);
                                 }
                             }
