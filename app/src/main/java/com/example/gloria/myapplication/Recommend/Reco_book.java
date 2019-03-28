@@ -105,9 +105,6 @@ public class Reco_book extends AppCompatActivity {
         morebook = (TextView)findViewById(R.id.morebook);
         latest =(Button) findViewById(R.id.latest);
         maylike =(Button) findViewById(R.id.likebook);
-        //latest.setBackgroundColor(getResources().getColor(R.color.white));
-       // maylike.setBackgroundColor(getResources().getColor(R.color.blue));
-        //List<Book> Blist = book.getRecommendList();
         B_one = (TextView)findViewById(R.id.B_one);
         B_two = (TextView)findViewById(R.id.B_two);
         B_three = (TextView)findViewById(R.id.B_three);
@@ -162,7 +159,6 @@ public class Reco_book extends AppCompatActivity {
             startActivity(intent);
         }
     }
-
     private void setListView()//设置列表的点击事件
     {
         mAdapter = new RecommandAdapter(this);//得到自定义的RecommandAdapter对象
