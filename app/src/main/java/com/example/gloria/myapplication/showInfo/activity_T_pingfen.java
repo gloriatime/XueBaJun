@@ -125,19 +125,10 @@ public class activity_T_pingfen extends AppCompatActivity {
     }
 
     ImageButton back_button;
-    private void setBackJump(){
-
-        back_button = (ImageButton) findViewById(R.id.back_button);
-        back_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(activity_T_pingfen.this, CourseDetailActivity.class);
-                // 传递参数
-                intent.putExtra("user", (Serializable) user);
-                intent.putExtra("course",course);
-                startActivity(intent);
-            }
-        });
+    public void setBackJump(){
+        back_button= (ImageButton) findViewById(R.id.back_button);
+        BackJump bj = new BackJump();
+        bj.setBack(back_button);
     }
 
 }

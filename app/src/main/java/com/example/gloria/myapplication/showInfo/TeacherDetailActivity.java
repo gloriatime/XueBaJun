@@ -655,6 +655,11 @@ private BroadcastReceiver mRefreshBroadcastReceiver = new BroadcastReceiver() {
         mQueue.add(jsonObjectRequest);
     }
 
+    public void onResume(){
+        super.onResume();
+        getProfessor();
+    }
+
     ImageButton back_button;
     public void setBackJump(){
         back_button= (ImageButton) findViewById(R.id.back_button);

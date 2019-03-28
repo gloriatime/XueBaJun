@@ -635,6 +635,12 @@ public class CourseDetailActivity extends AppCompatActivity implements View.OnCl
         });
         mQueue.add(jsonObjectRequest);
     }
+
+    public void onResume(){
+        super.onResume();
+        getCourse();
+    }
+
     ImageButton back_button;
     public void setBackJump(){
         back_button= (ImageButton) findViewById(R.id.back_button);
