@@ -47,6 +47,9 @@ public class DataMainActivity extends AppCompatActivity {
     RequestQueue mQueue;
     User user = new User();
 
+    int half;
+    int n;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,7 +103,7 @@ public class DataMainActivity extends AppCompatActivity {
 
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("user", user);
+            jsonObject.put("phone", user.getPhone());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -126,12 +129,12 @@ public class DataMainActivity extends AppCompatActivity {
       recommendList.add(new Document("book2", 30, 6));
         recommendList.add(new Document("book3", 30, 6));*/
       Log.e("##","总共的资料数"+recommendList.size());
-        setListView();
+        //setListView();
     }
 
     private void setListView(){
-        int n = recommendList.size();
-        int half = (n+1)/2;
+        n = recommendList.size();
+        half = (n+1)/2;
         for(int i = 0; i < n; i++){
             if(i < half){
                 recommendLeft.add(recommendList.get(i));
@@ -157,12 +160,18 @@ public class DataMainActivity extends AppCompatActivity {
                 /**
                  * 通过recommendList可想下一界面传递name/id
                  */
+                Intent intent = new Intent(DataMainActivity.this, PaperDetailMainActivity.class);
+                intent.putExtra("user", user);
+                intent.putExtra("document_id", recommendList.get(position).getId());
                 Log.e("###","left"+position);
             }
         });
         listViewRight.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(DataMainActivity.this, PaperDetailMainActivity.class);
+                intent.putExtra("user", user);
+                intent.putExtra("document_id", recommendList.get(half+position).getId());
                 Log.e("###","right"+position);
             }
         });
