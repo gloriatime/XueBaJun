@@ -167,7 +167,12 @@ public class BookMainActivity extends AppCompatActivity implements View.OnClickL
                         }
                         mLabel.setText(tag);
                     }
-                    mCourse.setText(book.getCourse().getName());
+                    if(book.getCourse() != null) {
+                        mCourse.setText(book.getCourse().getName());
+                    }
+                    else{
+                        mCourse.setText("暂无相关课程");
+                    }
                     if(book.getIntro().length() == 0)
                     mSynopsis.setText("简介：暂无");
                     else mSynopsis.setText("简介："+book.getIntro());
@@ -175,7 +180,7 @@ public class BookMainActivity extends AppCompatActivity implements View.OnClickL
                     Log.e("##","picture");
                     RequestQueue mQueue = Volley.newRequestQueue(BookMainActivity.this);
                     ImageRequest imageRequest = new ImageRequest(
-                            "http://47.100.226.176:8080/XueBaJun/"+book.getCover()+".jpg",
+                            "http://47.100.226.176:8080/"+book.getCover(),
                             new Response.Listener<Bitmap>() {
                                 @Override
                                 public void onResponse(Bitmap response) {
