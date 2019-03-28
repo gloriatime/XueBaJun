@@ -202,7 +202,9 @@ public class CourseDetailActivity extends AppCompatActivity implements View.OnCl
 
             public void onResponse(org.json.JSONObject jsonObject) {
                 Log.e("##","course返回了 "+jsonObject.toString());
-                 course = new Gson().fromJson(jsonObject.toString(), Course.class);
+                course = new Gson().fromJson(jsonObject.toString(), Course.class);
+                Log.e("##","有评论吗?"+course.getComment());
+                mComment.setText("评论"+course.getCommentList().size());
                 if(course.getCommentList() != null) {
                     commentList = course.getCommentList();
                     adapter = new CommentAdapter(CourseDetailActivity.this, commentList);
@@ -554,7 +556,7 @@ public class CourseDetailActivity extends AppCompatActivity implements View.OnCl
         u.put("phone",user.getPhone());
         Map<String, Object> map = new HashMap<>();
         map.put("critic",u);
-        map.put("type", "book");
+        map.put("type", "course");
         map.put("content", comment.getContent());
         map.put("belong",comment.getBelong());
         jsonObject = new JSONObject(map);
@@ -613,6 +615,7 @@ public class CourseDetailActivity extends AppCompatActivity implements View.OnCl
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("id", id);
+            jsonObject.put("applicant",user.getPhone());
         } catch (JSONException e) {
             e.printStackTrace();
         }

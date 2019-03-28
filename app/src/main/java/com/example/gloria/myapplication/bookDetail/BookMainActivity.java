@@ -44,7 +44,9 @@ import com.example.gloria.myapplication.R;
 import com.example.gloria.myapplication.adapter.CommentAdapter;
 import com.example.gloria.myapplication.adapter.ReplyAdapter;
 import com.example.gloria.myapplication.searchPaper.PaperDetailMainActivity;
+import com.example.gloria.myapplication.showInfo.CourseDetailActivity;
 import com.example.model.myapplication.Book;
+import com.example.model.myapplication.CollectBook;
 import com.example.model.myapplication.Comment;
 import com.example.model.myapplication.Document;
 import com.example.model.myapplication.Reply;
@@ -98,6 +100,7 @@ public class BookMainActivity extends AppCompatActivity implements View.OnClickL
     RequestQueue mQueue;
     Book book;
     User user;
+    CollectBook collectBook = new CollectBook();
     int id;
 
     @Override
@@ -161,7 +164,7 @@ public class BookMainActivity extends AppCompatActivity implements View.OnClickL
                         }
                         mLabel.setText(tag);
                     }
-                    mCourse.setText(book.getAuthor());
+                    mCourse.setText(book.getCourse().getName());
                     if(book.getIntro().length() == 0)
                     mSynopsis.setText("简介：暂无");
                     else mSynopsis.setText("简介："+book.getIntro());
@@ -209,6 +212,8 @@ public class BookMainActivity extends AppCompatActivity implements View.OnClickL
         });
         mQueue.add(jsonObjectRequest);
         mSynopsis.setMovementMethod(ScrollingMovementMethod.getInstance());
+
+        mCourse.setOnClickListener(this);
 
         //下载、收藏、分享
         mDownload = (TextView)findViewById(R.id.textViewDownload);
@@ -274,18 +279,28 @@ public class BookMainActivity extends AppCompatActivity implements View.OnClickL
     class TextListenerFavo implements View.OnClickListener{
         @Override
         public void onClick(View view){
-            String path = "http://47.100.226.176:8080/XueBaJun/CollectDocument";
+            String path = "http://47.100.226.176:8080/XueBaJun/CollectBook";
             HashMap<String,String> u = new HashMap<>();
             HashMap<String,String> d = new HashMap<>();
-            u.put("phone",book.getName());
+            u.put("phone",user.getPhone());
             d.put("id", String.valueOf(book.getId()));
             Log.e("##","发送id "+String.valueOf(book.getId())+book.getName());
             Map<String, Object> map = new HashMap<>();
             map.put("user",u);
-            map.put("document",d);
+            map.put("book",d);
 
             org.json.JSONObject jsonObject = new org.json.JSONObject(map);
             Log.e("##","发送 "+jsonObject.toString());
+
+           /* collectBook.setBook(book);
+            collectBook.setUser(user);
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put("phone", collectBook.getUser().getPhone());
+                jsonObject.put("id", collectBook.getBook().getId());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }*/
 
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(path, jsonObject, new Response.Listener<org.json.JSONObject>() {
 
@@ -294,6 +309,7 @@ public class BookMainActivity extends AppCompatActivity implements View.OnClickL
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError volleyError) {
+                    Log.e("##","shoucang");
                 }
             });
             mQueue.add(jsonObjectRequest);
@@ -378,7 +394,7 @@ public class BookMainActivity extends AppCompatActivity implements View.OnClickL
                                 //按下确定键后的事件
                                 mScore.setText(et.getText().toString()+"分");
                                 int sum = book.getNumber()+1;
-                                float sc = (book.getScore()+  Float.valueOf(et.getText().toString()).floatValue())/sum;
+                                float sc = (book.getScore() * book.getNumber()+  Float.valueOf(et.getText().toString()).floatValue())/sum;
                                 BigDecimal bg = new BigDecimal(sc);
                                 float f1 = bg.setScale(1, BigDecimal.ROUND_HALF_UP).floatValue();
                                 String res = "当前评分"+f1+"分";
@@ -415,6 +431,12 @@ public class BookMainActivity extends AppCompatActivity implements View.OnClickL
                             }
                         }).setNegativeButton("取消",null).show();
                 break;
+            case R.id.textViewCourse:
+                    Intent intent = new Intent(BookMainActivity.this, CourseDetailActivity.class);
+                    intent.putExtra("user",user);
+                    intent.putExtra("course", book.getCourse());
+                    startActivity(intent);
+                    break;
             default:
                 break;
         }
@@ -638,11 +660,13 @@ public class BookMainActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void UpdateCommentNumber(){
+        Log.e("##","最后的最后p"+book.getComment());
         String url = "http://47.100.226.176:8080/XueBaJun/GetBook";
 
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("id", id);
+            jsonObject.put("applicant",user.getPhone());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -650,6 +674,7 @@ public class BookMainActivity extends AppCompatActivity implements View.OnClickL
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, jsonObject, new Response.Listener<JSONObject>() {
 
             public void onResponse(JSONObject jsonObject) {
+                Log.e("##","最后的最后2"+book.getComment());
                 Gson gson = new DateGson().getGson();
                 book = gson.fromJson(jsonObject.toString(), Book.class);
                 if (book != null) {
@@ -664,6 +689,8 @@ public class BookMainActivity extends AppCompatActivity implements View.OnClickL
             }
         });
         mQueue.add(jsonObjectRequest);
+        adapter = new CommentAdapter(BookMainActivity.this, book.getCommentList());
+        listView.setAdapter(adapter);
         Log.e("##","最后的最后"+book.getComment());
     }
 

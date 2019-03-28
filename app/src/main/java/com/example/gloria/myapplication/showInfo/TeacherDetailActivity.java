@@ -256,6 +256,7 @@ private BroadcastReceiver mRefreshBroadcastReceiver = new BroadcastReceiver() {
                 professor = new Gson().fromJson(jsonObject.toString(), Professor.class);
                 Log.e("##","professo返回 "+jsonObject.toString());
                 professorCourse = professor.getProfessorCourseList();
+                mComment.setText("评论"+professor.getCommentList().size());
                 if(professor.getCommentList() != null) {
                     commentList = professor.getCommentList();
                     adapter = new CommentAdapter(TeacherDetailActivity.this, commentList);
@@ -573,7 +574,7 @@ private BroadcastReceiver mRefreshBroadcastReceiver = new BroadcastReceiver() {
         u.put("phone",user.getPhone());
         Map<String, Object> map = new HashMap<>();
         map.put("critic",u);
-        map.put("type", "book");
+        map.put("type", "professor");
         map.put("content", comment.getContent());
         map.put("belong",comment.getBelong());
         jsonObject = new JSONObject(map);
@@ -632,6 +633,7 @@ private BroadcastReceiver mRefreshBroadcastReceiver = new BroadcastReceiver() {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("id", id);
+            jsonObject.put("applicant",user.getPhone());
         } catch (JSONException e) {
             e.printStackTrace();
         }

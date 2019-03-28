@@ -380,8 +380,9 @@ public class PaperDetailMainActivity extends AppCompatActivity implements View.O
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 //按下确定键后的事件
                                 mScore.setText(et.getText().toString()+"分");
+                                Log.e("##","评分前"+document.getNumber());
                                 int sum = document.getNumber()+1;
-                                float sc = (document.getScore()+  Float.valueOf(et.getText().toString()).floatValue())/sum;
+                                float sc = (document.getScore() * document.getNumber()+  Float.valueOf(et.getText().toString()).floatValue())/sum;
                                 BigDecimal bg = new BigDecimal(sc);
                                 float f1 = bg.setScale(1, BigDecimal.ROUND_HALF_UP).floatValue();
                                 String res = "当前评分"+f1+"分";
@@ -406,6 +407,7 @@ public class PaperDetailMainActivity extends AppCompatActivity implements View.O
                                         Gson gson = new DateGson().getGson();
                                         Document d = gson.fromJson(jsonObject.toString(), Document.class);
                                         Log.e("##","上传数据库之后的分数"+d.getScore()+" "+d.getId());
+                                        Log.e("##","评分后"+document.getNumber());
                                     }
 
                                 }, new Response.ErrorListener() {
@@ -646,7 +648,7 @@ public class PaperDetailMainActivity extends AppCompatActivity implements View.O
 
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("id", 26);
+            jsonObject.put("id", id);
             jsonObject.put("applicant",user.getPhone());
         } catch (JSONException e) {
             e.printStackTrace();
