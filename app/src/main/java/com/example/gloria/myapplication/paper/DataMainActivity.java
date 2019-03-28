@@ -117,6 +117,7 @@ public class DataMainActivity extends AppCompatActivity {
                     recommendList = document.getRecommendList();
                     Log.e("##","分页推荐资料列表返回"+jsonObject.toString());
                     setListView();
+                   // showClickResponse();
                 }
             }
         }, new Response.ErrorListener() {
@@ -152,9 +153,12 @@ public class DataMainActivity extends AppCompatActivity {
         listViewLeft.setAdapter(adapterLeft);
         adapterRight = new FavoriteListAdapter(DataMainActivity.this,recommendRight);
         listViewRight.setAdapter(adapterRight);
+
+        showClickResponse();
     }
 
     private void showClickResponse(){
+        Log.e("##","click");
         listViewLeft.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -164,6 +168,7 @@ public class DataMainActivity extends AppCompatActivity {
                 Intent intent = new Intent(DataMainActivity.this, PaperDetailMainActivity.class);
                 intent.putExtra("user", user);
                 intent.putExtra("document_id", recommendList.get(position).getId());
+                startActivity(intent);
                 Log.e("###","left"+position);
             }
         });
@@ -173,6 +178,7 @@ public class DataMainActivity extends AppCompatActivity {
                 Intent intent = new Intent(DataMainActivity.this, PaperDetailMainActivity.class);
                 intent.putExtra("user", user);
                 intent.putExtra("document_id", recommendList.get(half+position).getId());
+                startActivity(intent);
                 Log.e("###","right"+position);
             }
         });
