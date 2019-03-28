@@ -192,6 +192,7 @@ public class CourseDetailActivity extends AppCompatActivity implements View.OnCl
         try {
             jsonObject.put("id", id);
             jsonObject.put("applicant", user.getPhone());
+            Log.e("##","course请求 "+id);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -320,7 +321,7 @@ public class CourseDetailActivity extends AppCompatActivity implements View.OnCl
             bookimage.setBackgroundResource(R.drawable.bookimgsample);
         else {
             ImageRequest imageRequest = new ImageRequest(
-                    "http://47.100.226.176:8080/XueBaJun/book_image/" + book.getCover() + ".jpg",
+                    "http://47.100.226.176:8080/" + book.getCover() ,
                     new Response.Listener<Bitmap>() {
                         @Override
                         public void onResponse(Bitmap response) {

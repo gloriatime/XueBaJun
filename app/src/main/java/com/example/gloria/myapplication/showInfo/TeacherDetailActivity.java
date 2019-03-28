@@ -279,14 +279,14 @@ private BroadcastReceiver mRefreshBroadcastReceiver = new BroadcastReceiver() {
             professorimage.setBackgroundResource(R.drawable.bookimgsample);
         else {
             ImageRequest imageRequest = new ImageRequest(
-                    "http://47.100.226.176:8080/XueBaJun/teacher_image/" + professor.getPic() + ".jpg",
+                    "http://47.100.226.176:8080/" + professor.getPic(),
                     new Response.Listener<Bitmap>() {
                         @Override
                         public void onResponse(Bitmap response) {
                             BitmapDrawable temp = new BitmapDrawable(response);
                             professorimage.setBackground(temp);
                         }
-                    }, 300, 300, Bitmap.Config.RGB_565, new Response.ErrorListener() {
+                    }, 300, 500, Bitmap.Config.RGB_565, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     professorimage.setBackgroundResource(R.drawable.bookimgsample);
