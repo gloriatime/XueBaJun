@@ -144,11 +144,8 @@ public class Reco_course extends AppCompatActivity {
                     if(tempuser != null) {
                         Log.e("##getSuccess##", "Id"+tempuser.getName()+ "\n");
                         sec_init(0);
-                    }
-                    else
-                    {
-                        sec_init(1);
-                    }
+                    } else
+                    { sec_init(1); }
 
                 }
             }, new Response.ErrorListener() {
