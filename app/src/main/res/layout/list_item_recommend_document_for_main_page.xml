@@ -31,9 +31,10 @@ android:padding="@dimen/common">
             android:id="@+id/text_3"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="2018-7-15"
             android:layout_weight="2"
-            android:gravity="right"/>
+            android:gravity="right"
+            android:text="2018-7-15"
+            android:textSize="@dimen/common"/>
 
     </LinearLayout>
 </LinearLayout>
