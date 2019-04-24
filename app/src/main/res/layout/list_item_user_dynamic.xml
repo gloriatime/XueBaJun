@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:orientation="vertical"
+android:background="@color/white"
+android:padding="@dimen/common"
+android:layout_marginBottom="2dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <ImageView
+            android:id="@+id/head_image"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/ic_head_image"
+            android:src="@drawable/bg_circle"
+            android:layout_gravity="center_vertical"/>
+        <TextView
+            android:id="@+id/dynamic_text"
+            android:text="华大少收藏了课程"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/common"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_gravity="center_vertical"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/course_name_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="计算机数据结构"
+        android:textStyle="bold"
+        android:layout_marginTop="@dimen/activity_vertical_margin"/>
+
+    <TextView
+        android:id="@+id/course_intro_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="简介：啵啵啵啵啵啵啵啵啵啵啵啵啵啵啵啵啵啵不啵啵啵啵啵啵啵啵啵啵啵啵啵啵啵啵啵啵不"
+        android:textColor="@color/gray"
+        android:layout_marginTop="@dimen/small_margin"
+        android:layout_marginBottom="@dimen/activity_vertical_margin" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/comment_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3"
+            android:textSize="@dimen/common"
+            android:textColor="@color/gray" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="   评论"
+            android:textSize="@dimen/common"
+            android:textColor="@color/gray" />
+
+        <!-- 为按钮设置右对齐所需要的布局（按钮单独设置右对齐无效） -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:gravity="end|center_vertical">
+
+            <TextView
+                android:id="@+id/score"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="评分:        "
+                android:textSize="@dimen/common"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/score_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="9.8"
+                android:textSize="@dimen/common"
+                android:textColor="@color/red"
+                android:layout_alignRight="@+id/score"
+                android:layout_marginStart="@dimen/small_margin"/>
+
+        </RelativeLayout>
+    </LinearLayout>
+
+</LinearLayout>

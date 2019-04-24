@@ -26,8 +26,6 @@
         </activity>
         <activity android:name=".manage.ChangeInfoActivity">
         </activity>
-        <activity android:name=".sign.SignInPage1Activity">
-        </activity>
         <activity android:name=".manage.UploadFileActivity">
         </activity>
         <activity android:name=".manage.MyConcernActivity">
@@ -57,6 +55,8 @@
         <activity android:name=".Recommend.Reco_book" />
         <activity android:name=".Recommend.Reco_course" />
         <activity android:name=".manage.AddTagActivity">
+        </activity>
+        <activity android:name=".showInfo.UserInfoActivity">
         </activity>
     </application>
 
