@@ -84,6 +84,7 @@ public class SignInActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                Log.e("####",""+jsonObject.toString());
 
                 JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, jsonObject, new Response.Listener<JSONObject>() {
                     @Override
@@ -119,7 +120,9 @@ public class SignInActivity extends AppCompatActivity {
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        Log.e("##", "error" + error);
                         Toast.makeText(SignInActivity.this, "输入有误，请检查并重新输入", Toast.LENGTH_SHORT).show();
+                        Log.e("##", "COLLEGE" + user.getCollege());
                     }
                 });
                 mQueue.add(jsonObjectRequest);
