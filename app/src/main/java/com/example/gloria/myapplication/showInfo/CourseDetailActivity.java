@@ -206,10 +206,11 @@ public class CourseDetailActivity extends AppCompatActivity implements View.OnCl
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, jsonObject, new Response.Listener<org.json.JSONObject>() {
 
-            public void onResponse(org.json.JSONObject jsonObject) {
+            public void onResponse(JSONObject jsonObject) {
                 Log.e("##","course返回了 "+jsonObject.toString());
-                course = new Gson().fromJson(jsonObject.toString(), Course.class);
+                course = new DateGson().getGson().fromJson(jsonObject.toString(), Course.class);
                 Log.e("##","有评论吗?"+course.getComment());
+                Log.e("##","评论"+course.getCommentList().size());
                 mComment.setText("评论"+course.getCommentList().size());
                 if(course.getCommentList() != null) {
                     commentList = course.getCommentList();

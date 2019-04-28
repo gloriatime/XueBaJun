@@ -310,7 +310,7 @@ public class Reco_course extends AppCompatActivity {
         ArrayList<HashMap<String ,Object>> listItem = new ArrayList<>();
         List<Course> Clist = new ArrayList<>();
         Clist = course.getRecommendList();
-         Log.e("##", "书籍的推荐列表的长度"+String.valueOf(course.getRecommendList().size()));//在LogCat中输出信息
+//         Log.e("##", "书籍的推荐列表的长度"+String.valueOf(course.getRecommendList().size()));//在LogCat中输出信息
         if(Clist == null)
         {
             Log.e("##","推荐列表是空的，返回了");
