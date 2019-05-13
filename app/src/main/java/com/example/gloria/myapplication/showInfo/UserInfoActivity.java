@@ -45,6 +45,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.example.gloria.myapplication.R;
+
 public class UserInfoActivity extends AppCompatActivity {
 
     // 上方导航栏

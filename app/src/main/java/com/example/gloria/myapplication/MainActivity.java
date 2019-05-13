@@ -215,11 +215,20 @@ public class MainActivity extends AppCompatActivity {
 
     private void getUser(){
         // ---------------得到user-----------------
-        Intent intent = getIntent();
+       Intent intent = getIntent();
         user = (User) intent.getSerializableExtra("user");
         Log.e("##","phone"+user.getPhone());
         //Log.e("##","college"+user.getCollege());
         Log.e("##","pwd"+user.getName());
+      /* user.setArt(false);
+       user.setMedicine(true);
+       user.setManagement(false);
+       user.setHumanity(true);
+       user.setAgriculture(false);
+       user.setPlay(true);
+       user.setName("我眼睛疼");
+       user.setGrade("大四");
+       user.setCollege("计算机科学与技术学院");*/
     }
 
     // ------------------设置主页的搜索功能--------------

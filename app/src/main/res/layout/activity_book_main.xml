@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_weight="1"
     tools:context="com.example.gloria.myapplication.bookDetail.BookMainActivity"
     android:orientation="vertical"
     android:id="@+id/linearlayout">
@@ -33,6 +34,14 @@
             android:textColor="@color/brown"
             />
     </LinearLayout>
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="240dp">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -167,6 +176,9 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
     </LinearLayout>
 
+</LinearLayout>
+    </ScrollView>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -281,4 +293,6 @@
         android:id="@+id/comment_detail"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
 </LinearLayout>
+

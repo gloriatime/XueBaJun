@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.List;
 
 public class User implements Serializable{
-	private String name = "我好菜啊";
-	private String pwd = "123456";
+	private String name;
+	private String pwd;
 	private String grade;
 	private String phone;
 	private String college;
