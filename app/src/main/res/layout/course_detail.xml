@@ -310,8 +310,7 @@
         android:id="@+id/ch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/twentytwo"
-        android:layout_marginTop="20dp">
+        android:layout_below="@id/bar_control">
         <TextView
             android:id="@+id/textViewSay"
             android:layout_width="60dp"
