@@ -7,8 +7,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
@@ -91,6 +93,11 @@ public class CourseDetailActivity extends AppCompatActivity implements View.OnCl
     List<Reply> replyList = new ArrayList<Reply>();
     View replyView;
 
+    // 收藏
+    private TextView mFavorite;
+    private TextView mFavoritePic;
+    private TextListenerFavo textListenerFavo;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,6 +120,14 @@ public class CourseDetailActivity extends AppCompatActivity implements View.OnCl
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("action.refreshTeacher");
         registerReceiver(mRefreshBroadcastReceiver, intentFilter);
+
+
+        // 收藏
+        mFavorite = (TextView)findViewById(R.id.textViewFavorite);
+        mFavoritePic = (TextView)findViewById(R.id.textViewFavoritePic);
+        textListenerFavo = new TextListenerFavo();
+        mFavorite.setOnClickListener(textListenerFavo);
+        mFavoritePic.setOnClickListener(textListenerFavo);
     }
     // broadcast receiver
     private BroadcastReceiver mRefreshBroadcastReceiver = new BroadcastReceiver() {
@@ -203,7 +218,8 @@ public class CourseDetailActivity extends AppCompatActivity implements View.OnCl
 
             public void onResponse(org.json.JSONObject jsonObject) {
                 Log.e("##","course返回了 "+jsonObject.toString());
-                course = new Gson().fromJson(jsonObject.toString(), Course.class);
+                Gson gson = new DateGson().getGson();
+                course = gson.fromJson(jsonObject.toString(), Course.class);
                 Log.e("##","有评论吗?"+course.getComment());
                 mComment.setText("评论"+course.getCommentList().size());
                 if(course.getCommentList() != null) {
@@ -645,6 +661,49 @@ public class CourseDetailActivity extends AppCompatActivity implements View.OnCl
     public void onResume(){
         super.onResume();
         getCourse();
+    }
+
+    class TextListenerFavo implements View.OnClickListener{
+        @Override
+        public void onClick(View view){
+            String path = "http://47.100.226.176:8080/XueBaJun/CollectCourse";
+            HashMap<String,String> u = new HashMap<>();
+            HashMap<String,String> c = new HashMap<>();
+            u.put("phone",user.getPhone());
+            c.put("id", String.valueOf(course.getId()));
+            c.put("applicant",user.getPhone());
+            Map<String, Object> map = new HashMap<>();
+            map.put("user",u);
+            map.put("course",c);
+
+            org.json.JSONObject jsonObject = new org.json.JSONObject(map);
+            Log.e("##","发送 "+jsonObject.toString());
+
+           /* collectBook.setBook(book);
+            collectBook.setUser(user);
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put("phone", collectBook.getUser().getPhone());
+                jsonObject.put("id", collectBook.getBook().getId());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }*/
+
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(path, jsonObject, new Response.Listener<org.json.JSONObject>() {
+
+                public void onResponse(org.json.JSONObject jsonObject) {
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
+                    Log.e("##","shoucang");
+                }
+            });
+            mQueue.add(jsonObjectRequest);
+            Resources resource = getBaseContext().getResources();
+            Drawable mDrawable = resource.getDrawable(R.drawable.favorite_after);
+            mFavoritePic.setBackgroundDrawable(mDrawable);
+        }
     }
 
     ImageButton back_button;

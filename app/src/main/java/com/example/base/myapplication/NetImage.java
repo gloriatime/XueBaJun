@@ -48,6 +48,24 @@ public class NetImage {
         mQueue.add(imageRequest);
     }
 
+    public void setHeadImage(RequestQueue mQueue, final ImageView imageButton, String url){
+        ImageRequest imageRequest = new ImageRequest(
+                url,
+                new com.android.volley.Response.Listener<Bitmap>() {
+                    @Override
+                    public void onResponse(Bitmap response) {
+                        BitmapDrawable temp = new BitmapDrawable(response);
+                        imageButton.setBackground(temp);
+                    }
+                }, 300, 300, Bitmap.Config.RGB_565, new com.android.volley.Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                imageButton.setBackgroundResource(R.drawable.ic_head_image);
+            }
+        });
+        mQueue.add(imageRequest);
+    }
+
     // 从服务器取出图片设置封面
     public void setCoverImage(RequestQueue mQueue, final ImageView imageView, String url){
         ImageRequest imageRequest = new ImageRequest(

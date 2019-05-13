@@ -26,13 +26,17 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.base.myapplication.BackJump;
 import com.example.base.myapplication.ListItemViewHolder;
+import com.example.gloria.myapplication.MainActivity;
 import com.example.gloria.myapplication.R;
+import com.example.gloria.myapplication.paper.DataMainActivity;
+import com.example.gloria.myapplication.showInfo.UserInfoActivity;
 import com.example.model.myapplication.Concern;
 import com.example.model.myapplication.User;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -128,7 +132,12 @@ public class MyConcernActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                 Log.e("##", "你点击了ListView条目" + arg2);//在LogCat中输出信息
-                // ---------------------------跳转到人物介绍界面，目前先空着--------------------------------------
+                // ---------------------------跳转到人物介绍界面-------------------------------------
+                User temp = ConcernUser.get(arg2);
+                Intent intent = new Intent(MyConcernActivity.this, UserInfoActivity.class);
+                intent.putExtra("user",(Serializable) user);
+                intent.putExtra("user_info",temp);
+                startActivity(intent);
             }
         });
     }

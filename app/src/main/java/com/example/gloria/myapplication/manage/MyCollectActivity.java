@@ -54,8 +54,8 @@ public class MyCollectActivity extends AppCompatActivity {
     private Button documents_button,books_button,courses_button;
     private ListView list;
     private ArrayList<Document> documents = new ArrayList<>();
-    private ArrayList<Book> books= new ArrayList<>();;
-    private ArrayList<Course> courses= new ArrayList<>();;
+    private ArrayList<Book> books= new ArrayList<>();
+    private ArrayList<Course> courses= new ArrayList<>();
     private int DOCUMENT=1,BOOK=2,COURSE=3;
     RequestQueue mQueue;
     CollectionAdapter mAdapter;// 本页面list的适配器

@@ -2,10 +2,12 @@ package com.example.model.myapplication;
 
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 public class CollectCourse implements Serializable {
 	private User user;
 	private Course course;
+	private Timestamp time;
 	public User getUser() {
 		return user;
 	}
@@ -19,4 +21,11 @@ public class CollectCourse implements Serializable {
 		this.course = course;
 	}
 
+	public Timestamp getTime() {
+		return time;
+	}
+
+	public void setTime(Timestamp time) {
+		this.time = time;
+	}
 }
