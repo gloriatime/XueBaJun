@@ -99,13 +99,15 @@ public class UserInfoActivity extends AppCompatActivity {
     private void getUser(){
         Intent intent = getIntent();
         user = (User) intent.getSerializableExtra("user");
+        Log.e("##跳转到的用户：", user.getPhone());
     }
 
     private void getUserInfo() {
 
         Intent intent = getIntent();
         userInfo = (User) intent.getSerializableExtra("user_info");
-
+        Log.e("##user_info", userInfo.getPhone());
+        Log.e("##user", userInfo.getPhone());
         org.json.JSONObject jsonObject = new org.json.JSONObject();
         try {
             jsonObject.put("phone",userInfo.getPhone());

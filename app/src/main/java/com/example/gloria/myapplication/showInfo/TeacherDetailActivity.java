@@ -691,6 +691,7 @@ private BroadcastReceiver mRefreshBroadcastReceiver = new BroadcastReceiver() {
                 }
             });
             mQueue.add(imageRequest);
+            commentHolder.logo.setOnClickListener(new ImageListener(position));
             commentHolder.tv_name.setText(commentBeanList.get(position).getCritic().getName());
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String date = format.format(commentBeanList.get(position).getDate());
@@ -756,6 +757,22 @@ private BroadcastReceiver mRefreshBroadcastReceiver = new BroadcastReceiver() {
                     }
                 });
                 mQueue.add(jsonObjectRequest);
+            }
+        }
+
+        class   ImageListener implements View.OnClickListener {
+            int pos;
+
+            public ImageListener(int pos) {
+                this.pos = pos;
+            }
+
+            @Override
+            public void onClick(final View arg0) {
+                Intent intent = new Intent(TeacherDetailActivity.this, UserInfoActivity.class);
+                intent.putExtra("user", user);
+                intent.putExtra("user_info", commentList.get(pos).getCritic());
+                startActivity(intent);
             }
         }
 
