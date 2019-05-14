@@ -359,46 +359,7 @@ public class PaperDetailMainActivity extends AppCompatActivity implements View.O
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-               /* TextView view_reply = (TextView)findViewById(R.id.comment_item_reply);
-                view_reply.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //展示回复界面
-                        //Log.e("##","展示回复界面");
-                        //Log.e("##","position="+position);
-                        //获得该评论的回复
-                        String url = "http://47.100.226.176:8080/XueBaJun/GetComment";
-
-                        JSONObject jsonObject = new JSONObject();
-                        try {
-                            jsonObject.put("id", commentList.get(position).getId());
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, jsonObject, new Response.Listener<JSONObject>() {
-
-                            public void onResponse(JSONObject jsonObject) {
-                                Gson gson = new DateGson().getGson();
-                                Comment ct = gson.fromJson(jsonObject.toString(), Comment.class);
-                                Log.e("##","评论是否有回复"+ct.getReplyList().size());
-                                if(ct.getReplyList().size() == 0) {
-                                    Log.e("##","firstreply");
-                                    addFirstReply(position);
-                                }
-                                else {
-                                    replyList = ct.getReplyList();
-                                    showReplyDetail(position);
-                                }
-                            }
-                        }, new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError volleyError) {
-                            }
-                        });
-                        mQueue.add(jsonObjectRequest);
-                    }
-                });*/
+               showReplyDialog(position);
             }
         });
     }
@@ -755,6 +716,8 @@ public class PaperDetailMainActivity extends AppCompatActivity implements View.O
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
             final CommentHolder commentHolder;
+            Log.e("##getView##","position"+position);
+            Log.e("##请求头像用户的手机号0：", commentBeanList.get(position).getCritic().getPhone());
 
             if (convertView == null) {
                 convertView = LayoutInflater.from(context).inflate(R.layout.comment_item_layout, parent, false);
@@ -775,10 +738,11 @@ public class PaperDetailMainActivity extends AppCompatActivity implements View.O
                     }, 300, 300, Bitmap.Config.RGB_565, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
+                    Log.e("##请求头像用户的手机号：", commentBeanList.get(position).getCritic().getPhone());
                     commentHolder.logo.setBackgroundResource(R.drawable.ic_head_image);
                 }
             });
-            //mQueue.add(imageRequest);
+            mQueue.add(imageRequest);
             commentHolder.tv_name.setText(commentBeanList.get(position).getCritic().getName());
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String date = format.format(commentBeanList.get(position).getDate());
