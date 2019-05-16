@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -37,7 +38,7 @@ import com.google.gson.Gson;
 public class SignInActivity extends AppCompatActivity {
     private CheckBox cbRemember;//定义记住密码
     private EditText phone, passwd;
-    private Button log_in, sign_up;
+    private TextView log_in, sign_up;
     private String sphone, spasswd;
     private SharedPreferences mSpSettings=null;//声明一个sharedPreferences用于保存数据
     private static final String PREPS_NAME="NamePwd";
@@ -53,8 +54,8 @@ public class SignInActivity extends AppCompatActivity {
 
         phone = (EditText) findViewById(R.id.editText2);
         passwd = (EditText) findViewById(R.id.editText4);
-        log_in = (Button) findViewById(R.id.button);
-        sign_up = (Button) findViewById(R.id.button2);
+        log_in = (TextView) findViewById(R.id.button);
+        sign_up = (TextView) findViewById(R.id.button2);
         cbRemember=(CheckBox) findViewById(R.id.cbRemember);
         cbRemember.setChecked(true);
         passwd.setTransformationMethod(new PasswordTransformationMethod());

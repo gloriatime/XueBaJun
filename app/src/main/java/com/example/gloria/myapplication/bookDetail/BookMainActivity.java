@@ -1,8 +1,5 @@
 package com.example.gloria.myapplication.bookDetail;
 
-import android.app.Activity;
-import android.app.DownloadManager;
-import android.app.Instrumentation;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,15 +9,14 @@ import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +25,6 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,26 +38,20 @@ import com.android.volley.toolbox.Volley;
 import com.example.base.myapplication.BackJump;
 import com.example.base.myapplication.DateGson;
 import com.example.base.myapplication.UnfinishDialog;
-import com.example.gloria.myapplication.MainActivity;
 import com.example.gloria.myapplication.R;
-import com.example.gloria.myapplication.adapter.CommentAdapter;
 import com.example.gloria.myapplication.adapter.ReplyAdapter;
-import com.example.gloria.myapplication.searchPaper.PaperDetailMainActivity;
 import com.example.gloria.myapplication.showInfo.CourseDetailActivity;
 import com.example.gloria.myapplication.showInfo.UserInfoActivity;
 import com.example.model.myapplication.Book;
-import com.example.model.myapplication.CollectBook;
 import com.example.model.myapplication.Comment;
-import com.example.model.myapplication.Document;
 import com.example.model.myapplication.Reply;
-import com.example.model.myapplication.Tag;
 import com.example.model.myapplication.User;
 import com.google.gson.Gson;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -70,6 +59,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class BookMainActivity extends AppCompatActivity implements View.OnClickListener{
