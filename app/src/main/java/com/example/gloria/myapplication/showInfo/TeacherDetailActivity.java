@@ -73,7 +73,7 @@ public class TeacherDetailActivity extends AppCompatActivity implements View.OnC
     private Button coursethree;
     private Button coursefour;
     private Button course5,course6;
-    private Button score;
+    private TextView score;
     TextView seescore;
 
     //评论回复定义
@@ -229,7 +229,7 @@ private BroadcastReceiver mRefreshBroadcastReceiver = new BroadcastReceiver() {
         coursefour = (Button) findViewById(R.id.coursefour);
         peopleintro = (TextView) findViewById(R.id.peopleintro);
         researchin = (TextView) findViewById(R.id.researchin);
-        score = (Button) findViewById(R.id.score);
+        score = (TextView) findViewById(R.id.score);
         course5 = (Button) findViewById(R.id.coursefive);
         course6 = (Button) findViewById(R.id.coursesix);
         seescore = (TextView) findViewById(R.id.seescore);

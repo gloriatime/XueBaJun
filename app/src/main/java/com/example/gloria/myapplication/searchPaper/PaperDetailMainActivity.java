@@ -11,6 +11,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.ContactsContract;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
@@ -290,22 +291,27 @@ public class PaperDetailMainActivity extends AppCompatActivity implements View.O
     class TextListenerDown implements View.OnClickListener {
         @Override
         public void onClick(View view) {
-           /* final String downloadUrl = document.getUrl();
+            Log.e("##url", document.getUrl());
+            int n = document.getUrl().length();
+            final String downloadUrl = "http://47.100.226.176:8080/XueBaJun/"+document.getUrl();
+            Log.e("download", downloadUrl);
             final Context mContext = PaperDetailMainActivity.this;
-            mDownload.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+//            mDownload.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+                    Log.e("##", "开始下载");
                     //创建下载任务
                     DownloadManager.Request request = new DownloadManager.Request(Uri.parse(downloadUrl));
                     //指定下载路径
-                    request.setDestinationInExternalPublicDir("/download/", mName.toString());
+                    request.setDestinationInExternalPublicDir("/XueBaJun/download/", document.getName());
                     //获取下载管理器
                     DownloadManager downloadManager = (DownloadManager)mContext.getSystemService(Context.DOWNLOAD_SERVICE);
                     //将下载任务加载到下载队列
                     downloadManager.enqueue(request);
-                }
-            });*/
-            setUnfinishDialog();
+                    Toast.makeText(PaperDetailMainActivity.this,"下载成功",Toast.LENGTH_SHORT).show();
+//                }
+//            });
+            //setUnfinishDialog();
         }
     }
     private void setUnfinishDialog(){
@@ -348,8 +354,9 @@ public class PaperDetailMainActivity extends AppCompatActivity implements View.O
     class TextListenerShare implements View.OnClickListener {
         @Override
         public void onClick(View view) {
+            Log.e("##share_document", document.getUrl());
             Intent shareIntent = new Intent(Intent.ACTION_SEND);
-            shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(document.getUrl())));
+            shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(document.getUrl()).getAbsoluteFile()));
             shareIntent.setType("*/*");
             startActivity(Intent.createChooser(shareIntent, "分享到："));
         }

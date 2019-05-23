@@ -145,10 +145,14 @@ public class BookMainActivity extends AppCompatActivity implements View.OnClickL
                 Gson gson = new DateGson().getGson();
                 book = gson.fromJson(jsonObject.toString(), Book.class);
                 if (book != null) {
-                    Log.e("##getSuccess##", "Id"+book.getName()+ "\n");
+                    Log.e("##getSuccess##", ""+book.getAuthor());
                     mName.setText(book.getName());
-                    mAuthor.setText(book.getAuthor());
-                    mPress.setText(book.getPress());
+                    if(book.getAuthor() != null)
+                       mAuthor.setText(book.getAuthor());
+                    else mAuthor.setText("佚名");
+                    if(book.getPress().equals("没简介。"))
+                         mPress.setText("佚名出版社");
+                    else mPress.setText(book.getPress());
                     //获得书籍标签
                     Log.e("##","显示标签");
                     if(book.getTagList()!=null) {
@@ -216,24 +220,24 @@ public class BookMainActivity extends AppCompatActivity implements View.OnClickL
         mCourse.setOnClickListener(this);
 
         //下载、收藏、分享
-        mDownload = (TextView)findViewById(R.id.textViewDownload);
-        mDownloadPic = (TextView)findViewById(R.id.textViewDownloadPic);
-        mFavorite = (TextView)findViewById(R.id.textViewFavorite);
+        //mDownload = (TextView)findViewById(R.id.textViewDownload);
+       // mDownloadPic = (TextView)findViewById(R.id.textViewDownloadPic);
+        mFavorite = (TextView)findViewById(R.id.textViewFavorite1);
         mFavoritePic = (TextView)findViewById(R.id.textViewFavoritePic);
-        mShare = (TextView)findViewById(R.id.textViewShare);
+        mShare = (TextView)findViewById(R.id.textViewShare1);
         mSharePic = (TextView)findViewById(R.id.textViewSharePic);
         BScore = (Button)findViewById(R.id.ButtonScore);
         textListenerDown = new TextListenerDown();
         textListenerFavo = new TextListenerFavo();
         textListenerShare = new TextListenerShare();
         //下载
-        mDownload.setOnClickListener(textListenerDown);
-        mDownloadPic.setOnClickListener(textListenerDown);
+       // mDownload.setOnClickListener(textListenerDown);
+       // mDownloadPic.setOnClickListener(textListenerDown);
         //收藏
-        mFavorite.setOnClickListener(textListenerFavo);
+       // mFavorite.setOnClickListener(textListenerFavo);
         mFavoritePic.setOnClickListener(textListenerFavo);
         //分享
-        mShare.setOnClickListener(textListenerShare);
+       // mShare.setOnClickListener(textListenerShare);
         mSharePic.setOnClickListener(textListenerShare);
         BScore.setOnClickListener(this);
 
@@ -273,7 +277,7 @@ public class BookMainActivity extends AppCompatActivity implements View.OnClickL
                     downloadManager.enqueue(request);
                 }
             });*/
-            setUnfinishDialog();
+            //setUnfinishDialog();
         }
     }
 
@@ -328,6 +332,7 @@ public class BookMainActivity extends AppCompatActivity implements View.OnClickL
     class TextListenerShare implements View.OnClickListener {
         @Override
         public void onClick(View view) {
+            Log.e("##share","enter"+book.getCover());
             Intent shareIntent = new Intent(Intent.ACTION_SEND);
             shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(book.getCover())));
             shareIntent.setType("*/*");
