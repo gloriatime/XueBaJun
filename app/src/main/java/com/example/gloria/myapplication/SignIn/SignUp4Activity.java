@@ -3,7 +3,9 @@ package com.example.gloria.myapplication.SignIn;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.RadioButton;
 
 import com.example.gloria.myapplication.R;
@@ -16,6 +18,11 @@ public class SignUp4Activity extends AppCompatActivity {
     private RadioButton radioButton5;
     private RadioButton radioButton6;
     private RadioButton radioButton7;
+    RadioButton []radioButtons;
+
+    private Button button;
+
+    String grade;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,20 +43,15 @@ public class SignUp4Activity extends AppCompatActivity {
         radioButton5 = (RadioButton)findViewById(R.id.radioButton6);
         radioButton6 = (RadioButton)findViewById(R.id.radioButton7);
         radioButton7 = (RadioButton)findViewById(R.id.radioButton8);
+        button = (Button)findViewById(R.id.ButtonNext);
+        radioButtons = new RadioButton[]{radioButton1, radioButton2,radioButton3, radioButton4,radioButton5, radioButton6,radioButton7};
 
         radioButton1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(radioButton1.isChecked()){
-                    String grade = (String)radioButton1.getText();
-                    Intent intent = new Intent(SignUp4Activity.this, SignUp5Activity.class);
-                    intent.putExtra("mail",mail);
-                    intent.putExtra("passwd", passwd);
-                    intent.putExtra("name", name);
-                    intent.putExtra("university", univers);
-                    intent.putExtra("major", major);
-                    intent.putExtra("grade", grade);
-                    startActivity(intent);
+                    grade = (String)radioButton1.getText();
+                    ChangeOtherStatus(0);
                 }
             }
         });
@@ -58,15 +60,8 @@ public class SignUp4Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(radioButton2.isChecked()){
-                    String grade = (String)radioButton2.getText();
-                    Intent intent = new Intent(SignUp4Activity.this, SignUp5Activity.class);
-                    intent.putExtra("mail",mail);
-                    intent.putExtra("passwd", passwd);
-                    intent.putExtra("name", name);
-                    intent.putExtra("university", univers);
-                    intent.putExtra("major", major);
-                    intent.putExtra("grade", grade);
-                    startActivity(intent);
+                    grade = (String)radioButton2.getText();
+                    ChangeOtherStatus(1);
                 }
             }
         });
@@ -76,14 +71,7 @@ public class SignUp4Activity extends AppCompatActivity {
             public void onClick(View v) {
                 if(radioButton3.isChecked()){
                     String grade = (String)radioButton3.getText();
-                    Intent intent = new Intent(SignUp4Activity.this, SignUp5Activity.class);
-                    intent.putExtra("mail",mail);
-                    intent.putExtra("passwd", passwd);
-                    intent.putExtra("name", name);
-                    intent.putExtra("university", univers);
-                    intent.putExtra("major", major);
-                    intent.putExtra("grade", grade);
-                    startActivity(intent);
+                    ChangeOtherStatus(2);
                 }
             }
         });
@@ -93,14 +81,7 @@ public class SignUp4Activity extends AppCompatActivity {
             public void onClick(View v) {
                 if(radioButton4.isChecked()){
                     String grade = (String)radioButton4.getText();
-                    Intent intent = new Intent(SignUp4Activity.this, SignUp5Activity.class);
-                    intent.putExtra("mail",mail);
-                    intent.putExtra("passwd", passwd);
-                    intent.putExtra("name", name);
-                    intent.putExtra("university", univers);
-                    intent.putExtra("major", major);
-                    intent.putExtra("grade", grade);
-                    startActivity(intent);
+                    ChangeOtherStatus(3);
                 }
             }
         });
@@ -110,14 +91,7 @@ public class SignUp4Activity extends AppCompatActivity {
             public void onClick(View v) {
                 if(radioButton5.isChecked()){
                     String grade = (String)radioButton5.getText();
-                    Intent intent = new Intent(SignUp4Activity.this, SignUp5Activity.class);
-                    intent.putExtra("mail",mail);
-                    intent.putExtra("passwd", passwd);
-                    intent.putExtra("name", name);
-                    intent.putExtra("university", univers);
-                    intent.putExtra("major", major);
-                    intent.putExtra("grade", grade);
-                    startActivity(intent);
+                    ChangeOtherStatus(4);
                 }
             }
         });
@@ -127,14 +101,7 @@ public class SignUp4Activity extends AppCompatActivity {
             public void onClick(View v) {
                 if(radioButton6.isChecked()){
                     String grade = (String)radioButton6.getText();
-                    Intent intent = new Intent(SignUp4Activity.this, SignUp5Activity.class);
-                    intent.putExtra("mail",mail);
-                    intent.putExtra("passwd", passwd);
-                    intent.putExtra("name", name);
-                    intent.putExtra("university", univers);
-                    intent.putExtra("major", major);
-                    intent.putExtra("grade", grade);
-                    startActivity(intent);
+                    ChangeOtherStatus(5);
                 }
             }
         });
@@ -144,17 +111,34 @@ public class SignUp4Activity extends AppCompatActivity {
             public void onClick(View v) {
                 if(radioButton7.isChecked()){
                     String grade = (String)radioButton7.getText();
-                    Intent intent = new Intent(SignUp4Activity.this, SignUp5Activity.class);
-                    intent.putExtra("mail",mail);
-                    intent.putExtra("passwd", passwd);
-                    intent.putExtra("name", name);
-                    intent.putExtra("university", univers);
-                    intent.putExtra("major", major);
-                    intent.putExtra("grade", grade);
-                    startActivity(intent);
+                   ChangeOtherStatus(6);
                 }
             }
         });
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(SignUp4Activity.this, SignUp5Activity.class);
+                intent.putExtra("mail",mail);
+                intent.putExtra("passwd", passwd);
+                intent.putExtra("name", name);
+                intent.putExtra("university", univers);
+                intent.putExtra("major", major);
+                intent.putExtra("grade", grade);
+                startActivity(intent);
+            }
+        });
+
+    }
+
+    private void ChangeOtherStatus(int i){
+        for(int j = 0; j < 7; j++){
+            if(j != i){
+                radioButtons[j].setChecked(false);
+                Log.e("##change button", radioButtons[j]+" "+j);
+            }
+        }
     }
 }
 
