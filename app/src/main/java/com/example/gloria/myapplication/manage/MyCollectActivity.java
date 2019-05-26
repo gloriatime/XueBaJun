@@ -254,7 +254,7 @@ public class MyCollectActivity extends AppCompatActivity {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, jsonObject, new Response.Listener<org.json.JSONObject>() {
 
             public void onResponse(org.json.JSONObject jsonObject) {
-                User tempuser = new Gson().fromJson(jsonObject.toString(), User.class);
+                User tempuser = new DateGson().getGson().fromJson(jsonObject.toString(), User.class);
 
                 if (tempuser != null) {
                     Log.e("##", "我收藏的课程已返回");

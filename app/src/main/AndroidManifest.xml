@@ -48,7 +48,17 @@
         <activity android:name=".SignIn.SignUp3Activity" />
         <activity android:name=".SignIn.SignUp4Activity" />
         <activity android:name=".SignIn.SignUp5Activity" />
-        <activity android:name=".searchPaper.PaperDetailMainActivity" />
+        <activity android:name=".searchPaper.PaperDetailMainActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:host="http://47.100.226.176:8080"
+                    android:path="/XueBaJun/ajvTt6uTZS.sys"
+                    android:scheme="browser" />
+            </intent-filter>
+        </activity>
         <activity android:name=".bookDetail.BookMainActivity" />
         <activity android:name=".showInfo.activity_T_pingfen" />
         <activity android:name=".showInfo.Activity_Top20_book" />

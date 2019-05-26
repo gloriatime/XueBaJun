@@ -1,11 +1,13 @@
 package com.example.gloria.myapplication.searchPaper;
 
 import android.app.DownloadManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -20,6 +22,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,6 +62,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -354,12 +360,33 @@ public class PaperDetailMainActivity extends AppCompatActivity implements View.O
     class TextListenerShare implements View.OnClickListener {
         @Override
         public void onClick(View view) {
-            Log.e("##share_document", document.getUrl());
+            View dView = getWindow().getDecorView();//获得程序显示的区域
+            dView.setDrawingCacheEnabled(true);//开启cache,使getDrawingCache()可以得到图像
+            dView.buildDrawingCache();//预防缓存失败
+            Bitmap bitmap = Bitmap.createBitmap(dView.getDrawingCache());
             Intent shareIntent = new Intent(Intent.ACTION_SEND);
-            shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(document.getUrl()).getAbsoluteFile()));
-            shareIntent.setType("*/*");
+            try {
+                shareIntent.putExtra(Intent.EXTRA_STREAM, saveBitmap(bitmap, document.getName()));//分享内容
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            shareIntent.setType("*/*");//分享类型
             startActivity(Intent.createChooser(shareIntent, "分享到："));
         }
+    }
+    private static Uri saveBitmap(Bitmap bm, String picName) throws IOException {
+        String dir = Environment.getExternalStorageDirectory().getAbsolutePath()+"/img/"+picName+".jpg";
+        File f = new File(dir);
+        if(!f.exists()){
+            f.getParentFile().mkdir();//创建文件夹
+            f.createNewFile();
+        }
+        FileOutputStream out = new FileOutputStream(f);
+        bm.compress(Bitmap.CompressFormat.PNG, 90, out);//压缩图片
+        out.flush();
+        out.close();
+        Uri uri = Uri.fromFile(f);
+        return uri;
     }
     //评论界面的监听
 

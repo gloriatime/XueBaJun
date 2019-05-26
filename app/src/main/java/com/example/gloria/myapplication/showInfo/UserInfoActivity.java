@@ -37,6 +37,7 @@ import com.example.model.myapplication.User;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
@@ -273,7 +274,7 @@ public class UserInfoActivity extends AppCompatActivity {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, jsonObject, new Response.Listener<org.json.JSONObject>() {
 
             public void onResponse(org.json.JSONObject jsonObject) {
-                User tempuser = new Gson().fromJson(jsonObject.toString(), User.class);
+                User tempuser = new DateGson().getGson().fromJson(jsonObject.toString(), User.class);
 
                 if (tempuser != null) {
                     Log.e("##", "我收藏的课程已返回");
@@ -282,7 +283,9 @@ public class UserInfoActivity extends AppCompatActivity {
                     for (CollectCourse c : MyCollectedCourses) {
                         Course d = c.getCourse();
                         courses.add(d);
+                        Log.e("##","Course d"+d.toString());
                         Log.e("##", "Course's score" + d.getScore());
+                        Log.e("##","Course's id"+d.getId());
                     }
                     // 先执行内部类，后执行外部类
                     // setAdapter需要放在数据刷新成功之后。
@@ -296,7 +299,6 @@ public class UserInfoActivity extends AppCompatActivity {
             }
         });
         mQueue.add(jsonObjectRequest);
-
     }
 
     private void setListView(final int listContent){

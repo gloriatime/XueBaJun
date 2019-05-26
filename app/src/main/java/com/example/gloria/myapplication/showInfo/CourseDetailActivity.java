@@ -11,7 +11,9 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.app.AlertDialog;
@@ -60,6 +62,10 @@ import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
@@ -72,7 +78,6 @@ import java.util.Map;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class CourseDetailActivity extends AppCompatActivity implements View.OnClickListener{
-
     private Course course;
     private TextView course_name_text;
     private TextView course_prefersemester;
@@ -88,6 +93,9 @@ public class CourseDetailActivity extends AppCompatActivity implements View.OnCl
     User user;
     int id; // 详情界面展示的课程Id
 
+    private TextView textViewFavo;
+    private TextView textViewShare;
+
     //评论回复定义
     private ListView listView;
     private TextView mComment;
@@ -99,10 +107,11 @@ public class CourseDetailActivity extends AppCompatActivity implements View.OnCl
     List<Reply> replyList = new ArrayList<Reply>();
     View replyView;
 
-    // 收藏
-    private TextView mFavorite;
+    // 收藏、分享
     private TextView mFavoritePic;
+    private TextView mSharePic;
     private TextListenerFavo textListenerFavo;
+    private TextListenerShare textListenerShare;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -111,10 +120,17 @@ public class CourseDetailActivity extends AppCompatActivity implements View.OnCl
         listView = (ListView)findViewById(R.id.comment_detail);
         comment_bt = (TextView)findViewById(R.id.textViewSay);
         mComment = (TextView)findViewById(R.id.textViewComment);
+        mFavoritePic = (TextView)findViewById(R.id.textViewFavoritePic);
+        mSharePic = (TextView)findViewById(R.id.textViewSharePic);
         getPassInfo();
         setBackJump();
         init();
         getCourse();
+
+        textListenerFavo = new TextListenerFavo();
+        textListenerShare = new TextListenerShare();
+        mFavoritePic.setOnClickListener(textListenerFavo);
+        mSharePic.setOnClickListener(textListenerShare);
         //评论回复
         //解析回复界面
         replyView = LayoutInflater.from(this).inflate(R.layout.comment_show_reply, null);
@@ -126,6 +142,7 @@ public class CourseDetailActivity extends AppCompatActivity implements View.OnCl
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("action.refreshTeacher");
         registerReceiver(mRefreshBroadcastReceiver, intentFilter);
+
     }
     // broadcast receiver
     private BroadcastReceiver mRefreshBroadcastReceiver = new BroadcastReceiver() {
@@ -353,6 +370,72 @@ public class CourseDetailActivity extends AppCompatActivity implements View.OnCl
             });
             mQueue.add(imageRequest);
         }
+    }
+
+    class TextListenerFavo implements View.OnClickListener{
+        @Override
+        public void onClick(View view){
+            String path = "http://47.100.226.176:8080/XueBaJun/CollectCourse";
+            HashMap<String,String> u = new HashMap<>();
+            HashMap<String,String> c = new HashMap<>();
+            u.put("phone",user.getPhone());
+            c.put("id", String.valueOf(course.getId()));
+            c.put("applicant",user.getPhone());
+            Log.e("##","发送id "+String.valueOf(course.getId())+user.getPhone());
+            Map<String, Object> map = new HashMap<>();
+            map.put("user",u);
+            map.put("course",c);
+
+            org.json.JSONObject jsonObject = new org.json.JSONObject(map);
+            Log.e("##","发送 "+jsonObject.toString());
+
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(path, jsonObject, new Response.Listener<org.json.JSONObject>() {
+
+                public void onResponse(org.json.JSONObject jsonObject) {
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
+
+                }
+            });
+            mQueue.add(jsonObjectRequest);
+            Resources resource = getBaseContext().getResources();
+            Drawable mDrawable = resource.getDrawable(R.drawable.favorite_after);
+            mFavoritePic.setBackgroundDrawable(mDrawable);
+        }
+    }
+    //分享
+    class TextListenerShare implements View.OnClickListener {
+        @Override
+        public void onClick(View view) {
+            View dView = getWindow().getDecorView();//获得程序显示的区域
+            dView.setDrawingCacheEnabled(true);//开启cache,使getDrawingCache()可以得到图像
+            dView.buildDrawingCache();//预防缓存失败
+            Bitmap bitmap = Bitmap.createBitmap(dView.getDrawingCache());
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            try {
+                shareIntent.putExtra(Intent.EXTRA_STREAM, saveBitmap(bitmap, course.getName()));//分享内容
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            shareIntent.setType("*/*");//分享类型
+            startActivity(Intent.createChooser(shareIntent, "分享到："));
+        }
+    }
+    private static Uri saveBitmap(Bitmap bm, String picName) throws IOException {
+        String dir = Environment.getExternalStorageDirectory().getAbsolutePath()+"/img/"+picName+".jpg";
+        File f = new File(dir);
+        if(!f.exists()){
+            f.getParentFile().mkdir();//创建文件夹
+            f.createNewFile();
+        }
+        FileOutputStream out = new FileOutputStream(f);
+        bm.compress(Bitmap.CompressFormat.PNG, 90, out);//压缩图片
+        out.flush();
+        out.close();
+        Uri uri = Uri.fromFile(f);
+        return uri;
     }
 
     //评论回复
@@ -625,49 +708,6 @@ public class CourseDetailActivity extends AppCompatActivity implements View.OnCl
     public void onResume(){
         super.onResume();
         getCourse();
-    }
-
-    class TextListenerFavo implements View.OnClickListener{
-        @Override
-        public void onClick(View view){
-            String path = "http://47.100.226.176:8080/XueBaJun/CollectCourse";
-            HashMap<String,String> u = new HashMap<>();
-            HashMap<String,String> c = new HashMap<>();
-            u.put("phone",user.getPhone());
-            c.put("id", String.valueOf(course.getId()));
-            c.put("applicant",user.getPhone());
-            Map<String, Object> map = new HashMap<>();
-            map.put("user",u);
-            map.put("course",c);
-
-            org.json.JSONObject jsonObject = new org.json.JSONObject(map);
-            Log.e("##","发送 "+jsonObject.toString());
-
-           /* collectBook.setBook(book);
-            collectBook.setUser(user);
-            JSONObject jsonObject = new JSONObject();
-            try {
-                jsonObject.put("phone", collectBook.getUser().getPhone());
-                jsonObject.put("id", collectBook.getBook().getId());
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }*/
-
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(path, jsonObject, new Response.Listener<org.json.JSONObject>() {
-
-                public void onResponse(org.json.JSONObject jsonObject) {
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError volleyError) {
-                    Log.e("##","shoucang");
-                }
-            });
-            mQueue.add(jsonObjectRequest);
-            Resources resource = getBaseContext().getResources();
-            Drawable mDrawable = resource.getDrawable(R.drawable.favorite_after);
-            mFavoritePic.setBackgroundDrawable(mDrawable);
-        }
     }
 
     ImageButton back_button;

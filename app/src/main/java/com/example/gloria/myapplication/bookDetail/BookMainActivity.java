@@ -10,6 +10,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.app.AlertDialog;
@@ -52,6 +53,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -332,12 +335,33 @@ public class BookMainActivity extends AppCompatActivity implements View.OnClickL
     class TextListenerShare implements View.OnClickListener {
         @Override
         public void onClick(View view) {
-            Log.e("##share","enter"+book.getCover());
+            View dView = getWindow().getDecorView();//获得程序显示的区域
+            dView.setDrawingCacheEnabled(true);//开启cache,使getDrawingCache()可以得到图像
+            dView.buildDrawingCache();//预防缓存失败
+            Bitmap bitmap = Bitmap.createBitmap(dView.getDrawingCache());
             Intent shareIntent = new Intent(Intent.ACTION_SEND);
-            shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(book.getCover())));
-            shareIntent.setType("*/*");
+            try {
+                shareIntent.putExtra(Intent.EXTRA_STREAM, saveBitmap(bitmap, book.getName()));//分享内容
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            shareIntent.setType("*/*");//分享类型
             startActivity(Intent.createChooser(shareIntent, "分享到："));
         }
+    }
+    private static Uri saveBitmap(Bitmap bm, String picName) throws IOException {
+        String dir = Environment.getExternalStorageDirectory().getAbsolutePath()+"/img/"+picName+".jpg";
+        File f = new File(dir);
+        if(!f.exists()){
+            f.getParentFile().mkdir();//创建文件夹
+            f.createNewFile();
+        }
+        FileOutputStream out = new FileOutputStream(f);
+        bm.compress(Bitmap.CompressFormat.PNG, 90, out);//压缩图片
+        out.flush();
+        out.close();
+        Uri uri = Uri.fromFile(f);
+        return uri;
     }
 
     //评论界面的监听

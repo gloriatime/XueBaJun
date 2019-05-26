@@ -81,12 +81,15 @@
                     android:textSize="@dimen/common" />
 
                 <Button
-                    android:id="@+id/score1"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
+                    android:id="@+id/score"
+                    android:layout_width="60dp"
+                    android:layout_height="20dp"
                     android:layout_below="@id/fourty"
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="5dp"
+                    android:background="@drawable/biankuang_pf"
+                    android:text="@string/setSC"
+                    android:textColor="@color/white"
                     android:textSize="15sp"></Button>
             </RelativeLayout>
             <RelativeLayout
@@ -217,7 +220,7 @@
         </TextView>
     </RelativeLayout>
 
-        <LinearLayout
+        <!--LinearLayout
             android:id="@+id/bar_control"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -243,7 +246,7 @@
                 android:text="@string/setSC"
                 android:textColor="@color/white"
                 android:textSize="15sp"></Button>
-            <!--TextView
+            <TextView
                 android:id="@+id/textViewDownload"
                 android:layout_width="65dp"
                 android:layout_height="30dp"
@@ -253,7 +256,7 @@
                 android:layout_marginRight="20dp"
                 android:text="下载"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="#ffffff" /-->
+                android:textColor="#ffffff" />
 
             <TextView
                 android:id="@+id/textViewFavoritePic"
@@ -292,7 +295,7 @@
                 android:layout_marginRight="20dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="#ffffff" />
-        </LinearLayout>
+        </LinearLayout-->
 </LinearLayout>
     </ScrollView>
 
